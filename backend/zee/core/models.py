@@ -9,9 +9,10 @@ User = get_user_model()
 class Achievements(models.Model):
     title = models.CharField(max_length=30)
     class Meta:
-        ordeing = ["title"]
+        ordering = ["title"]
     def __str__(self):
-            return self.title
+        return self.title
+
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
