@@ -1,8 +1,7 @@
 import React from "react";
-import type {PropsWithChildren} from 'react';
 import LoginButton from './LoginButton';
 import SignupButton from "./SignupButton";
-import App from './App'
+
 import {
   Dimensions,
   SafeAreaView,
