@@ -1,6 +1,7 @@
 import React from "react";
 import LoginButton from './LoginButton';
 import SignupButton from "./SignupButton";
+import { Link } from 'expo-router';
 
 import {
   Dimensions,
@@ -21,6 +22,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import react from "react";
 const screenWidth = Dimensions.get('window').width;
 const LoginPage = () => {
 return (
@@ -34,15 +36,15 @@ return (
       <View style={styles.signupContainer}>
       <TextInput
       style = {[styles.input, {width: 0.8*screenWidth}]}
-      textAlign="center">
-        Username
+      textAlign="center" placeholder="Username" placeholderTextColor="white" >
+        
       </TextInput>
       </View>
       <View style={styles.signupContainer}>
       <TextInput
-      style = {[styles.input, {width: 0.8*screenWidth}]}
-      textAlign="center">
-        Password
+      style = {[styles.password, {width: 0.8*screenWidth}]}
+      textAlign="center" placeholder="Password" placeholderTextColor="white">
+       
       </TextInput>
       </View>
       <View style={{padding:16}}>
@@ -53,7 +55,7 @@ return (
       <View style={{padding:16}}>
          </View>
       <View>
-        <SignupButton></SignupButton>
+      <Link href= "/SignupPage" style={styles.button}>Create Account</Link>
       </View>
   
       
@@ -63,6 +65,11 @@ return (
 };
 
     const styles = StyleSheet.create({
+      button: {
+        backgroundColor: '#FBEFCD',
+        padding: 10,
+        borderRadius: 5,
+    },
         centerContainer: {
           flex: 1,
           alignItems: 'center',
@@ -74,6 +81,15 @@ return (
         justifyContent: 'center',
         paddingHorizontal: 16,
        },
+       password: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 1,
+        paddingHorizontal: 10,
+        color: 'blue',
+        
+       },
        input: {
           height: 40,
           borderColor: 'gray',
@@ -81,6 +97,7 @@ return (
           marginBottom: 1,
           paddingHorizontal: 10,
           color: 'white',
+          
        },
         // Text style with a big white font
         coolText: {

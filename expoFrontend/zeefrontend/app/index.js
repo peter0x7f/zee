@@ -4,13 +4,13 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage"
 export default function Page() {
   return (
+   
+   <View>
     <LoginPage></LoginPage>
-   /* <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello Guys!</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-      </View>
-    </View>*/
+    
+   </View>
+  
+ 
   );
 }
 
