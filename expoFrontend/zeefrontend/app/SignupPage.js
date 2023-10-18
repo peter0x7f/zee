@@ -1,7 +1,9 @@
 import React from "react";
 
-import LoginButton from './LoginButton';
+import LoginButton from '../components/LoginButton';
 import { Link } from 'expo-router';
+import { GluestackUIProvider, Box } from "@gluestack-ui/themed";
+import { config} from "@gluestack-ui/config";
 
 import {
   Dimensions,
@@ -22,8 +24,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import SignupButton from "./SignupButton";
+import SignupButton from "../components/SignupButton";
 const screenWidth = Dimensions.get('window').width;
+
 const SignupPage = () => {
     return(
         <SafeAreaView style = {styles.centerContainer}>
@@ -70,7 +73,7 @@ const SignupPage = () => {
     <View style={{padding:16}}>
          </View>
     <View>
-    <Link href= "/LoginPage" style = {styles.button}>Already Have Account? Login</Link>
+    <Link href= "/LoginP" style = {styles.button}>Already Have Account? Login</Link>
     </View>
     
   </SafeAreaView>
