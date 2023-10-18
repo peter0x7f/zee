@@ -1,5 +1,6 @@
 import {React, useState} from "react";
 import axios from 'axios'
+
 import { Link } from 'expo-router';
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
@@ -29,6 +30,16 @@ import react from "react";
 import styles from "./stylefile";
 const screenWidth = Dimensions.get('window').width;
 
+
+const AxoisReq = () => {
+  axios.get('http://127.0.0.1:8000/login/')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
 const LoginP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
@@ -40,10 +51,11 @@ const LoginP = () => {
       password
     };
  
-    axios.post('http://127.0.0.1:8000/login/', userData)
+    axios.post('http://127.0.0.1:8000/register/', userData)
         .then(response => {console.log('SUCCESS (I THINK)')})
         .catch(error => {console.log('ERROR') });
   };
+
 
 
     return (
@@ -106,6 +118,10 @@ color = '$amber100'>
       <View style = {{padding:6}}></View>
       <CreateAcB></CreateAcB>
             </Center>
+            <Button onPress={AxoisReq}
+            >
+              
+            </Button>
            </SafeAreaView>
                 
             
