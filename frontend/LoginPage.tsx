@@ -2,7 +2,8 @@ import React from "react";
 import type {PropsWithChildren} from 'react';
 import LoginButton from './LoginButton';
 import SignupButton from "./SignupButton";
-import App from './App'
+import App from './App';
+import axios from 'axios';
 import {
   Dimensions,
   SafeAreaView,
@@ -23,6 +24,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 const screenWidth = Dimensions.get('window').width;
+
+
+
 const LoginPage = () => {
 return (
     <SafeAreaView style = {styles.centerContainer}>

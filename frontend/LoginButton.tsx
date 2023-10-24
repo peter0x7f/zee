@@ -1,14 +1,22 @@
 import React from 'react';
+import App from './App'
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-
+import axios from 'axios'
+const AxiosReq = () => {
+    axios.get('http://')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
 const LoginButton = () => {
     return(
         <View>
             <TouchableOpacity
             style={styles.button}
-                onPress={() => {
-                 console.log('Login Button Pressed');
-                }}>
+                onPress={AxiosReq}>
                     <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
         </View>

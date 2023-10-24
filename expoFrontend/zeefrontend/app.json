@@ -22,7 +22,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+        
+      },
+      "package": "com.Zee.Zeefrontend"
     },
     "web": {
       "favicon": "./assets/favicon.png",

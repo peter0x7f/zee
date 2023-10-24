@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#020945',
       paddingTop: 40,
     },
+    postContainer: {
+      flex: 1,
+      alignItems: 'center',
+      backgroundColor: 'grey',
+      paddingTop: 40,
+    },
    signupContainer: {
     flex: 0.15,
     justifyContent: 'center',
@@ -47,6 +53,14 @@ const styles = StyleSheet.create({
     // Text style with a big white font
     coolText: {
       fontSize: 60,       // Adjust the font size as needed
+      fontWeight: 'bold', // Make the text bold (optional)
+      color: '#FBEFCD',     // Set the text color to white
+      textShadowColor: 'black',
+      textShadowOffset: { width: 2, height: 2 },
+      textShadowRadius: 2,
+    },
+    postText: {
+      fontSize: 20,       // Adjust the font size as needed
       fontWeight: 'bold', // Make the text bold (optional)
       color: '#FBEFCD',     // Set the text color to white
       textShadowColor: 'black',

@@ -1,12 +1,13 @@
 import {React, useState} from "react";
 import axios from 'axios'
-
+import { Asset } from 'expo-asset';
 import { Link } from 'expo-router';
+import {Image} from 'react-native'
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
-
+//import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
-
+import { Divider } from "@gluestack-ui/themed";
 import{
   Dimensions,
   SafeAreaView,
@@ -28,11 +29,14 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import react from "react";
 import styles from "./stylefile";
+import SignupP from "./SignupP";
+import NavTab from "./NavTab";
+import Feed from "./Feed";
 const screenWidth = Dimensions.get('window').width;
-
+let address;
 
 const AxoisReq = () => {
-  axios.get('http://127.0.0.1:8000/login/')
+  axios.get('http://google.com  ')
   .then(response => {
     console.log(response.data);
   })
@@ -46,14 +50,21 @@ const LoginP = () => {
 
   const handleLogin = () => {
     
-    const userData = {
+    const userDataL = {
       username,
       password
     };
+
  
-    axios.post('http://127.0.0.1:8000/register/', userData)
+    axios.post('http://192.168.1.13:8000/login/', userDataL)
         .then(response => {console.log('SUCCESS (I THINK)')})
         .catch(error => {console.log('ERROR') });
+
+        axios.post('http://192.168.1.13:8000/register/', userDataL)
+        .then(response => {console.log('SUCCESS (I THINK)')})
+        .catch(error => {console.log('ERROR') });
+
+        console.log(userDataL);
   };
 
 
@@ -63,7 +74,10 @@ const LoginP = () => {
            <SafeAreaView style = {styles.centerContainer}>
            <Center>
      <ZeeHeader></ZeeHeader>
+     <View style = {{padding:3}}></View>
+     <Divider width = {screenWidth*0.6}></Divider>
      <View style = {{padding:12}}></View>
+
      </Center>
      <Input 
      width = '$3/5'
@@ -80,7 +94,9 @@ color = '$amber100'>
 </InputField>
      </Input>
 
-  <View style = {{padding:12}}></View>
+  <View style = {{padding:6}}></View>
+  
+  <View style = {{padding:6}}></View>
 
      <Input 
      width = '$3/5'
@@ -105,7 +121,7 @@ color = '$amber100'>
      <Button 
          bg="$backgroundDark0"
   size="md"
-  variant="outline"
+  variant="rounded"
   action="primary"
   
   isDisabled={false}
@@ -116,12 +132,34 @@ color = '$amber100'>
   
 </Button>
       <View style = {{padding:6}}></View>
+      
       <CreateAcB></CreateAcB>
+      <View style = {{padding:5}}></View>
+  
+     <View style = {{padding:5}}></View>
             </Center>
-            <Button onPress={AxoisReq}
-            >
-              
-            </Button>
+            
+            <Center>
+            
+            <Link href="/Feed" asChild>
+<Button 
+         bg="#FBEFCD"
+  size="md"
+  variant="rounded"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress={() => {
+    
+   }}
+>
+  <ButtonText color="#020945">Start Training</ButtonText>
+  
+</Button>
+    </Link>
+            </Center>
+
            </SafeAreaView>
                 
             
@@ -135,11 +173,11 @@ color = '$amber100'>
 
 const CreateAcB = () => {
   return(
-    <Link href="/SignupPage" asChild>
+    <Link href="/SignupP" asChild>
 <Button 
          bg="$backgroundDark0"
   size="md"
-  variant="outline"
+  variant="solid"
   action="primary"
   
   isDisabled={false}
@@ -160,11 +198,22 @@ const CreateAcB = () => {
 const ZeeHeader = () => {
   return(
 <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                ZEE
+                LBS
             </Heading>
   );
 };
 
+/*const LbsLogo = () => {
+ 
+  return(
+    <View>
+<Image source={require("./assets/lbs-logo.gif")} 
+style={{ width: 200, height: 200 }}
+></Image>
+    </View>
+
+  );
+  };*/
 
   
   

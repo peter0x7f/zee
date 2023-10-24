@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-@pnx*d0dy)+3)1g1p!q7j1-y3srn#eeuyo_(rw=wy(-2id88b%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", ''] 
+#last entry is based on ifconfig, will change via DHCP so needs to be updated
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -55,6 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'zee.urls'
+
 
 TEMPLATES = [
     {
