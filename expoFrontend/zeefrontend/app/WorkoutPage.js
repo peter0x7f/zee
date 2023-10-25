@@ -30,8 +30,8 @@ import {
 import react from "react";
 import styles from "./stylefile";
 import SignupP from "./SignupP";
-import { Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem } from '@gluestack-ui/themed';
-
+import { Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Divider } from '@gluestack-ui/themed';
+const screenWidth = Dimensions.get('window').width;
 const WorkoutPage = () => {
     
 
@@ -45,7 +45,11 @@ const WorkoutPage = () => {
             </Heading>
       </Center>
   </View>
+  <View style = {{padding:3}}></View>
+     <Divider width = {screenWidth*0.6}></Divider>
+     <View style = {{padding:12}}></View>
  <ExerciseList></ExerciseList>
+ 
  <View padding = {10}></View>
  <Link href="/LoginP" asChild>
 <Button 
@@ -54,7 +58,7 @@ const WorkoutPage = () => {
   variant="outline"
   action="primary"
   
-  isDisabled={false}
+  isDisabled={false}  
   isFocusVisible={false}
   onPress={() => {
     
@@ -100,8 +104,8 @@ const ExerciseList = () =>
   let cat = "";
 
     return(
-        
-        <Select width = {Dimensions.get('window').width*0.6}>
+        <View>
+        <Select width = {Dimensions.get('window').width*0.6} onValueChange={handleCategoryChange} category={selectedCategory}>
          
           <SelectTrigger variant="rounded" size="md">
           <SelectInput placeholder="Exercise Category" />
@@ -131,13 +135,13 @@ const ExerciseList = () =>
          
         
         </Select>
+
+
+        </View>
+       
+   
+        
     );
 };
 
-const MovementList = (categ) =>{
-  return(
-    <View></View>
-     
-  );
-};
 export default WorkoutPage;

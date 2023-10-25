@@ -46,17 +46,17 @@ const Feed = () =>
         },
         {
             id: '2',
-            title: 'two',
+            title: 'Bench PR',
             imageUrl: 'https://www.muscleandfitness.com/wp-content/uploads/2019/02/man-bench-press.jpg?quality=86&strip=all'
         },
         {
             id: '3',
-            title: 'three',
+            title: 'Squat Max',
             imageUrl: 'https://www.bodybuilding.com/images/2018/may/skyrocket-your-squat-pr-with-conjugate-training-1-700xh.jpg'
         },
         {
             id: '4',
-            title: 'four',
+            title: 'Goofy little weight',
             imageUrl: 'https://d3h9ln6psucegz.cloudfront.net/wp-content/uploads/2022/07/Lift-Weights.jpg'
         },
 
@@ -83,6 +83,25 @@ const Feed = () =>
         <Text style = {styles.postText}>{item.title}</Text>
      </View> )}
      />
+     <View style = {{padding:3}}></View>
+     <Link href="/LoginP" asChild>
+<Button 
+         bg="$backgroundDark0"
+  size="md"
+  variant="solid"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress={() => {
+    
+   }}
+>
+  <ButtonText color="black">Sign Out</ButtonText>
+  
+</Button>
+    </Link>
+    <View style = {{padding:3}}></View>
             </SafeAreaView>
         </GluestackUIProvider>
 

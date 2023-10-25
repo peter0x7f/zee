@@ -1,6 +1,6 @@
 import { useState} from "react";
 import React from 'react';
-import {Axios} from 'axios'
+import axios from 'axios'
 import { Link } from 'expo-router';
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
@@ -17,6 +17,8 @@ import{
   TextInput,
   useColorScheme,
   View,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
 import {
@@ -50,11 +52,15 @@ const SignupP = () => {
       password2
     };
     //Axios requests
+    axios.post('http://000.000.0.0:8000/register/', userDataS)
+        .then(response => {console.log('SUCCESS (I THINK)')})
+        .catch(error => {console.log('ERROR') });
     console.log(userDataS);
     };
 
   return(
       <GluestackUIProvider config = {config}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 <SafeAreaView  style = {styles.centerContainer}>
   <View>
   <Center>
@@ -201,6 +207,7 @@ color = '$amber100'>
 </Button>
     </Link>
       </SafeAreaView>
+      </TouchableWithoutFeedback>
       </GluestackUIProvider>
       
      

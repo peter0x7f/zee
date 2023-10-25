@@ -20,6 +20,28 @@ import {
 
 
 const styles = StyleSheet.create({
+  postContainer: {
+    backgroundColor: '#FBEFCD',
+    padding: 16,
+    marginBottom: 10,
+    borderRadius: 10,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    elevation: 2,
+    display: 'flex', // Use flex properties
+    flexDirection: 'column', // Stack items vertically
+    alignItems: 'center', // Center items horizontally
+  },
+  postText: {
+    fontSize: 16, // Adjust the font size as needed
+    fontWeight: 'bold', // Adjust the font weight as needed
+    marginTop: 8, // Add spacing between image and text
+  },
     button: {
       backgroundColor: '#FBEFCD',
       padding: 10,
@@ -31,7 +53,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#020945',
       paddingTop: 40,
     },
-    postContainer: {
+    postContainer2: {
       flex: 1,
       alignItems: 'center',
       backgroundColor: 'grey',
@@ -59,7 +81,7 @@ const styles = StyleSheet.create({
       textShadowOffset: { width: 2, height: 2 },
       textShadowRadius: 2,
     },
-    postText: {
+    postText2: {
       fontSize: 20,       // Adjust the font size as needed
       fontWeight: 'bold', // Make the text bold (optional)
       color: '#FBEFCD',     // Set the text color to white

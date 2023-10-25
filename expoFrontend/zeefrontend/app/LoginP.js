@@ -18,6 +18,8 @@ import{
   TextInput,
   useColorScheme,
   View,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
 import {
@@ -60,9 +62,7 @@ const LoginP = () => {
         .then(response => {console.log('SUCCESS (I THINK)')})
         .catch(error => {console.log('ERROR') });
 
-        axios.post('http://192.168.1.13:8000/register/', userDataL)
-        .then(response => {console.log('SUCCESS (I THINK)')})
-        .catch(error => {console.log('ERROR') });
+        
 
         console.log(userDataL);
   };
@@ -71,6 +71,7 @@ const LoginP = () => {
 
     return (
         <GluestackUIProvider config = {config}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
            <SafeAreaView style = {styles.centerContainer}>
            <Center>
      <ZeeHeader></ZeeHeader>
@@ -118,7 +119,8 @@ color = '$amber100'>
      </Input>
      <View style = {{padding:12}}></View>
      <Center>
-     <Button 
+      <Link href="/Feed" asChild>
+      <Button 
          bg="$backgroundDark0"
   size="md"
   variant="rounded"
@@ -131,6 +133,8 @@ color = '$amber100'>
   <ButtonText color="black">Login </ButtonText>
   
 </Button>
+      </Link>
+     
       <View style = {{padding:6}}></View>
       
       <CreateAcB></CreateAcB>
@@ -141,7 +145,7 @@ color = '$amber100'>
             
             <Center>
             
-            <Link href="/Feed" asChild>
+            <Link href="/WorkoutPage" asChild>
 <Button 
          bg="#FBEFCD"
   size="md"
@@ -162,7 +166,7 @@ color = '$amber100'>
 
            </SafeAreaView>
                 
-            
+           </TouchableWithoutFeedback>
            
 
         </GluestackUIProvider>
