@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from .models import Profile
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -47,4 +48,5 @@ class SettingsSerializer(serializers.ModelSerializer):
     image_url = serializers.ImageField(required=False)
 
     class Meta:
-        fields = ('user', 'bio', 'profileimg', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        model = Profile
+        fields = ('image_url','user', 'user_id', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
