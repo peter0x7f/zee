@@ -18,6 +18,8 @@ import{
   TextInput,
   useColorScheme,
   View,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 
 import {
@@ -30,21 +32,29 @@ import {
 import react from "react";
 import styles from "./stylefile";
 import SignupP from "./SignupP";
-import LoginP from "./LoginP";
-import WorkoutPage from "./WorkoutPage";
 
+import Feed from "./(tabs)/Feed";
 const screenWidth = Dimensions.get('window').width;
 
-const NavTab = () =>
-{
-    return(
-<GluestackUIProvider config={config}>
-<View>
-    <Divider/>
-    <Button></Button> 
-</View>
+import { Stack } from 'expo-router/stack';
 
-</GluestackUIProvider>
-    );
-};
-export default NavTab;
+export default function Layout() {
+  return( <Stack
+  screenOptions={{
+    
+    headerStyle: {
+        backgroundColor: '#020945',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+  }
+  }
+   >
+    <Stack.Screen name= "(tabs)"  options={{headerTitle: 'LBS'}}  />
+   </Stack>
+   );
+  
+  
+}

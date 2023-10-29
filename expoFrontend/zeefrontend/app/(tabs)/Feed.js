@@ -31,10 +31,10 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import react from "react";
-import styles from "./stylefile";
-import SignupP from "./SignupP";
-import NavTab from "./NavTab";
-import LoginP from "./LoginP";
+import styles from "../stylefile";
+import SignupP from "../SignupP";
+
+import LoginP from "../LoginP";
 const screenWidth = Dimensions.get('window').width;
 const Feed = () =>
 {

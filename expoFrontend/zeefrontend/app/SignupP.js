@@ -30,7 +30,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import styles from "./stylefile";
-import ZeeHeader from "./LoginP";
+
+import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 
 const SignupP = () => {
@@ -59,6 +60,14 @@ const SignupP = () => {
     };
 
   return(
+    <>
+    <Stack.Screen
+    options= {{
+      headerTitle:'Sign Up',
+    }}
+
+    />
+    
       <GluestackUIProvider config = {config}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 <SafeAreaView  style = {styles.centerContainer}>
@@ -209,6 +218,7 @@ color = '$amber100'>
       </SafeAreaView>
       </TouchableWithoutFeedback>
       </GluestackUIProvider>
+      </>
       
      
 

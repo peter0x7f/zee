@@ -32,20 +32,14 @@ import {
 import react from "react";
 import styles from "./stylefile";
 import SignupP from "./SignupP";
-import NavTab from "./NavTab";
-import Feed from "./Feed";
+
+import Feed from "./(tabs)/Feed";
+import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 let address;
 
-const AxoisReq = () => {
-  axios.get('http://google.com  ')
-  .then(response => {
-    console.log(response.data);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-}
+
+
 const LoginP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
@@ -70,6 +64,13 @@ const LoginP = () => {
 
 
     return (
+      <>
+      <Stack.Screen
+      options= {{
+        headerTitle:'Login',
+      }}
+
+      />
         <GluestackUIProvider config = {config}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
            <SafeAreaView style = {styles.centerContainer}>
@@ -170,6 +171,7 @@ color = '$amber100'>
            
 
         </GluestackUIProvider>
+        </>
     );
 };
 
