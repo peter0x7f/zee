@@ -1,9 +1,12 @@
 import React from "react";
-import LoginButton from './LoginButton';
-import SignupButton from "./SignupButton";
+import LoginButton from '../components/LoginButton';
+import SignupButton from "../components/SignupButton";
 import { Link } from 'expo-router';
-
-import {
+import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
+import { config} from "@gluestack-ui/config";
+import {Input} from "@gluestack-ui/themed";
+import { Button, ButtonText, ButtonIcon } from "@gluestack-ui/themed"
+import{
   Dimensions,
   SafeAreaView,
   ScrollView,
@@ -26,6 +29,7 @@ import react from "react";
 const screenWidth = Dimensions.get('window').width;
 const LoginPage = () => {
 return (
+  <GluestackUIProvider config = {config}> 
     <SafeAreaView style = {styles.centerContainer}>
       <View>
         
@@ -40,6 +44,7 @@ return (
         
       </TextInput>
       </View>
+      
       <View style={styles.signupContainer}>
       <TextInput
       style = {[styles.password, {width: 0.8*screenWidth}]}
@@ -57,10 +62,23 @@ return (
       <View>
       <Link href= "/SignupPage" style={styles.button}>Create Account</Link>
       </View>
+      <View style={{padding:16}}>
+         </View>
+         <Button
+  size="md"
+  variant="solid"
+  action="primary"
+  color = "#e5eb75"
+  isDisabled={false}
+  isFocusVisible={false}
+>
+  <ButtonText>Button </ButtonText>
+  
+</Button>
   
       
     </SafeAreaView>
-    
+    </GluestackUIProvider>
     );
 };
 

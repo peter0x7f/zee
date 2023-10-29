@@ -1,0 +1,23 @@
+{
+  "name": "react-native-network-info",
+  "version": "5.2.1",
+  "description": "Get local network information",
+  "main": "NetworkInfo.js",
+  "types": "NetworkInfo.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pusherman/react-native-network-info.git"
+  },
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios",
+    "network",
+    "lan"
+  ],
+  "peerDependencies": {
+    "react-native": ">=0.47"
+  },
+  "author": "Corey Wilson <corey@eastcodes.com> (https://github.com/pusherman)",
+  "license": "MIT"
+}

@@ -1,6 +1,6 @@
 
 import React from 'react';
-
+import axios from 'axios'
 import type {PropsWithChildren} from 'react';
 import LoginButton from './LoginButton';
 import SignupButton from './SignupButton';
@@ -70,6 +70,16 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const AxoisReq = () => {
+    axios.get('http://127.0.0.1:8000/login/')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
   return (
  <NavigationContainer>
