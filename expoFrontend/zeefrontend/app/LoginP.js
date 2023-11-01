@@ -44,20 +44,21 @@ const LoginP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
 
-  const handleLogin = () => {
+  const  handleLogin = async () => {
     
     const userDataL = {
       username,
       password
     };
-
+let Token;
  
-    axios.post('http://192.168.1.13:8000/login/', userDataL)
-        .then(response => {console.log('SUCCESS (I THINK)')})
-        .catch(error => {console.log('ERROR') });
-
+    await axios.post('http://10.20.158.152:8000/login/', userDataL)
+        .then(response => {console.log('SUCCESS (I THINK)', response.data);
+         Token = response.data;
+        })
         
-
+        .catch(error => {console.log('ERROR') });
+       console.log('TOKEN: ',Token);
         console.log(userDataL);
   };
 

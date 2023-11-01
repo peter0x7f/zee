@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
   },
     centerContainer: {
-      flex: 1,
+      flex: 1,  
       alignItems: 'center',
       backgroundColor: '#020945',
       paddingTop: 40,
@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
    },
+   flatListContainer: {
+    height: 150, // Set the fixed height for 2-3 items
+    // Add any other styles specific to the FlatList container here
+  },
    input: {
       height: 40,
       borderColor: 'gray',

@@ -35,8 +35,8 @@ import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 
 const SignupP = () => {
-  const[firstname, setFirstname] = useState('');
-  const[lastname, setLastname] = useState('');
+  const[first_name, setFirstname] = useState('');
+  const[last_name, setLastname] = useState('');
   const[email, setEmail] = useState('');
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
@@ -45,19 +45,28 @@ const SignupP = () => {
   const handleSignup = () => {
     
     const userDataS = {
-      firstname,
-      lastname,
-      email,
+      
+      
       username,
       password,
-      password2
-    };
+      password2,
+      email,
+      first_name,
+      last_name,
+     
+    }
+    const userDataRL = {
+      username,
+      password,
+    }
     //Axios requests
-    axios.post('http://000.000.0.0:8000/register/', userDataS)
+      axios.post('http://10.20.158.152:8000/register/', userDataS)
         .then(response => {console.log('SUCCESS (I THINK)')})
-        .catch(error => {console.log('ERROR') });
+        .catch(error =>  {console.log('ERROR') });
     console.log(userDataS);
     };
+   
+    
 
   return(
     <>

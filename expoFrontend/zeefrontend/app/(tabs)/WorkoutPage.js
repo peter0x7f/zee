@@ -51,7 +51,7 @@ const WorkoutPage = () => {
  <ExerciseList></ExerciseList>
  
  <View padding = {10}></View>
- <Link href="/LoginP" asChild>
+ <Link href="/Lifts" asChild>
 <Button 
          bg="$backgroundDark0"
   size="md"
