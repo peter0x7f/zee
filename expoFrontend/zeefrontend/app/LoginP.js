@@ -1,13 +1,14 @@
 import {React, useState} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
-import { Link } from 'expo-router';
+import { Link, Redirect, router, useRouter } from 'expo-router';
 import {Image} from 'react-native'
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
+import * as SecureStore from 'expo-secure-store';
 import{
   Dimensions,
   SafeAreaView,
@@ -32,19 +33,24 @@ import {
 import react from "react";
 import styles from "./stylefile";
 import SignupP from "./SignupP";
-
+import { useAuth } from "./Contexts/AuthContext";
+import { AuthProvider } from "./Contexts/AuthContext";
 import Feed from "./(tabs)/Feed";
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
-let address;
+
 
 
 
 const LoginP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
+  const [mes, setMes] = useState('')
+let TOKEN = null;
+let REFRESH = null;
+   
 
-  const handleLogin = () => {
+  const  handleLogin = async () => {
     
     const userDataL = {
       username,
@@ -52,19 +58,43 @@ const LoginP = () => {
     };
 
  
-    axios.post('http://192.168.1.13:8000/login/', userDataL)
-        .then(response => {console.log('SUCCESS (I THINK)')})
-        .catch(error => {console.log('ERROR') });
+    await axios.post('http://10.20.141.137:8000/login/', userDataL)
+        .then(response => {console.log('SUCCESSFUL POST', response.data)
 
+          TOKEN = response.data.access;
+          REFRESH= response.data.refresh;
+         console.log('TOKEN: ',TOKEN);
+
+        })
+        
+        .catch(error => {console.log('BAD POST ERROR') });
+        
+        console.log(userDataL);
         
 
-        console.log(userDataL);
+      if(TOKEN != null)
+      {
+        let tokenString = JSON.stringify(TOKEN);
+        let refreshString = JSON.stringify(REFRESH);
+        await SecureStore.setItemAsync('Token', tokenString);
+        await SecureStore.setItemAsync('Refresh', refreshString);
+      
+      router.replace('/Feed')
+      }
+      else
+      {
+        console.log("Login Redirect Failed!")
+      }
+      
   };
 
 
 
     return (
       <>
+     
+
+      
       <Stack.Screen
       options= {{
         headerTitle:'Login',
@@ -120,7 +150,7 @@ color = '$amber100'>
      </Input>
      <View style = {{padding:12}}></View>
      <Center>
-      <Link href="/Feed" asChild>
+      
       <Button 
          bg="$backgroundDark0"
   size="md"
@@ -134,7 +164,7 @@ color = '$amber100'>
   <ButtonText color="black">Login </ButtonText>
   
 </Button>
-      </Link>
+     
      
       <View style = {{padding:6}}></View>
       
@@ -146,7 +176,7 @@ color = '$amber100'>
             
             <Center>
             
-            <Link href="/WorkoutPage" asChild>
+            
 <Button 
          bg="#FBEFCD"
   size="md"
@@ -155,15 +185,16 @@ color = '$amber100'>
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress={() => {
+  onPress={() => {router.replace('/WorkoutPage')
     
    }}
 >
   <ButtonText color="#020945">Start Training</ButtonText>
   
 </Button>
-    </Link>
+    
             </Center>
+           
 
            </SafeAreaView>
                 
@@ -171,6 +202,7 @@ color = '$amber100'>
            
 
         </GluestackUIProvider>
+        
         </>
     );
 };

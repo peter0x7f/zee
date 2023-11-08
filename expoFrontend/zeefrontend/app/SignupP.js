@@ -35,29 +35,56 @@ import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 
 const SignupP = () => {
-  const[firstname, setFirstname] = useState('');
-  const[lastname, setLastname] = useState('');
+  const[first_name, setFirstname] = useState('');
+  const[last_name, setLastname] = useState('');
   const[email, setEmail] = useState('');
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
   const[password2, setPassword2] = useState('');
 
-  const handleSignup = () => {
-    
+  const handleSignup = async () => {
+    let Reg = false;
     const userDataS = {
-      firstname,
-      lastname,
-      email,
+      
+      
       username,
       password,
-      password2
-    };
+      password2,
+      email,
+      first_name,
+      last_name,
+     
+    }
+    const userDataRL = {
+      username,
+      password,
+    }
     //Axios requests
-    axios.post('http://000.000.0.0:8000/register/', userDataS)
-        .then(response => {console.log('SUCCESS (I THINK)')})
-        .catch(error => {console.log('ERROR') });
+      axios.post('http://10.20.141.137:8000/register/', userDataS)
+        .then(response => {console.log('SUCCESS');
+        Reg = true;
+      })
+        .catch(error =>  {console.log('ERROR') });
     console.log(userDataS);
+
+    if (Reg)
+   {
+    await axios.post('http://10.20.141.137:8000/login/', userDataRL)
+        .then(response => {console.log('SUCCESS (I THINK)', response.data);
+
+          setToken(response.data);
+         console.log('TOKEN: ',Token);
+        })
+        
+        .catch(error => {console.log('ERROR') });
+        
+        console.log(userDataRL);
+        let tokenString = JSON.stringify(Token);
+        await SecureStore.setItemAsync('Token', tokenString);
+   }
     };
+   
+    
 
   return(
     <>

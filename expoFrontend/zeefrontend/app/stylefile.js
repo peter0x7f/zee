@@ -32,6 +32,11 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
+    image: {
+      width: 10, // You can adjust the width as needed
+      height: 200, // You can adjust the height as needed
+      borderRadius: 10, // Make sure to match the border radius of the container
+    },
     elevation: 2,
     display: 'flex', // Use flex properties
     flexDirection: 'column', // Stack items vertically
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
       borderRadius: 5,
   },
     centerContainer: {
-      flex: 1,
+      flex: 1,  
       alignItems: 'center',
       backgroundColor: '#020945',
       paddingTop: 40,
@@ -64,6 +69,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
    },
+   flatListContainer: {
+    height: 150, // Set the fixed height for 2-3 items
+    // Add any other styles specific to the FlatList container here
+  },
    input: {
       height: 40,
       borderColor: 'gray',

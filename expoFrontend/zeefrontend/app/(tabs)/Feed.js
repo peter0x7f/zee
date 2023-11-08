@@ -1,14 +1,14 @@
 import {React, useState} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
-import { Link } from 'expo-router';
+import { Link, Redirect, router, useRouter } from 'expo-router';
 
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
-
+import * as SecureStore from 'expo-secure-store';
 import{
   Dimensions,
   SafeAreaView,
@@ -33,11 +33,31 @@ import {
 import react from "react";
 import styles from "../stylefile";
 import SignupP from "../SignupP";
-
+import { AuthProvider, useAuth } from "../Contexts/AuthContext";
+import SignOut from "../(auth)/SignOut";
 import LoginP from "../LoginP";
+
 const screenWidth = Dimensions.get('window').width;
+
+
 const Feed = () =>
 {
+
+
+    const handleSignOut = async () => {
+        await SignOut(); 
+      }
+
+      const [token, setToken] = useState('')
+    const getToken = async () => {
+      let token = await SecureStore.getItemAsync('Token');
+      setToken(token);
+      console.log(token);
+    }
+    getToken();
+if(token != null)
+{
+
     const sampleData = [
         {
             id: '1',
@@ -66,6 +86,11 @@ const Feed = () =>
         
     ]
     return(
+        
+
+       <AuthProvider>
+
+       
         <GluestackUIProvider config={config}>
             <SafeAreaView style={styles.centerContainer}>
             <View>
@@ -84,7 +109,24 @@ const Feed = () =>
      </View> )}
      />
      <View style = {{padding:3}}></View>
-     <Link href="/LoginP" asChild>
+     
+
+    
+    <View style = {{padding:3}}></View>
+            </SafeAreaView>
+        </GluestackUIProvider>
+        </AuthProvider>
+    );
+     }//Auth Context
+     else
+     router.replace('/LoginP')
+
+}; //Feed
+
+export default Feed;
+
+//Signout Button
+/*
 <Button 
          bg="$backgroundDark0"
   size="md"
@@ -93,18 +135,11 @@ const Feed = () =>
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress={() => {
-    
-   }}
+  onPress = {handleSignOut}
+  
 >
   <ButtonText color="black">Sign Out</ButtonText>
   
 </Button>
-    </Link>
-    <View style = {{padding:3}}></View>
-            </SafeAreaView>
-        </GluestackUIProvider>
 
-    );
-};
-export default Feed;
+*/ 
