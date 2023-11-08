@@ -110,6 +110,23 @@ if(token != null)
      />
      <View style = {{padding:3}}></View>
      
+
+    
+    <View style = {{padding:3}}></View>
+            </SafeAreaView>
+        </GluestackUIProvider>
+        </AuthProvider>
+    );
+     }//Auth Context
+     else
+     router.replace('/LoginP')
+
+}; //Feed
+
+export default Feed;
+
+//Signout Button
+/*
 <Button 
          bg="$backgroundDark0"
   size="md"
@@ -124,16 +141,5 @@ if(token != null)
   <ButtonText color="black">Sign Out</ButtonText>
   
 </Button>
-    
-    <View style = {{padding:3}}></View>
-            </SafeAreaView>
-        </GluestackUIProvider>
-        </AuthProvider>
-    );
-     }//Auth Context
-     else
-     router.replace('/LoginP')
 
-}; //Feed
-
-export default Feed;
+*/ 

@@ -41,7 +41,11 @@ const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
 {
-    const [image, setImage] = useState();
+    const [imageUri, setImageUri] = useState('');
+    const [imageW, setImageW] = useState(0);
+    const [imageH, setImageH] = useState(0);
+  
+
     const uploadImage = async () => {
         try{
             await ImagePicker.requestCameraPermissionsAsync();
@@ -52,7 +56,8 @@ const Post = () =>
                 quality: 1,
             })
             if(!result.canceled){
-                await saveImage(result.assets[0].uri);
+                const { uri, width, height } = result.assets[0];
+                saveImage(uri, width, height);
             }
 
         } catch (error) {
@@ -60,9 +65,12 @@ const Post = () =>
         }
     };
 
-    const saveImage = async (image) => {
+    const saveImage = async (uri, width, height) => {
         try{
-            setImage(image)
+            setImageUri(uri);
+        setImageW(width);
+        setImageH(height);
+            
         }catch(error){
             throw error;
         }
@@ -91,16 +99,20 @@ const Post = () =>
                 <SafeAreaView style={styles.centerContainer}>
                     
                     <Button
-                    onPress = {() => uploadImage()}
+                    onPress = {uploadImage}
                     >
                         <ButtonText>
                         Test
                         </ButtonText>
                     </Button>
-                    <Image
-                    source={{image}}
-                    style={styles.Image}
-                    /> 
+                    <View style={styles.postContainer}>
+                    {imageUri ? (
+              <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
+            ) : null}
+                
+                    
+                    </View>
+                    
                     
                 </SafeAreaView>
             </TouchableWithoutFeedback>

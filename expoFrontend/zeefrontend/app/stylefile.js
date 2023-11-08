@@ -33,10 +33,9 @@ const styles = StyleSheet.create({
       height: 1,
     },
     image: {
-      borderRadius: 75,
-      width: 150,
-      height: 150,
-      borderWidth: 5,
+      width: 10, // You can adjust the width as needed
+      height: 200, // You can adjust the height as needed
+      borderRadius: 10, // Make sure to match the border radius of the container
     },
     elevation: 2,
     display: 'flex', // Use flex properties
