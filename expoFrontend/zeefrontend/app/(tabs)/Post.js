@@ -44,9 +44,25 @@ const Post = () =>
     const [imageUri, setImageUri] = useState('');
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
-  
+  const pickImage = async () => {
+    try{
+    const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+  })
+  if(!result.canceled){
+    const { uri, width, height } = result.assets[0];
+    saveImage(uri, width, height);
+}
+}catch (error) {
+    alert("Error uploading image: " + error.mssage);
+}
 
-    const uploadImage = async () => {
+};
+
+    const captureImage = async () => {
         try{
             await ImagePicker.requestCameraPermissionsAsync();
             let result = await ImagePicker.launchCameraAsync({
@@ -76,6 +92,34 @@ const Post = () =>
         }
     }
 
+    const uploadImage = async () => {
+        if(imageUri != ''){
+            const imageForm = new FormData();
+            imageForm.append('image', {
+              uri: imageUri,
+              type: 'image/jpeg', // Adjust the content type as needed
+              name: 'image.jpg', // You can customize the file name
+            });
+            try {
+                const response = await axios.post('http://10.20.141.137:8000/settings/', imageForm, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                    // Add any additional headers if necessary
+                  },
+                });
+          
+                // Handle the server response here
+                console.log('Image uploaded successfully:', response.data);
+              } catch (error) {
+                console.error('Error uploading image:', error);
+              }
+            } 
+            else {
+              console.error('No image data to upload.');
+            }
+        }
+
+    
 
 
     const handleSignOut = async () => {
@@ -99,12 +143,20 @@ const Post = () =>
                 <SafeAreaView style={styles.centerContainer}>
                     
                     <Button
-                    onPress = {uploadImage}
+                    onPress = {captureImage}
                     >
                         <ButtonText>
-                        Test
+                        Take Photo
                         </ButtonText>
                     </Button>
+                    <Button
+                    onPress = {pickImage}
+                    >
+                        <ButtonText>
+                        Choose Photo
+                        </ButtonText>
+                    </Button>
+                    
                     <View style={styles.postContainer}>
                     {imageUri ? (
               <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
@@ -113,7 +165,13 @@ const Post = () =>
                     
                     </View>
                     
-                    
+                    {imageUri != '' ? (<Button
+                    onPress = {uploadImage}
+                    >
+                        <ButtonText>
+                        Post Image
+                        </ButtonText>
+                    </Button>) : null}
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         </GluestackUIProvider>

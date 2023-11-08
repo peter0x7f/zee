@@ -58,7 +58,7 @@ let REFRESH = null;
     };
 
  
-    await axios.post('http://10.20.155.128:8000/login/', userDataL)
+    await axios.post('http://10.20.141.137:8000/login/', userDataL)
         .then(response => {console.log('SUCCESSFUL POST', response.data)
 
           TOKEN = response.data.access;

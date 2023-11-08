@@ -60,7 +60,7 @@ const SignupP = () => {
       password,
     }
     //Axios requests
-      axios.post('http:// 10.20.155.128:8000/register/', userDataS)
+      axios.post('http://10.20.141.137:8000/register/', userDataS)
         .then(response => {console.log('SUCCESS');
         Reg = true;
       })
@@ -69,7 +69,7 @@ const SignupP = () => {
 
     if (Reg)
    {
-    await axios.post('http:// 10.20.155.128:8000/login/', userDataRL)
+    await axios.post('http://10.20.141.137:8000/login/', userDataRL)
         .then(response => {console.log('SUCCESS (I THINK)', response.data);
 
           setToken(response.data);
