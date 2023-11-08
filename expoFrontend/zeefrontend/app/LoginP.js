@@ -45,7 +45,8 @@ const screenWidth = Dimensions.get('window').width;
 const LoginP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
-  const [mes, setMes] = useState('')
+  const [mes, setMes] = useState('');
+  const [mesVis, setMesVis] = useState();
 let TOKEN = null;
 let REFRESH = null;
    
@@ -58,16 +59,21 @@ let REFRESH = null;
     };
 
  
-    await axios.post('http://10.20.141.137:8000/login/', userDataL)
+    await axios.post('http://'+global.LOCAL_IP+'/login/', userDataL)
         .then(response => {console.log('SUCCESSFUL POST', response.data)
 
           TOKEN = response.data.access;
           REFRESH= response.data.refresh;
          console.log('TOKEN: ',TOKEN);
+         setMes('');
+         setMesVis(false);
 
         })
         
-        .catch(error => {console.log('BAD POST ERROR') });
+        .catch(error => {console.log('BAD POST ERROR')
+        setMes('Credentials Not Found!')
+        setMesVis(true);
+       });
         
         console.log(userDataL);
         
@@ -149,6 +155,10 @@ color = '$amber100'>
 
      </Input>
      <View style = {{padding:12}}></View>
+     {mesVis ?  <Text 
+     style={{color:'red'}}
+     >Error:  {mes} </Text> : null}
+     <View style = {{padding:10}}></View>
      <Center>
       
       <Button 
@@ -166,9 +176,22 @@ color = '$amber100'>
 </Button>
      
      
-      <View style = {{padding:6}}></View>
+      <View style = {{padding:10}}></View>
+      <Text style={{color: 'white'}}>Don't have an account yet?</Text>
       
-      <CreateAcB></CreateAcB>
+      <Button 
+         bg="transparent"
+  size="md"
+  variant="link"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress={() => {router.replace('/SignupP')}}
+>
+  <ButtonText color="white">Sign Up</ButtonText>
+  
+</Button>
       <View style = {{padding:5}}></View>
   
      <View style = {{padding:5}}></View>
@@ -177,21 +200,9 @@ color = '$amber100'>
             <Center>
             
             
-<Button 
-         bg="#FBEFCD"
-  size="md"
-  variant="rounded"
-  action="primary"
+
   
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress={() => {router.replace('/WorkoutPage')
-    
-   }}
->
-  <ButtonText color="#020945">Start Training</ButtonText>
-  
-</Button>
+
     
             </Center>
            
@@ -211,7 +222,7 @@ color = '$amber100'>
 
 const CreateAcB = () => {
   return(
-    <Link href="/SignupP" asChild>
+   
 <Button 
          bg="$backgroundDark0"
   size="md"
@@ -220,14 +231,12 @@ const CreateAcB = () => {
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress={() => {
-    
-   }}
+  onPress={router.replace('/SignupP')}
 >
   <ButtonText color="black">Sign Up</ButtonText>
   
 </Button>
-    </Link>
+   
     
 
   );
@@ -253,7 +262,20 @@ style={{ width: 200, height: 200 }}
   );
   };*/
 
+  //Button to access workout page from login page
+  /*<Button 
+         bg="#FBEFCD"
+  size="md"
+  variant="rounded"
+  action="primary"
   
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress={() => {router.replace('/WorkoutPage')
+    
+   }}
+>
+  <ButtonText color="#020945">Start Training</ButtonText>*/
   
   
 

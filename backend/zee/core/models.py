@@ -17,9 +17,9 @@ class Achievements(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
+    image_url = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     #make profile pic default in profile images
-    achievements = models.ManyToManyField(Achievements, required=False, blank=True)
+    achievements = models.ManyToManyField(Achievements,blank=True)
     max_bench = models.TextField(blank=True)
     max_deadlift = models.TextField(blank=True)
     max_squat = models.TextField(blank=True)

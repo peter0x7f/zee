@@ -101,7 +101,7 @@ const Post = () =>
               name: 'image.jpg', // You can customize the file name
             });
             try {
-                const response = await axios.post('http://10.20.141.137:8000/settings/', imageForm, {
+                const response = await axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
                   headers: {
                     'Content-Type': 'multipart/form-data',
                     // Add any additional headers if necessary
