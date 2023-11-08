@@ -6,7 +6,16 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
 from rest_framework import generics
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+import rest_framework_simplejwt.authentication
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def protected_view(request):
+    return Response({"message": "This is a protected view."})
 
 #change to react based api auth
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -18,11 +27,9 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-
-class UserSettings(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+@permission_classes([IsAuthenticated])
+class UserSettings(generics.CreateAPIView): 
     queryset = Profile.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = SettingsSerializer
 
 

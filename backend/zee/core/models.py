@@ -19,7 +19,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     #make profile pic default in profile images
-    achievements = models.ManyToManyField(Achievements)
+    achievements = models.ManyToManyField(Achievements, required=False, blank=True)
     max_bench = models.TextField(blank=True)
     max_deadlift = models.TextField(blank=True)
     max_squat = models.TextField(blank=True)
