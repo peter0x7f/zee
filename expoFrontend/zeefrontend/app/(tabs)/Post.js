@@ -36,12 +36,40 @@ import SignupP from "../SignupP";
 import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
 import { Stack } from 'expo-router/stack';
+import * as ImagePicker from 'expo-image-picker'
 const screenWidth = Dimensions.get('window').width;
 
-const Profile = () =>
+const Post = () =>
 {
-    let FOLLOWERS = 5; //samples
-    let FOLLOWING = 10; //samples
+    const [image, setImage] = useState();
+    const uploadImage = async () => {
+        try{
+            await ImagePicker.requestCameraPermissionsAsync();
+            let result = await ImagePicker.launchCameraAsync({
+                cameraType: ImagePicker.CameraType.back,
+                allowsEditing: true,
+                aspect: [1,1],
+                quality: 1,
+            })
+            if(!result.canceled){
+                await saveImage(result.assets[0].uri);
+            }
+
+        } catch (error) {
+            alert("Error uploading image: " + error.mssage);
+        }
+    };
+
+    const saveImage = async (image) => {
+        try{
+            setImage(image)
+        }catch(error){
+            throw error;
+        }
+    }
+
+
+
     const handleSignOut = async () => {
         await SignOut(); 
       }
@@ -58,93 +86,30 @@ const Profile = () =>
     if(token != null)
     {
     return(
-        <GluestackUIProvider config={config}>
+        <GluestackUIProvider config = {config}>
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
-                <SafeAreaView style ={styles.centerContainer}>
-                <View>
-  <Center>
-  <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                LBS
-            </Heading>
-      </Center>
-  </View>
-  <View style = {{padding:3}}></View>
-     <Divider width = {screenWidth*0.6}></Divider>
-     <View style = {{padding:12}}></View>
-     <Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {handleSignOut}
-  
->
-  <ButtonText color="black">Sign Out</ButtonText>
-  
-</Button>
-<View style = {{padding:6}}></View>
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {()=>{}}
-  
->
-  <ButtonText color="black">Settings</ButtonText>
-  
-</Button> 
-
-<View style = {{padding:6}}></View>
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {()=>{FOLLOWERS+=1}}
-  
->
-  <ButtonText color="black">Followers {FOLLOWERS}</ButtonText>
-  
-</Button> 
-
-<View style = {{padding:6}}></View>
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {()=>{}}
-  
->
-  <ButtonText color="black">Following {FOLLOWING}</ButtonText>
-  
-</Button> 
-
-
+                <SafeAreaView style={styles.centerContainer}>
+                    
+                    <Button
+                    onPress = {() => uploadImage()}
+                    >
+                        <ButtonText>
+                        Test
+                        </ButtonText>
+                    </Button>
+                    <Image
+                    source={{image}}
+                    style={styles.Image}
+                    /> 
+                    
                 </SafeAreaView>
-
             </TouchableWithoutFeedback>
-
         </GluestackUIProvider>
 
     )
     }
-    else
-    {
-        router.replace('/LoginP');
+    else{
+        router.replace('/LoginP')
     }
 }
-export default Profile;
+export default Post;

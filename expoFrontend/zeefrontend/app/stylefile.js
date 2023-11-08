@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
+    image: {
+      borderRadius: 75,
+      width: 150,
+      height: 150,
+      borderWidth: 5,
+    },
     elevation: 2,
     display: 'flex', // Use flex properties
     flexDirection: 'column', // Stack items vertically

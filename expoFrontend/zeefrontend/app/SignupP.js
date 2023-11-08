@@ -42,8 +42,8 @@ const SignupP = () => {
   const [password, setPassword] = useState(''); 
   const[password2, setPassword2] = useState('');
 
-  const handleSignup = () => {
-    
+  const handleSignup = async () => {
+    let Reg = false;
     const userDataS = {
       
       
@@ -60,10 +60,28 @@ const SignupP = () => {
       password,
     }
     //Axios requests
-      axios.post('http://10.20.158.152:8000/register/', userDataS)
-        .then(response => {console.log('SUCCESS (I THINK)')})
+      axios.post('http:// 10.20.155.128:8000/register/', userDataS)
+        .then(response => {console.log('SUCCESS');
+        Reg = true;
+      })
         .catch(error =>  {console.log('ERROR') });
     console.log(userDataS);
+
+    if (Reg)
+   {
+    await axios.post('http:// 10.20.155.128:8000/login/', userDataRL)
+        .then(response => {console.log('SUCCESS (I THINK)', response.data);
+
+          setToken(response.data);
+         console.log('TOKEN: ',Token);
+        })
+        
+        .catch(error => {console.log('ERROR') });
+        
+        console.log(userDataRL);
+        let tokenString = JSON.stringify(Token);
+        await SecureStore.setItemAsync('Token', tokenString);
+   }
     };
    
     

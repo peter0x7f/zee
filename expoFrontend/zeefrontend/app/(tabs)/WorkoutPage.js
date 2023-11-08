@@ -1,7 +1,6 @@
 import {React, useState} from "react";
-import axios from 'axios'
 import { Asset } from 'expo-asset';
-import { Link } from 'expo-router';
+import { Link, Redirect, router } from 'expo-router';
 import {Image} from 'react-native-svg'
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
@@ -18,6 +17,7 @@ import{
   TextInput,
   useColorScheme,
   View,
+  
 } from 'react-native';
 
 import {
@@ -31,10 +31,20 @@ import react from "react";
 import styles from "../stylefile";
 import SignupP from "../SignupP";
 import { Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Divider } from '@gluestack-ui/themed';
+import { useAuth, AuthProvider } from "../Contexts/AuthContext";
+import * as SecureStore from 'expo-secure-store';
 const screenWidth = Dimensions.get('window').width;
 const WorkoutPage = () => {
-    
-
+  
+ const [token, setToken] = useState('')
+    const getToken = async () => {
+      let token = await SecureStore.getItemAsync('Token');
+      setToken(token);
+      console.log(token);
+    }
+    getToken();
+if(token != null)
+{
     return(
         <GluestackUIProvider config={config}>
             <SafeAreaView style = {styles.centerContainer}>
@@ -51,7 +61,7 @@ const WorkoutPage = () => {
  <ExerciseList></ExerciseList>
  
  <View padding = {10}></View>
- <Link href="/Lifts" asChild>
+ 
 <Button 
          bg="$backgroundDark0"
   size="md"
@@ -61,18 +71,24 @@ const WorkoutPage = () => {
   isDisabled={false}  
   isFocusVisible={false}
   onPress={() => {
-    
-   }}
+router.replace('/LoginP')
+  }}
 >
   <ButtonText color="black">Log In</ButtonText>
   
 </Button>
-    </Link>
+  
             </SafeAreaView>
         </GluestackUIProvider>
     );
 
-};
+}
+else
+router.replace('/LoginP');
+}
+
+
+
 
 const ExerciseList = () =>
 {
