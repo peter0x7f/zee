@@ -88,7 +88,7 @@ if(token != null)
     return(
         
 
-       <AuthProvider>
+       
 
        
         <GluestackUIProvider config={config}>
@@ -115,7 +115,7 @@ if(token != null)
     <View style = {{padding:3}}></View>
             </SafeAreaView>
         </GluestackUIProvider>
-        </AuthProvider>
+        
     );
      }//Auth Context
      else

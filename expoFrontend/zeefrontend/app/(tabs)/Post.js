@@ -37,6 +37,7 @@ import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
 import { Stack } from 'expo-router/stack';
 import * as ImagePicker from 'expo-image-picker'
+import { ImageOff } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
@@ -141,26 +142,50 @@ const Post = () =>
         <GluestackUIProvider config = {config}>
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
                 <SafeAreaView style={styles.centerContainer}>
-                    
+                <View>
+  <Center>
+  <Heading style = {styles.coolText} paddingTop= '$1/6'>
+                LBS
+            </Heading>
+      </Center>
+  </View>
+  <View style = {{padding:3}}></View>
+     <Divider width = {screenWidth*0.6}></Divider>
+     <View style = {{padding:12}}></View>          
                     <Button
+                    bg="$backgroundDark0"
+                    size="md"
+                    variant="rounded"
+                    action="primary"
+                    
+                    isDisabled={false}
+                    isFocusVisible={false}
                     onPress = {captureImage}
                     >
-                        <ButtonText>
+                        <ButtonText color='black'>
                         Take Photo
                         </ButtonText>
                     </Button>
+                    <View style = {{padding:3}}></View>
                     <Button
+                      bg="$backgroundDark0"
+                      size="md"
+                      variant="rounded"
+                      action="primary"
+                      
+                      isDisabled={false}
+                      isFocusVisible={false}
                     onPress = {pickImage}
                     >
-                        <ButtonText>
+                        <ButtonText color="black">
                         Choose Photo
                         </ButtonText>
                     </Button>
-                    
+                    <View style = {{padding:3}}></View>
                     <View style={styles.postContainer}>
                     {imageUri ? (
               <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
-            ) : null}
+            ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                 
                     
                     </View>
