@@ -22,9 +22,11 @@ import {
 const styles = StyleSheet.create({
   postContainer: {
     backgroundColor: '#FBEFCD',
-    padding: 16,
-    marginBottom: 10,
-    borderRadius: 10,
+    width: 400,
+    height: 400,
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 3,
     shadowColor: 'black',
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -42,10 +44,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column', // Stack items vertically
     alignItems: 'center', // Center items horizontally
   },
+  descriptionContainer: {
+    backgroundColor: '#020945', // Color for the description container
+    width: '100%', // Full width of the parent container
+    padding: 10,
+    borderRadius: 3, // You can adjust the border radius as needed
+    marginTop: 0, // Spacing between the postContainer and descriptionContainer
+  },
   postText: {
     fontSize: 16, // Adjust the font size as needed
     fontWeight: 'bold', // Adjust the font weight as needed
     marginTop: 8, // Add spacing between image and text
+    color: 'white',
   },
     button: {
       backgroundColor: '#FBEFCD',
@@ -56,6 +66,12 @@ const styles = StyleSheet.create({
       flex: 1,  
       alignItems: 'center',
       backgroundColor: '#020945',
+      paddingTop: 40,
+    },
+    centerContainer2: {
+      flex: 1,  
+      alignItems: 'center',
+      backgroundColor: '#FBEFCD',
       paddingTop: 40,
     },
     postContainer2: {

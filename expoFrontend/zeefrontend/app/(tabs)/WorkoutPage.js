@@ -62,21 +62,7 @@ if(token != null)
  
  <View padding = {10}></View>
  
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="outline"
-  action="primary"
-  
-  isDisabled={false}  
-  isFocusVisible={false}
-  onPress={() => {
-router.replace('/LoginP')
-  }}
->
-  <ButtonText color="black">Log In</ButtonText>
-  
-</Button>
+
   
             </SafeAreaView>
         </GluestackUIProvider>
@@ -124,7 +110,7 @@ const ExerciseList = () =>
         <Select width = {Dimensions.get('window').width*0.6} onValueChange={handleCategoryChange} category={selectedCategory}>
          
           <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Exercise Category" />
+          <SelectInput placeholder="Category" />
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -152,12 +138,25 @@ const ExerciseList = () =>
         
         </Select>
 
+        <View >
+      <Select width= {Dimensions.get('window').width*0.6}>
+      <SelectTrigger variant="rounded" size="md">
+          <SelectInput placeholder="Exercise " />
+          <SelectIcon mr="$3">
+            <Icon as={ChevronDownIcon} />
+          </SelectIcon>
+          </SelectTrigger>
+
+      </Select>
+    </View>
 
         </View>
+        
        
    
         
     );
 };
+
 
 export default WorkoutPage;

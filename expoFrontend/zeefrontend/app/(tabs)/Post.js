@@ -37,7 +37,7 @@ import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
 import { Stack } from 'expo-router/stack';
 import * as ImagePicker from 'expo-image-picker'
-import { ImageOff } from 'lucide-react-native';
+import { Cigarette, ImageOff, FileImage, Camera } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
@@ -151,7 +151,16 @@ const Post = () =>
   </View>
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.6}></Divider>
-     <View style = {{padding:12}}></View>          
+     <View style = {{padding:12, flex:0}}></View>
+     
+                    
+                    <View style={styles.postContainer}>
+                    {imageUri ? (
+              <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
+            ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
+                    </View>
+                    <View style = {{padding:12}}></View>
+                    <View style = {{flexDirection:"row"  }}>         
                     <Button
                     bg="$backgroundDark0"
                     size="md"
@@ -162,9 +171,8 @@ const Post = () =>
                     isFocusVisible={false}
                     onPress = {captureImage}
                     >
-                        <ButtonText color='black'>
-                        Take Photo
-                        </ButtonText>
+                       
+                        <Camera color='black'/>
                     </Button>
                     <View style = {{padding:3}}></View>
                     <Button
@@ -177,19 +185,10 @@ const Post = () =>
                       isFocusVisible={false}
                     onPress = {pickImage}
                     >
-                        <ButtonText color="black">
-                        Choose Photo
-                        </ButtonText>
+                       <FileImage color='black'/>
                     </Button>
-                    <View style = {{padding:3}}></View>
-                    <View style={styles.postContainer}>
-                    {imageUri ? (
-              <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
-            ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
-                
-                    
-                    </View>
-                    
+                    </View> 
+                    <View style = {{padding:4}}></View>
                     {imageUri != '' ? (<Button
                     onPress = {uploadImage}
                     >

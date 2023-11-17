@@ -101,13 +101,18 @@ if(token != null)
       </Center>
   </View>
   <View style = {{padding:3}}></View>
-     <Divider width = {screenWidth*0.6}></Divider>
-     <View style = {{padding:12}}></View>
+     <Divider width = {screenWidth*0.9}></Divider>
+     <View style = {{padding:0}}></View>
      <FlatList data={sampleData} renderItem={({item}) => ( <View style = {styles.postContainer}>
         <Image source ={{uri: item.imageUrl}} style = {{height: 300, width: 300 }}></Image>
+        <View style={{padding:10}}/>
+        <View style={styles.descriptionContainer}>
         <Text style = {styles.postText}>{item.title}</Text>
+        </View>
+        
      </View> )}
      />
+     <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:3}}></View>
      
 

@@ -50,6 +50,7 @@ import { Cigarette } from 'lucide-react-native';
 import { Camera } from 'lucide-react-native';
 import { UserCircle2 } from 'lucide-react-native';
 import { Dumbbell } from 'lucide-react-native';
+import { Newspaper } from 'lucide-react-native';
 
 export default () => {
   const [path, setPath] = useState('Feed')
@@ -99,7 +100,7 @@ options={
             setPath('Feed');
              return(
             <GluestackUIProvider config={config}>
-                <Cigarette color='#020945'/>
+                <Newspaper color='#020945'/>
             </GluestackUIProvider>
     
         )},
