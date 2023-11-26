@@ -103,6 +103,7 @@ if(token != null)
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:0}}></View>
+     <View style={{flex:1}}>
      <FlatList data={sampleData} renderItem={({item}) => ( <View style = {styles.postContainer}>
         <Image source ={{uri: item.imageUrl}} style = {{height: 300, width: 300 }}></Image>
         <View style={{padding:10}}/>
@@ -112,6 +113,8 @@ if(token != null)
         
      </View> )}
      />
+     </View>
+     
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:3}}></View>
      

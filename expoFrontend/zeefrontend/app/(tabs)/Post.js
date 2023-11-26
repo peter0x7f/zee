@@ -189,10 +189,17 @@ const Post = () =>
                     </Button>
                     </View> 
                     <View style = {{padding:4}}></View>
-                    {imageUri != '' ? (<Button
+                    {imageUri != '' ? (<Button 
+                      bg="$backgroundDark0"
+                      size="md"
+                      variant="rounded"
+                      action="primary"
+                      
+                      isDisabled={false}
+                      isFocusVisible={false}
                     onPress = {uploadImage}
                     >
-                        <ButtonText>
+                        <ButtonText color='black'>
                         Post Image
                         </ButtonText>
                     </Button>) : null}
