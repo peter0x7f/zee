@@ -1,10 +1,26 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Posts
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import serializers
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Customize the token payload here
+        token['user_id'] = user.id
+        token['username'] = user.username
+        return token
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+    
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
@@ -43,10 +59,34 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 class SettingsSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
-    user_id = serializers.ReadOnlyField(source='user.id')
+    # user = serializers.ReadOnlyField(source='user.username')
     image_url = serializers.ImageField(required=False)
 
     class Meta:
         model = Profile
-        fields = ('image_url','user', 'user_id', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        fields = ('image_url', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+    # def create(self):
+    #     profile = Profile.objects.create(
+    #         user=user,
+    #         image_url='image_url',
+    #         bio='bio',
+    #         achievements='achievements',
+    #         max_bench='max_bench',
+    #         max_squat='max_squat',
+    #         max_deadlift='max_deadlift',
+    #         total='total',
+    #         bw='bw',
+    #     )
+    #     profile.save()
+    #     return profile
+
+class UploadSerializer(serializers.ModelSerializer):
+        image_url = serializers.ImageField(required=True)
+        class Meta:
+            model = Posts
+            fields = ('image_url', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('image_url', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')

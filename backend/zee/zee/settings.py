@@ -60,14 +60,18 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'zee.urls'
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',],
+REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',  # enables simple command line authentication
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Add any additional authentication backends if needed
+]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOWED_ORIGINS = [
