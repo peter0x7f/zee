@@ -37,6 +37,7 @@ import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
 import { Stack } from 'expo-router/stack';
 import * as ImagePicker from 'expo-image-picker'
+import { Cigarette, ImageOff, FileImage, Camera } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
@@ -101,7 +102,7 @@ const Post = () =>
               name: 'image.jpg', // You can customize the file name
             });
             try {
-                const response = await axios.post('http://10.20.141.137:8000/settings/', imageForm, {
+                const response = await axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
                   headers: {
                     'Content-Type': 'multipart/form-data',
                     // Add any additional headers if necessary
@@ -141,34 +142,64 @@ const Post = () =>
         <GluestackUIProvider config = {config}>
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
                 <SafeAreaView style={styles.centerContainer}>
-                    
-                    <Button
-                    onPress = {captureImage}
-                    >
-                        <ButtonText>
-                        Take Photo
-                        </ButtonText>
-                    </Button>
-                    <Button
-                    onPress = {pickImage}
-                    >
-                        <ButtonText>
-                        Choose Photo
-                        </ButtonText>
-                    </Button>
+                <View>
+  <Center>
+  <Heading style = {styles.coolText} paddingTop= '$1/6'>
+                LBS
+            </Heading>
+      </Center>
+  </View>
+  <View style = {{padding:3}}></View>
+     <Divider width = {screenWidth*0.6}></Divider>
+     <View style = {{padding:12, flex:0}}></View>
+     
                     
                     <View style={styles.postContainer}>
                     {imageUri ? (
               <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
-            ) : null}
-                
-                    
+            ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                     </View>
+                    <View style = {{padding:12}}></View>
+                    <View style = {{flexDirection:"row"  }}>         
+                    <Button
+                    bg="$backgroundDark0"
+                    size="md"
+                    variant="rounded"
+                    action="primary"
                     
-                    {imageUri != '' ? (<Button
+                    isDisabled={false}
+                    isFocusVisible={false}
+                    onPress = {captureImage}
+                    >
+                       
+                        <Camera color='black'/>
+                    </Button>
+                    <View style = {{padding:3}}></View>
+                    <Button
+                      bg="$backgroundDark0"
+                      size="md"
+                      variant="rounded"
+                      action="primary"
+                      
+                      isDisabled={false}
+                      isFocusVisible={false}
+                    onPress = {pickImage}
+                    >
+                       <FileImage color='black'/>
+                    </Button>
+                    </View> 
+                    <View style = {{padding:4}}></View>
+                    {imageUri != '' ? (<Button 
+                      bg="$backgroundDark0"
+                      size="md"
+                      variant="rounded"
+                      action="primary"
+                      
+                      isDisabled={false}
+                      isFocusVisible={false}
                     onPress = {uploadImage}
                     >
-                        <ButtonText>
+                        <ButtonText color='black'>
                         Post Image
                         </ButtonText>
                     </Button>) : null}

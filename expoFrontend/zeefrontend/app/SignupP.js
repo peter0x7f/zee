@@ -1,7 +1,7 @@
 import { useState} from "react";
 import React from 'react';
 import axios from 'axios'
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
 
@@ -60,7 +60,7 @@ const SignupP = () => {
       password,
     }
     //Axios requests
-      axios.post('http://10.20.141.137:8000/register/', userDataS)
+      axios.post('http://'+global.LOCAL_IP+'/register/', userDataS)
         .then(response => {console.log('SUCCESS');
         Reg = true;
       })
@@ -69,7 +69,7 @@ const SignupP = () => {
 
     if (Reg)
    {
-    await axios.post('http://10.20.141.137:8000/login/', userDataRL)
+    await axios.post('http://'+global.LOCAL_IP+'/login/', userDataRL)
         .then(response => {console.log('SUCCESS (I THINK)', response.data);
 
           setToken(response.data);
@@ -211,6 +211,7 @@ color = '$amber100'>
 
      </Input>
      <View style = {{padding:12}}></View>
+     <View style = {{padding:12}}></View>
   </Center>
       <Button
        
@@ -226,22 +227,23 @@ color = '$amber100'>
       >
         <ButtonText color="black">Sign Up</ButtonText>
       </Button>
-      <View style = {{padding:12}}></View>
-      <Link href="/LoginP" asChild>
+      <View style = {{padding:10}}></View>
+      <Text style={{color: 'white'}}>Already Have Account?</Text>
+      
 <Button 
-         bg="$backgroundDark0"
+         bg="transparent"
   size="md"
-  variant="outline"
+  variant="link"
   action="primary"
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress={() => {}}
+  onPress={() => {router.replace('/LoginP')}}
 >
-  <ButtonText color="black">Log In</ButtonText>
+  <ButtonText color="white">Log In</ButtonText>
   
 </Button>
-    </Link>
+    
       </SafeAreaView>
       </TouchableWithoutFeedback>
       </GluestackUIProvider>
