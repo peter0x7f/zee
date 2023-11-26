@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import *
+from .models import Profile, Posts, User
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
 from .serializers import RegisterSerializer, SettingsSerializer
@@ -10,6 +10,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.images import ImageFile
+
 
 #change to react based api auth
 class CustomObtainTokenPairView(TokenObtainPairView):
@@ -42,19 +46,55 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 @permission_classes([IsAuthenticated])
-# @permission_classes([IsAuthenticated])
 class UserSettings(generics.CreateAPIView): 
-    #queryset = Profile.objects.all()
     #if error with session save user_id in local storage to oull username or use token to pull info
-    queryset = Profile.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SettingsSerializer
+        
+    def get_object(self):
+        # Get the profile for the current user
+        return get_object_or_404(Profile, user=self.request.user)
+
+    def perform_update(self, serializer):
+        profile = self.get_object()
+        print(profile.image_url)
+        # Update the existing profile fields with the serializer data
+        if serializer.validated_data.get('bio', profile.bio) != None:
+            profile.bio = serializer.validated_data.get('bio', profile.bio)
+        if serializer.validated_data.get('image_url', profile.image_url) != None:
+            profile.image_url.delete()
+            image_data = serializer.validated_data.get('image_url', profile.image_url)
+            if isinstance(image_data, InMemoryUploadedFile):
+                image_file = ImageFile(image_data)
+                profile.image_url.save(image_data.name, image_file)
+            else:
+                profile.image_url = image_data
+        if serializer.validated_data.get('bw', profile.bw) != None:
+            profile.bw=serializer.validated_data.get('bw', profile.bw)
+        if serializer.validated_data.get('achievements', profile.achievements) != None:
+            profile.achievements.set(serializer.validated_data.get('achievements', profile.achievements))
+        if serializer.validated_data.get('max_bench', profile.max_bench) != None:
+            profile.max_bench=serializer.validated_data.get('max_bench', profile.max_bench)
+        if serializer.validated_data.get('max_squat', profile.max_squat) != None:
+            profile.max_squat=serializer.validated_data.get('max_squat', profile.max_squat)
+        if serializer.validated_data.get('max_deadlift', profile.max_deadlift) != None:
+            profile.max_deadlift=serializer.validated_data.get('max_deadlift', profile.max_deadlift)
+        if serializer.validated_data.get('total', profile.total) != None:
+            profile.total=serializer.validated_data.get('total', profile.total)
+        profile.save()
+
     def perform_create(self, serializer):
-        # Associate the logged-in user with the profile being created
-        serializer.save(user=self.request.user)
+        # Check if a profile already exists for the user
+        existing_profile = Profile.objects.filter(user=self.request.user).first()
+        if existing_profile:
+            # If a profile exists, update it
+            self.perform_update(serializer)
+        else:
+            # If no profile exists, create a new one
+            serializer.save(user=self.request.user)
 
 @permission_classes([IsAuthenticated])
-class Profile(generics.CreateAPIView):
+class GetProfile(generics.CreateAPIView):
     queryset = Posts.objects.all()
 
 @permission_classes([IsAuthenticated])
