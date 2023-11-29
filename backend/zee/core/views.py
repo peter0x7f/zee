@@ -13,7 +13,8 @@ from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.images import ImageFile
-
+from rest_framework.decorators import authentication_classes, permission_classes, api_view
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 #change to react based api auth
 class CustomObtainTokenPairView(TokenObtainPairView):
@@ -45,7 +46,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 class UserSettings(generics.CreateAPIView): 
     #if error with session save user_id in local storage to oull username or use token to pull info
     permission_classes = (AllowAny,)
@@ -93,11 +94,11 @@ class UserSettings(generics.CreateAPIView):
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
 
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 class GetProfile(generics.CreateAPIView):
     queryset = Posts.objects.all()
 
-@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
 
