@@ -40,7 +40,7 @@ const WorkoutPage = () => {
     const getToken = async () => {
       let token = await SecureStore.getItemAsync('Token');
       setToken(token);
-      console.log(token);
+      //console.log(token);
     }
     getToken();
 if(token != null)
