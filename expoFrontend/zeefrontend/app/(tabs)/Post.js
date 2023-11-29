@@ -42,6 +42,8 @@ const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
 {
+  const refresh = SecureStore.getItemAsync('Refresh')
+  const access = SecureStore.getItemAsync('Token')
     const [imageUri, setImageUri] = useState('');
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
@@ -101,13 +103,19 @@ const Post = () =>
               type: 'image/jpeg', // Adjust the content type as needed
               name: 'image.jpg', // You can customize the file name
             });
+            console.log(imageUri)
+            console.log(imageForm)
             try {
-                const response = await axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data',
-                    // Add any additional headers if necessary
-                  },
-                });
+              
+              const payload = axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  'Authorization': `Bearer ${refresh}`,
+                  // Add any additional headers if necessary
+                },
+                
+            });
+                const response = await payload
           
                 // Handle the server response here
                 console.log('Image uploaded successfully:', response.data);

@@ -26,8 +26,8 @@ class Profile(models.Model):
     max_squat = models.TextField(blank=True)
     total = models.TextField(blank=True)
     bw = models.TextField(blank=True)
-    objects = models.Manager()
-    def the_user(self):
+objects = models.Manager()
+def the_user(self):
         return self.user
 
 class Comment(models.Model):
@@ -38,7 +38,6 @@ class Comment(models.Model):
     created_on = models.DateTimeField(default=datetime.now)
     def the_user(self):
         return self.user
-    
 class Posts(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -48,5 +47,5 @@ class Posts(models.Model):
     no_of_likes = models.IntegerField(default=0)
     comments = models.ManyToManyField(Comment, blank=True)
     # add comment feature
-    def the_user(self):
+    def __str__(self):
         return self.user

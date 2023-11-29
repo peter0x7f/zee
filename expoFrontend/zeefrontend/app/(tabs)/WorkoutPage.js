@@ -40,7 +40,7 @@ const WorkoutPage = () => {
     const getToken = async () => {
       let token = await SecureStore.getItemAsync('Token');
       setToken(token);
-      console.log(token);
+      //console.log(token);
     }
     getToken();
 if(token != null)
@@ -78,7 +78,9 @@ router.replace('/LoginP');
 
 const ExerciseList = () =>
 {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("Cardio");
+  const [selectedExercise, setSelectedExercise] = useState('');
+  const [selectedExerciseDetails, setSelectedExerciseDetails] = useState('');
 
   const categories = [
     "Cardio",
@@ -91,18 +93,25 @@ const ExerciseList = () =>
   ];
   
   const exercisesByCategory = {
-    Cardio: ["Running", "Swimming", "Cycling", "Jump rope", "Stair climbing"],
-    Calisthenics: ["Push-ups", "Pull-ups", "Dips", "Planks", "Burpees"],
-    Chest: ["Bench press", "Dumbbell flyes", "Push-ups", "Chest dips"],
-    Arms: ["Bicep curls", "Hammer curls", "Tricep dips", "Skull crushers"],
-    Shoulders: ["Military press", "Lateral raises", "Front raises", "Shrugs"],
-    Back: ["Pull-ups", "Lat pulldowns", "Rows (barbell, dumbbell, cable)", "Deadlifts"],
-    Legs: ["Squats (back squats, front squats)", "Lunges", "Leg press", "Leg Extensions", "Leg Curls (seated, lying)", "Deadlifts (Stiff-Legged, Conventional, Sumo)"]
+    "Cardio": ["Running", "Swimming", "Cycling", "Jump rope", "Stair climbing"],
+    "Calisthenics": ["Push-ups", "Pull-ups", "Dips", "Planks", "Burpees"],
+    "Chest": ["Bench press", "Dumbbell flyes", "Push-ups", "Chest dips"],
+    "Arms": ["Bicep curls", "Hammer curls", "Tricep dips", "Skull crushers"],
+    "Shoulders": ["Military press", "Lateral raises", "Front raises", "Shrugs"],
+    "Back": ["Pull-ups", "Lat pulldowns", "Rows (barbell, dumbbell, cable)", "Deadlifts"],
+    "Legs": ["Squats (back squats, front squats)", "Lunges", "Leg press", "Leg Extensions", "Leg Curls (seated, lying)", "Deadlifts (Stiff-Legged, Conventional, Sumo)"]
   };
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
+    setSelectedExercise(exercisesByCategory[category][0]); // set the first exercise as the selected exercise
   };
+
+  const handleExerciseChange = (exercise) => {
+    setSelectedExercise(exercise);
+    setSelectedExerciseDetails(exercise); // update the selected exercise details
+  };
+
   let cat = "";
 
     return(
@@ -121,40 +130,33 @@ const ExerciseList = () =>
             <SelectDragIndicatorWrapper>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
-            <SelectItem label={categories[0]} value={categories[0]} />
-            <SelectItem label={categories[1]} value={categories[1]} />
-            <SelectItem
-              label={categories[2]}
-              value={categories[2]}
-              
-            />
-            <SelectItem label={categories[3]} value={categories[3]} />
-            <SelectItem label={categories[4]} value={categories[4]}/>
-            <SelectItem label={categories[5]} value={categories[5]} />
-            <SelectItem label={categories[6]} value={categories[6]} />
+            {categories.map((category, index) => (
+              <SelectItem key={index} label={category} value={category} />
+            ))}
           </SelectContent>
         </SelectPortal>
-         
-        
         </Select>
 
-        <View >
-      <Select width= {Dimensions.get('window').width*0.6}>
-      <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Exercise " />
+        <Select width= {Dimensions.get('window').width*0.6} onValueChange={handleExerciseChange}>
+        <SelectTrigger variant="rounded" size="md">
+          <SelectInput placeholder="Exercise" />
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
           </SelectTrigger>
-
-      </Select>
-    </View>
-
+          <SelectPortal>
+            <SelectBackdrop />
+            <SelectContent>
+              <SelectDragIndicatorWrapper>
+                <SelectDragIndicator />
+                </SelectDragIndicatorWrapper>
+              {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
+                <SelectItem key={index} label={exercise} value={exercise} />
+              ))}
+            </SelectContent>
+          </SelectPortal>
+        </Select>
         </View>
-        
-       
-   
-        
     );
 };
 

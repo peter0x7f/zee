@@ -60,10 +60,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')
-    # image_url = serializers.ImageField(required=False)
+   
+
     class Meta:
         model = Profile
         fields = ('image_url', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if 'image_url' in representation and representation['image_url']:
