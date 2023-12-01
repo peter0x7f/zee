@@ -1,7 +1,7 @@
 import {React, useState} from "react";
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router } from 'expo-router';
-import {Image} from 'react-native-svg'
+//import {Image} from 'react-native-svg'
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
@@ -17,6 +17,7 @@ import{
   TextInput,
   useColorScheme,
   View,
+  Image
   
 } from 'react-native';
 
@@ -79,7 +80,7 @@ router.replace('/LoginP');
 const ExerciseList = () =>
 {
   const [selectedCategory, setSelectedCategory] = useState("Cardio");
-  const [selectedExercise, setSelectedExercise] = useState('');
+  const [selectedExercise, setSelectedExercise] = useState(null);
   const [selectedExerciseDetails, setSelectedExerciseDetails] = useState('');
 
   const categories = [
@@ -104,20 +105,23 @@ const ExerciseList = () =>
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setSelectedExercise(exercisesByCategory[category][0]); // set the first exercise as the selected exercise
+    setSelectedExercise(null);
   };
 
   const handleExerciseChange = (exercise) => {
     setSelectedExercise(exercise);
-    setSelectedExerciseDetails(exercise); // update the selected exercise details
   };
 
   let cat = "";
 
     return(
         <View>
-        <Select width = {Dimensions.get('window').width*0.6} onValueChange={handleCategoryChange} category={selectedCategory}>
-         
+        <Center>
+        <Select 
+        width = {Dimensions.get('window').width*0.6} 
+        onValueChange={handleCategoryChange}
+        category={selectedCategory}
+        >
           <SelectTrigger variant="rounded" size="md">
           <SelectInput placeholder="Category" />
           <SelectIcon mr="$3">
@@ -131,7 +135,7 @@ const ExerciseList = () =>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
             {categories.map((category, index) => (
-              <SelectItem key={index} label={category} value={category} />
+              <SelectItem key={index} label={category} value={category}/>
             ))}
           </SelectContent>
         </SelectPortal>
@@ -156,9 +160,16 @@ const ExerciseList = () =>
             </SelectContent>
           </SelectPortal>
         </Select>
-        </View>
+            <Image 
+              key = {selectedExercise}
+              style={{ height: 300, width: 300 }}
+              source={{ uri: 'http://' + global.LOCAL_IP + '/media/' + selectedExercise + '.png' }}
+            />
+      </Center>
+    </View>
     );
 };
+
 
 
 export default WorkoutPage;
