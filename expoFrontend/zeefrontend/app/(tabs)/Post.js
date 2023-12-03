@@ -110,7 +110,7 @@ const Post = () =>
               const payload = axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
                 headers: {
                   'Content-Type': 'multipart/form-data',
-                  'Authorization': `Bearer ${refresh}`,
+                  'Authorization': `Bearer ${access}`,
                   // Add any additional headers if necessary
                 },
                 
