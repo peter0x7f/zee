@@ -127,7 +127,7 @@ const picSize = 143;
      <View style = {{padding:2}}></View>
      <View style={{flex:1}}>
      <FlatList data={sampleData} numColumns={3} renderItem={({item})=>(<View style={ {flexDirection:'row'}} >
-<TouchableOpacity width={picSize} onPress={} >
+<TouchableOpacity width={picSize}  >
 <Image source={{uri:item.imageURL}} style={{height:picSize,width:picSize}}/>
 </TouchableOpacity>
 
