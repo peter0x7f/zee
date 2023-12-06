@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router } from 'expo-router';
 //import {Image} from 'react-native-svg'
@@ -106,12 +106,20 @@ const ExerciseList = () =>
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setSelectedExercise('');
-    setClear(!clear)
+    setClear(true)
   };
 
   const handleExerciseChange = (exercise) => {
     setSelectedExercise(exercise);
+    setClear(false)
   };
+
+  useEffect(() => {
+    if (clear) {
+      setSelectedExercise(null);
+    }
+  }, [clear]);
+
 
   let cat = "";
 
@@ -144,7 +152,7 @@ const ExerciseList = () =>
               <View style = {{padding:6}}/>
         <Select width= {Dimensions.get('window').width*0.6} onValueChange={handleExerciseChange}>
         <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder= {"Exercise"} style={{color : 'white'}}/>
+          <SelectInput placeholder= { "Exercise" } style={{color : 'white'}} value={clear ? '' : selectedExercise || ''}/>
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -155,7 +163,8 @@ const ExerciseList = () =>
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
-              {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
+              
+                {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
                 <SelectItem key={index} label={ exercise} value={exercise} />
               ))}
             </SelectContent>

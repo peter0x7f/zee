@@ -99,7 +99,7 @@ const Post = () =>
         if(imageUri != ''){
             const imageForm = new FormData();
             imageForm.append('image', {
-              uri: imageUri,
+              image_url: imageUri,
               type: 'image/jpeg', // Adjust the content type as needed
               name: 'image.jpg', // You can customize the file name
             });
