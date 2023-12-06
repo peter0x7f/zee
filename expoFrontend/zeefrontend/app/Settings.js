@@ -31,10 +31,10 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import react from "react";
-import styles from "../stylefile";
-import SignupP from "../SignupP";
-import SignOut from "../(auth)/SignOut";
-import Feed from "./Feed";
+import styles from "./stylefile";
+import SignupP from "./SignupP";
+import SignOut from "./(auth)/SignOut";
+import Feed from "./(tabs)/Feed";
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 

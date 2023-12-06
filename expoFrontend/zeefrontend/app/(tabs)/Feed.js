@@ -2,10 +2,8 @@ import {React, useState} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
-
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
-//import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
 import * as SecureStore from 'expo-secure-store';
@@ -133,21 +131,3 @@ if(token != null)
 
 export default Feed;
 
-//Signout Button
-/*
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {handleSignOut}
-  
->
-  <ButtonText color="black">Sign Out</ButtonText>
-  
-</Button>
-
-*/ 

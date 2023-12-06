@@ -6,4 +6,4 @@ import {React, useState} from "react";
 //                                      ^       ^
 //                                  address    Port # (always 8000)
 
-global.LOCAL_IP = '10.20.153.20' +':8000'
+global.LOCAL_IP = '10.20.136.122' +':8000'

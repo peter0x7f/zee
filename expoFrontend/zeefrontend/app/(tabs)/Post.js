@@ -99,7 +99,7 @@ const Post = () =>
         if(imageUri != ''){
             const imageForm = new FormData();
             imageForm.append('image', {
-              uri: imageUri,
+              image_url: imageUri,
               type: 'image/jpeg', // Adjust the content type as needed
               name: 'image.jpg', // You can customize the file name
             });
@@ -110,7 +110,7 @@ const Post = () =>
               const payload = axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
                 headers: {
                   'Content-Type': 'multipart/form-data',
-                  'Authorization': `Bearer ${refresh}`,
+                  'Authorization': `Bearer ${access}`,
                   // Add any additional headers if necessary
                 },
                 

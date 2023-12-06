@@ -1,7 +1,7 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router } from 'expo-router';
-import {Image} from 'react-native-svg'
+//import {Image} from 'react-native-svg'
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
@@ -17,6 +17,7 @@ import{
   TextInput,
   useColorScheme,
   View,
+  Image
   
 } from 'react-native';
 
@@ -79,9 +80,9 @@ router.replace('/LoginP');
 const ExerciseList = () =>
 {
   const [selectedCategory, setSelectedCategory] = useState("Cardio");
-  const [selectedExercise, setSelectedExercise] = useState('');
+  const [selectedExercise, setSelectedExercise] = useState(null);
   const [selectedExerciseDetails, setSelectedExerciseDetails] = useState('');
-
+  const [clear, setClear] = useState(false)
   const categories = [
     "Cardio",
     "Calisthenics",
@@ -104,22 +105,34 @@ const ExerciseList = () =>
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setSelectedExercise(exercisesByCategory[category][0]); // set the first exercise as the selected exercise
+    setSelectedExercise('');
+    setClear(true)
   };
 
   const handleExerciseChange = (exercise) => {
     setSelectedExercise(exercise);
-    setSelectedExerciseDetails(exercise); // update the selected exercise details
+    setClear(false)
   };
+
+  useEffect(() => {
+    if (clear) {
+      setSelectedExercise(null);
+    }
+  }, [clear]);
+
 
   let cat = "";
 
     return(
         <View>
-        <Select width = {Dimensions.get('window').width*0.6} onValueChange={handleCategoryChange} category={selectedCategory}>
-         
+        <Center>
+        <Select 
+        width = {Dimensions.get('window').width*0.6} 
+        onValueChange={handleCategoryChange}
+        category={selectedCategory}
+        >
           <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Category" />
+          <SelectInput placeholder="Category" style={{color : 'white'}} />
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -131,15 +144,15 @@ const ExerciseList = () =>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
             {categories.map((category, index) => (
-              <SelectItem key={index} label={category} value={category} />
+              <SelectItem key={index} label={category} value={category}/>
             ))}
           </SelectContent>
         </SelectPortal>
         </Select>
-
+              <View style = {{padding:6}}/>
         <Select width= {Dimensions.get('window').width*0.6} onValueChange={handleExerciseChange}>
         <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Exercise" />
+          <SelectInput placeholder= { "Exercise" } style={{color : 'white'}} value={clear ? '' : selectedExercise || ''}/>
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -150,15 +163,24 @@ const ExerciseList = () =>
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
-              {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
-                <SelectItem key={index} label={exercise} value={exercise} />
+              
+                {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
+                <SelectItem key={index} label={ exercise} value={exercise} />
               ))}
             </SelectContent>
           </SelectPortal>
         </Select>
-        </View>
+        <View style = {{padding:6}}/>
+            <Image 
+              key = {selectedExercise}
+              style={{ height: 300, width: 300 }}
+              source={{ uri: 'http://' + global.LOCAL_IP + '/media/' + selectedExercise + '.png' }}
+            />
+      </Center>
+    </View>
     );
 };
+
 
 
 export default WorkoutPage;
