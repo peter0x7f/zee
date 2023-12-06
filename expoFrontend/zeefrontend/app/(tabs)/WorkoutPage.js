@@ -123,7 +123,7 @@ const ExerciseList = () =>
         category={selectedCategory}
         >
           <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Category" />
+          <SelectInput placeholder="Category" style={{color : 'white'}} />
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -140,10 +140,10 @@ const ExerciseList = () =>
           </SelectContent>
         </SelectPortal>
         </Select>
-
+              <View style = {{padding:6}}/>
         <Select width= {Dimensions.get('window').width*0.6} onValueChange={handleExerciseChange}>
         <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Exercise" />
+          <SelectInput placeholder="Exercise" style={{color : 'white'}}/>
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -160,6 +160,7 @@ const ExerciseList = () =>
             </SelectContent>
           </SelectPortal>
         </Select>
+        <View style = {{padding:6}}/>
             <Image 
               key = {selectedExercise}
               style={{ height: 300, width: 300 }}

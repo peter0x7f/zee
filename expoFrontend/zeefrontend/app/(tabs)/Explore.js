@@ -39,12 +39,13 @@ import styles from "../stylefile";
 import SignupP from "../SignupP";
 import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
-import ViewExplore from "../ViewExplore";
+
 import { Stack } from 'expo-router/stack';
 import * as ImagePicker from 'expo-image-picker'
 import { Cigarette, ImageOff, FileImage, Camera, FileSearch2 } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 const Explore = () => {
+
     const sampleData = [
         { id: 1, desc: 'TEST POST 1', imageURL: 'https://source.unsplash.com/random/800x600' },
         { id: 2, desc: 'TEST POST 2', imageURL: 'https://source.unsplash.com/random/800x601' },
@@ -110,7 +111,7 @@ const Explore = () => {
     
  
     
-const picSize = 143;
+
     return(
 <GluestackUIProvider config={config}>
     
@@ -125,25 +126,22 @@ const picSize = 143;
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:2}}></View>
-     <View style={{flex:1}}>
-     <FlatList data={sampleData} numColumns={3} renderItem={({item})=>(<View style={ {flexDirection:'row'}} >
-<TouchableOpacity width={picSize}  >
-<Image source={{uri:item.imageURL}} style={{height:picSize,width:picSize}}/>
-</TouchableOpacity>
-
-</View>)}
-/>
-     </View>
-
+     <FlatList data={sampleData} renderItem={({item}) => ( <View style = {styles.postContainer}>
+        <Image source ={{uri: item.imageURL}} style = {{height: 300, width: 300 }}></Image>
+        <View style={{padding:10}}/>
+        <View style={styles.descriptionContainer}>
+        <Text style = {styles.postText}>{item.title}</Text>
+        </View>
+        
+     </View> )}
+     />
         </SafeAreaView>
 
     
 </GluestackUIProvider>
     );
+
+   
 };
 export default Explore;
 
-func = (Data, index) => {
-    router.replace()
-
- }
