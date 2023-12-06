@@ -45,7 +45,19 @@ import * as ImagePicker from 'expo-image-picker'
 import { Cigarette, ImageOff, FileImage, Camera, FileSearch2 } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 const Explore = () => {
+  const handleSignOut = async () => {
+    await SignOut(); 
+  }
 
+  const [token, setToken] = useState('')
+const getToken = async () => {
+  let token = await SecureStore.getItemAsync('Token');
+  setToken(token);
+  console.log(token);
+}
+getToken();
+if(token != null)
+{
     const sampleData = [
         { id: 1, desc: 'TEST POST 1', imageURL: 'https://source.unsplash.com/random/800x600' },
         { id: 2, desc: 'TEST POST 2', imageURL: 'https://source.unsplash.com/random/800x601' },
@@ -77,36 +89,7 @@ const Explore = () => {
         { id: 28, desc: 'TEST POST 28', imageURL: 'https://source.unsplash.com/random/800x627' },
         { id: 29, desc: 'TEST POST 29', imageURL: 'https://source.unsplash.com/random/800x628' },
         { id: 30, desc: 'TEST POST 30', imageURL: 'https://source.unsplash.com/random/800x629' },
-       /* { id: 31, desc: 'TEST POST 31', imageURL: 'https://source.unsplash.com/random/800x630' },
-        { id: 32, desc: 'TEST POST 32', imageURL: 'https://source.unsplash.com/random/800x631' },
-        { id: 33, desc: 'TEST POST 33', imageURL: 'https://source.unsplash.com/random/800x632' },
-        { id: 34, desc: 'TEST POST 34', imageURL: 'https://source.unsplash.com/random/800x633' },
-        { id: 35, desc: 'TEST POST 35', imageURL: 'https://source.unsplash.com/random/800x634' },
-        { id: 36, desc: 'TEST POST 36', imageURL: 'https://source.unsplash.com/random/800x635' },
-        { id: 37, desc: 'TEST POST 37', imageURL: 'https://source.unsplash.com/random/800x636' },
-        { id: 38, desc: 'TEST POST 38', imageURL: 'https://source.unsplash.com/random/800x637' },
-        { id: 39, desc: 'TEST POST 39', imageURL: 'https://source.unsplash.com/random/800x638' },
-        { id: 40, desc: 'TEST POST 40', imageURL: 'https://source.unsplash.com/random/800x639' },
-        { id: 41, desc: 'TEST POST 41', imageURL: 'https://source.unsplash.com/random/800x640' },
-        { id: 42, desc: 'TEST POST 42', imageURL: 'https://source.unsplash.com/random/800x641' },
-        { id: 43, desc: 'TEST POST 43', imageURL: 'https://source.unsplash.com/random/800x642' },
-        { id: 44, desc: 'TEST POST 44', imageURL: 'https://source.unsplash.com/random/800x643' },
-        { id: 45, desc: 'TEST POST 45', imageURL: 'https://source.unsplash.com/random/800x644' },
-        { id: 46, desc: 'TEST POST 46', imageURL: 'https://source.unsplash.com/random/800x645' },
-        { id: 47, desc: 'TEST POST 47', imageURL: 'https://source.unsplash.com/random/800x646' },
-        { id: 48, desc: 'TEST POST 48', imageURL: 'https://source.unsplash.com/random/800x647' },
-        { id: 49, desc: 'TEST POST 49', imageURL: 'https://source.unsplash.com/random/800x648' },
-        { id: 50, desc: 'TEST POST 50', imageURL: 'https://source.unsplash.com/random/800x649' },
-        { id: 51, desc: 'TEST POST 51', imageURL: 'https://source.unsplash.com/random/800x650' },
-        { id: 52, desc: 'TEST POST 52', imageURL: 'https://source.unsplash.com/random/800x651' },
-        { id: 53, desc: 'TEST POST 53', imageURL: 'https://source.unsplash.com/random/800x652' },
-        { id: 54, desc: 'TEST POST 54', imageURL: 'https://source.unsplash.com/random/800x653' },
-        { id: 55, desc: 'TEST POST 55', imageURL: 'https://source.unsplash.com/random/800x654' },
-        { id: 56, desc: 'TEST POST 56', imageURL: 'https://source.unsplash.com/random/800x655' },
-        { id: 57, desc: 'TEST POST 57', imageURL: 'https://source.unsplash.com/random/800x656' },
-        { id: 58, desc: 'TEST POST 58', imageURL: 'https://source.unsplash.com/random/800x657' },
-        { id: 59, desc: 'TEST POST 59', imageURL: 'https://source.unsplash.com/random/800x658' },
-        { id: 60, desc: 'TEST POST 60', imageURL: 'https://source.unsplash.com/random/800x659' },*/
+     
       ];
     
  
@@ -140,6 +123,10 @@ const Explore = () => {
     
 </GluestackUIProvider>
     );
+     }
+     else{
+      router.replace('/LoginP')
+     }
 
    
 };

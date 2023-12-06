@@ -82,7 +82,7 @@ const ExerciseList = () =>
   const [selectedCategory, setSelectedCategory] = useState("Cardio");
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [selectedExerciseDetails, setSelectedExerciseDetails] = useState('');
-
+  const [clear, setClear] = useState(false)
   const categories = [
     "Cardio",
     "Calisthenics",
@@ -105,7 +105,8 @@ const ExerciseList = () =>
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setSelectedExercise(null);
+    setSelectedExercise('');
+    setClear(!clear)
   };
 
   const handleExerciseChange = (exercise) => {
@@ -143,7 +144,7 @@ const ExerciseList = () =>
               <View style = {{padding:6}}/>
         <Select width= {Dimensions.get('window').width*0.6} onValueChange={handleExerciseChange}>
         <SelectTrigger variant="rounded" size="md">
-          <SelectInput placeholder="Exercise" style={{color : 'white'}}/>
+          <SelectInput placeholder= {"Exercise"} style={{color : 'white'}}/>
           <SelectIcon mr="$3">
             <Icon as={ChevronDownIcon} />
           </SelectIcon>
@@ -155,7 +156,7 @@ const ExerciseList = () =>
                 <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
               {selectedCategory && exercisesByCategory[selectedCategory].map((exercise, index) => (
-                <SelectItem key={index} label={exercise} value={exercise} />
+                <SelectItem key={index} label={ exercise} value={exercise} />
               ))}
             </SelectContent>
           </SelectPortal>
