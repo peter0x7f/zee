@@ -46,16 +46,18 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
+
+@permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 class UserSettings(generics.CreateAPIView): 
+    #queryset = Profile.objects.all()
     #if error with session save user_id in local storage to oull username or use token to pull info
+    queryset = Profile.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SettingsSerializer
-        
     def get_object(self):
         # Get the profile for the current user
         return get_object_or_404(Profile, user=self.request.user)
-
     def perform_update(self, serializer):
         profile = self.get_object()
         print(profile.image_url)
@@ -83,9 +85,9 @@ class UserSettings(generics.CreateAPIView):
         if serializer.validated_data.get('total', profile.total) != None:
             profile.total=serializer.validated_data.get('total', profile.total)
         profile.save()
-
     def perform_create(self, serializer):
-        # Check if a profile already exists for the user
+       
+# Check if a profile already exists for the user
         existing_profile = Profile.objects.filter(user=self.request.user).first()
         if existing_profile:
             # If a profile exists, update it

@@ -26,8 +26,9 @@ class Profile(models.Model):
     max_squat = models.TextField(blank=True)
     total = models.TextField(blank=True)
     bw = models.TextField(blank=True)
-objects = models.Manager()
-def the_user(self):
+    objects = models.Manager()
+
+    def the_user(self):
         return self.user
 
 class Comment(models.Model):
