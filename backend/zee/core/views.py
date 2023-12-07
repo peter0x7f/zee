@@ -102,8 +102,8 @@ class UserSettings(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-@authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def get_user_posts(request, pk):
         # Retrieve all posts for the specified user
         user = User.objects.get(username=pk)
@@ -116,8 +116,8 @@ def get_user_posts(request, pk):
         return Response(serializer.data)
 
 @api_view(['GET'])
-@authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
 def get_feed_posts(request):
         # Retrieve all posts for the specified user
         # user = Profile.objects.get(username=request.user)#retrieve followers
@@ -128,9 +128,10 @@ def get_feed_posts(request):
         
         # Return the serialized data as a JSON response
         return Response(serializer.data)
-    
+
+
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
         permission_classes = (AllowAny,)
