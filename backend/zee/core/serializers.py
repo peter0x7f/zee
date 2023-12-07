@@ -90,7 +90,7 @@ class UploadSerializer(serializers.ModelSerializer):
         image_url = serializers.ImageField(required=True)
         class Meta:
             model = Posts
-            fields = ('image_url','caption')
+            fields = ('image_url','caption','no_of_likes')
         def to_representation(self, instance):
             representation = super().to_representation(instance)
             if 'image_url' in representation and representation['image_url']:
@@ -101,5 +101,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Posts
         fields = "__all__"
-    def rtrn(self, queryset):
-        return queryset
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if 'image_url' in representation and representation['image_url']:
+            representation['image_url'] = instance.image_url.url
+        return representation

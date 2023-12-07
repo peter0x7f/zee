@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile, Posts, User
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
-from .serializers import RegisterSerializer, SettingsSerializer,ProfileSerializer,UploadSerializer
+from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer,ProfileSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -99,33 +99,38 @@ class UserSettings(generics.CreateAPIView):
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
 
-# @api_view(['GET','POST'])
-# @permission_classes([IsAuthenticated])
-# @authentication_classes([BasicAuthentication])
-# def GetProfile(request, pk):
-#     # permission_classes = (AllowAny,)
-#     # serializer_class = ProfileSerializer
-#     # def get_posts(self, pk):
-#     queryset = Posts.objects.filter(user=pk)
-#     print(queryset)
-#     return render(queryset)
+
 
 @api_view(['GET'])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([BasicAuthentication])
 @permission_classes([IsAuthenticated])
 def get_user_posts(request, pk):
         # Retrieve all posts for the specified user
-        user = user = User.objects.get(username=pk)
-        posts = Posts.objects.filter(user=user)
+        user = User.objects.get(username=pk)
+        posts = reversed(Posts.objects.filter(user=user))
         
         # Serialize the posts data
-        serializer = UploadSerializer(posts, many=True)
+        serializer = ProfileSerializer(posts, many=True)
+        
+        # Return the serialized data as a JSON response
+        return Response(serializer.data)
+
+@api_view(['GET'])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def get_feed_posts(request):
+        # Retrieve all posts for the specified user
+        # user = Profile.objects.get(username=request.user)#retrieve followers
+        posts = reversed(Posts.objects.all())
+        
+        # Serialize the posts data
+        serializer = ProfileSerializer(posts, many=True)
         
         # Return the serialized data as a JSON response
         return Response(serializer.data)
     
 @permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([BasicAuthentication])
 class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
         permission_classes = (AllowAny,)
