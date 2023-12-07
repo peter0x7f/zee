@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile, Posts, User
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
-from .serializers import RegisterSerializer, SettingsSerializer
+from .serializers import RegisterSerializer, SettingsSerializer,ProfileSerializer,UploadSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -15,6 +15,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.images import ImageFile
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 #change to react based api auth
 class CustomObtainTokenPairView(TokenObtainPairView):
@@ -57,8 +58,10 @@ class UserSettings(generics.CreateAPIView):
     serializer_class = SettingsSerializer
     def get_object(self):
         # Get the profile for the current user
+        print(self.request.user)
         return get_object_or_404(Profile, user=self.request.user)
     def perform_update(self, serializer):
+        print(self.request.user)
         profile = self.get_object()
         print(profile.image_url)
         # Update the existing profile fields with the serializer data
@@ -74,8 +77,8 @@ class UserSettings(generics.CreateAPIView):
                 profile.image_url = image_data
         if serializer.validated_data.get('bw', profile.bw) != None:
             profile.bw=serializer.validated_data.get('bw', profile.bw)
-        if serializer.validated_data.get('achievements', profile.achievements) != None:
-            profile.achievements.set(serializer.validated_data.get('achievements', profile.achievements))
+        # if serializer.validated_data.get('achievements', profile.achievements) != None:
+        #     profile.achievements.set(serializer.validated_data.get('achievements', profile.achievements))
         if serializer.validated_data.get('max_bench', profile.max_bench) != None:
             profile.max_bench=serializer.validated_data.get('max_bench', profile.max_bench)
         if serializer.validated_data.get('max_squat', profile.max_squat) != None:
@@ -96,11 +99,37 @@ class UserSettings(generics.CreateAPIView):
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
 
-@authentication_classes([JWTAuthentication])
-class GetProfile(generics.CreateAPIView):
-    queryset = Posts.objects.all()
+# @api_view(['GET','POST'])
+# @permission_classes([IsAuthenticated])
+# @authentication_classes([BasicAuthentication])
+# def GetProfile(request, pk):
+#     # permission_classes = (AllowAny,)
+#     # serializer_class = ProfileSerializer
+#     # def get_posts(self, pk):
+#     queryset = Posts.objects.filter(user=pk)
+#     print(queryset)
+#     return render(queryset)
 
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_posts(request, pk):
+        # Retrieve all posts for the specified user
+        user = user = User.objects.get(username=pk)
+        posts = Posts.objects.filter(user=user)
+        
+        # Serialize the posts data
+        serializer = UploadSerializer(posts, many=True)
+        
+        # Return the serialized data as a JSON response
+        return Response(serializer.data)
+    
+@permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
+        permission_classes = (AllowAny,)
+        serializer_class = UploadSerializer
+        def perform_create(self, serializer):
+            serializer.save(user=self.request.user)
 
