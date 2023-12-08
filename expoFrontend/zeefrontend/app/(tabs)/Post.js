@@ -160,7 +160,7 @@ const Post = () =>
         console.log("image_url: "+image_url)
 
         setBw('350')
-        setBio('im racist')
+        setBio('im')
         const formData = new FormData();
         formData.append('image_url', {
           uri: imageUri,
