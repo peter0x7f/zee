@@ -61,7 +61,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')
-    image_url = Base64ImageField()
+    #image_url = Base64ImageField()
 
     class Meta:
         model = Profile
@@ -88,7 +88,8 @@ class SettingsSerializer(serializers.ModelSerializer):
     #     return profile
 
 class UploadSerializer(serializers.ModelSerializer):
-        image_url = Base64ImageField(required=True)
+        image_url = serializers.ImageField(required=True)
+       # image_url = Base64ImageField(required=True)
         class Meta:
             model = Posts
             fields = ('image_url','caption','no_of_likes')

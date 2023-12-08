@@ -161,25 +161,29 @@ const Post = () =>
 
         setBw('350')
         setBio('im racist')
-        const imageForm = new FormData();
-       
-        imageForm.append('image', {
-          image_url: imageUri,
-          bio: 'test',
-          achievements: 'test',
-          max_bench: '405',
-          max_squat: '495',
-          max_deadlift: '585',
-          total: 'alot',
-          bw: '400'
+        const formData = new FormData();
+        formData.append('image_url', {
+          uri: imageUri,
+          type: 'image/jpeg', // or the appropriate mime type
+          name: 'photo.jpg',
         });
+        
+        // Add other user settings to the FormData object
+        formData.append('bio', 'Some bio value');
+        formData.append('max_bench', '150'); // replace with actual values
+        formData.append('max_squat', '200');
+        formData.append('max_deadlift', '250');
+        formData.append('total', '600');
+        formData.append('bw', '75');
+
+    
        
         
         try {
         
           const response = await axios.post(
             'http://' + global.LOCAL_IP + '/settings/',
-             imageForm,
+             formData,
             {
               headers: {
                 'Content-Type': 'multipart/form-data',
@@ -190,7 +194,7 @@ const Post = () =>
           );
     
           
-          console.log('Image uploaded successfully:', response.data, imageForm);
+          console.log('Image uploaded successfully:', response.data, formData);
         } catch (error) {
           console.error('Error uploading image:', error);
         }
