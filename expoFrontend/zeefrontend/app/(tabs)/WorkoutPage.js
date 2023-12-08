@@ -17,8 +17,8 @@ import{
   TextInput,
   useColorScheme,
   View,
-  Image
-  
+  Image,
+  Alert
 } from 'react-native';
 
 import {
@@ -114,6 +114,15 @@ const ExerciseList = () =>
     setClear(false)
   };
 
+  const showWorkoutMessage = () => {
+    Alert.alert(
+      'Good work!',
+      'Your workout has been recorded.',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      { cancelable: false }
+    );
+  };
+
   useEffect(() => {
     if (clear) {
       setSelectedExercise(null);
@@ -170,17 +179,67 @@ const ExerciseList = () =>
             </SelectContent>
           </SelectPortal>
         </Select>
-        <View style = {{padding:6}}/>
-            <Image 
-              key = {selectedExercise}
-              style={{ height: 300, width: 300 }}
-              source={{ uri: 'http://' + global.LOCAL_IP + '/media/' + selectedExercise + '.png' }}
-            />
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 6, gap: 6}}>
+        <Input 
+          width = '$1/4'
+          variant="squared"
+          size = "md"
+          style={{justifyContent: 'flex-start'}}
+          isDisabled={false}
+          isInvalid={false}
+          isReadOnly={false}>
+        <InputField
+          placeholder='Reps'
+          color = '$amber100'>
+        </InputField>
+      </Input>
+      <Input 
+          width = '$1/4'
+          variant="squared"
+          size = "md"
+          style={{justifyContent: 'flex-end'}}
+          isDisabled={false}
+          isInvalid={false}
+          isReadOnly={false}>
+        <InputField
+          placeholder='Sets'
+          color = '$amber100'>
+        </InputField>
+      </Input>
+      <Button 
+        bg="$backgroundDark0"
+        size="md"
+        variant="rounded"
+        action="primary"
+        
+        isDisabled={false}
+        isFocusVisible={false}
+        onPress={showWorkoutMessage}>
+        <ButtonText color="black">Submit </ButtonText>
+      </Button>
+    </View>
+      <View style = {{padding:6}}/>
+        <Image 
+          key = {selectedExercise}
+          style={[workoutStyles.image]}
+          source={{ uri: 'http://' + global.LOCAL_IP + '/media/' + selectedExercise + '.png' }}
+        />
       </Center>
     </View>
     );
 };
 
-
+const workoutStyles = StyleSheet.create({
+  container: {
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+  },
+  image: {
+      width: 300,
+      height: 300,
+     resizeMode: 'contain',
+  },
+ });
 
 export default WorkoutPage;
