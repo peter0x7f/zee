@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
@@ -42,11 +42,59 @@ const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
 {
-  const refresh = SecureStore.getItemAsync('Refresh')
-  const access = SecureStore.getItemAsync('Token')
+ 
+  const [access, setAccess] = useState('')
+  const [refresh, setRefresh] = useState('')
+  const [token, setToken] = useState('')
     const [imageUri, setImageUri] = useState('');
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
+
+    const [image_url, setimage_url] = useState('');
+  const [bio, setBio] = useState('');
+  const [achievements, setAchievements] = useState('');
+  const [max_bench, setMaxBench] = useState('');
+  const [max_squat, setMaxSquat] = useState('');
+  const [max_deadlift, setMaxDeadlift] = useState('');
+  const [total, setTotal] = useState('');
+  const [bw, setBw] = useState('');
+  image_url,
+  bio,
+  achievements,
+  max_bench,
+  max_squat,
+  max_deadlift,
+  total,
+  bw,
+    useEffect(() => {
+      const getToken = async () => {
+        let token = await SecureStore.getItemAsync('Token');
+        setToken(token);
+        console.log(token);
+      };
+  
+      const getAccess = async () => {
+        try {
+          const accessValue = await SecureStore.getItemAsync('Token');
+          setAccess(accessValue.substring(1, accessValue.length - 1));
+        } catch {
+          console.log('No Token');
+        }
+      };
+  
+      const getRefresh = async () => {
+        try {
+          const refreshValue = await SecureStore.getItemAsync('Refresh');
+          setRefresh(refreshValue.substring(1, accessValue.length - 1));
+        } catch {
+          console.log('No Token');
+        }
+      };
+  
+      getToken();
+      getAccess();
+      getRefresh();
+    }, []);
   const pickImage = async () => {
     try{
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -96,37 +144,61 @@ const Post = () =>
     }
 
     const uploadImage = async () => {
-        if(imageUri != ''){
-            const imageForm = new FormData();
-            imageForm.append('image', {
-              image_url: imageUri,
-              type: 'image/jpeg', // Adjust the content type as needed
-              name: 'image.jpg', // You can customize the file name
-            });
-            console.log(imageUri)
-            console.log(imageForm)
-            try {
-              
-              const payload = axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  'Authorization': `Bearer ${access}`,
-                  // Add any additional headers if necessary
-                },
+      if (imageUri !== '') {
+        const imageForm2 = [
+          imageUri,
+          bio,
+          achievements,
+          max_bench,
+          max_squat,
+          max_deadlift,
+          total,
+          bw,
+        ]
+        setimage_url(imageUri)
+        console.log("imageUri: "+imageUri)
+        console.log("image_url: "+image_url)
+
+        setBw('350')
+        setBio('im racist')
+        const imageForm = new FormData();
+       
+        imageForm.append('image', {
+          image_url: imageUri,
+          bio: 'test',
+          achievements: 'test',
+          max_bench: '405',
+          max_squat: '495',
+          max_deadlift: '585',
+          total: 'alot',
+          bw: '400'
+        });
+       
+        
+        try {
+        
+          const response = await axios.post(
+            'http://' + global.LOCAL_IP + '/settings/',
+             imageForm,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer `+access,
                 
-            });
-                const response = await payload
-          
-                // Handle the server response here
-                console.log('Image uploaded successfully:', response.data);
-              } catch (error) {
-                console.error('Error uploading image:', error);
-              }
-            } 
-            else {
-              console.error('No image data to upload.');
+              },
             }
+          );
+    
+          
+          console.log('Image uploaded successfully:', response.data, imageForm);
+        } catch (error) {
+          console.error('Error uploading image:', error);
         }
+      } else {
+        console.error('No image data to upload.');
+      }
+       console.log('Bearer '+access)
+    };
 
     
 
@@ -135,14 +207,9 @@ const Post = () =>
         await SignOut(); 
       }
 
-      const [token, setToken] = useState('')
-    const getToken = async () => {
-      let token = await SecureStore.getItemAsync('Token');
-      setToken(token);
-      console.log(token);
-    }
+      
+   
 
-    getToken();
     
     if(token != null)
     {
