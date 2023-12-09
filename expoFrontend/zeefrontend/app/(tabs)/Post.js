@@ -157,7 +157,7 @@ const Post = () =>
         ]
         setimage_url(imageUri)
         console.log("imageUri: "+imageUri)
-        console.log("image_url: "+image_url)
+        //console.log("image_url: "+image_url)
 
         setBw('350')
         setBio('im')

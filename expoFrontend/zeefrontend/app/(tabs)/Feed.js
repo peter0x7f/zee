@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
@@ -47,25 +47,120 @@ const Feed = () =>
       }
 
       const [token, setToken] = useState('')
-    const getToken = async () => {
-      let token = await SecureStore.getItemAsync('Token');
-      setToken(token);
-      console.log(token);
-    }
-    getToken();
+      const [access, setAccess]= useState('')
+      const [refresh, setRefresh]= useState('')
+      useEffect(() => {
+        const getToken = async () => {
+          let token = await SecureStore.getItemAsync('Token');
+          setToken(token);
+          console.log(token);
+        };
+    
+        const getAccess = async () => {
+          try {
+            const accessValue = await SecureStore.getItemAsync('Token');
+            setAccess(accessValue.substring(1, accessValue.length - 1));
+          } catch {
+            console.log('No Token');
+          }
+        };
+    
+        const getRefresh = async () => {
+          try {
+            const refreshValue = await SecureStore.getItemAsync('Refresh');
+            setRefresh(refreshValue.substring(1, accessValue.length - 1));
+          } catch {
+            console.log('No Token');
+          }
+        };
+    
+        getToken();
+        getAccess();
+        getRefresh();
+      }, []);
+   
 if(token != null)
 {
+
+ 
+    const [img_1, setImg_1] = useState(null)
+    const [img_2, setImg_2] = useState(null)
+    const [img_3, setImg_3] = useState(null)
+    const [img_4, setImg_4] = useState(null)
+    const [img_5, setImg_5] = useState(null)
+
+    useEffect(() => {
+      // This block will run when img_1 is updated
+      console.log("Image updated: " + img_1);
+    }, [img_1]);
+
+    const SetImage = async () =>{
+        if (!token) {
+            console.log('Token not available');
+            return;
+          }
+        try{
+           
+        const response = await axios.get(
+            'http://' + global.LOCAL_IP + '/explore_feed/', 
+            {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  Authorization: `Bearer `+access,
+                  
+                },
+              }  
+        ); 
+        console.log("response: "+response)
+        console.log("TEST: "+(JSON.stringify(response.data[0])))
+        let cap = JSON.stringify(response.data[1].caption)
+        cap = cap.substring(1,cap.length-1)
+        setImg_3(cap)
+        let str = JSON.stringify(response.data[1].image_url)
+        str = str.substring(1, str.length - 1)
+        console.log("JSON: "+str)
+        setImg_1(str)
+        setImg_1('http://' + global.LOCAL_IP +str)
+        str = JSON.stringify(response.data[0].image_url)
+        str = str.substring(1,str.length-1)
+        setImg_2('http://' + global.LOCAL_IP +str)
+        console.log(img_2)
+        }
+        catch(error){
+            console.log("SetImage Error: "+error);
+        }
+        
+        console.log("Image file test: "+img_1)
+    }
+    const SetImageFeed = async () =>{
+      const response = await axios.get(
+        'http://' + global.LOCAL_IP + '/profile/josephsomogie', 
+        {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer `+access,
+              
+            },
+          }  
+          
+    ); 
+          console.log(JSON.stringify(response))
+    }
+    
+    const feedData  = [ 
+        
+    ]
 
     const sampleData = [
         {
             id: '1',
             title: 'Overhead Press PR!',
-            imageUrl: 'https://rogersathletic.com/wp-content/uploads/2023/04/overhead_press_001.jpg'
+            imageUrl: img_1,
         },
         {
             id: '2',
-            title: 'Bench PR',
-            imageUrl: 'https://www.muscleandfitness.com/wp-content/uploads/2019/02/man-bench-press.jpg?quality=86&strip=all'
+            title: img_3,
+            imageUrl: img_2
         },
         {
             id: '3',
@@ -80,9 +175,8 @@ if(token != null)
 
 
     ];
-    const feedData  = [
-        
-    ]
+    
+    //get url/profile/[username].image_url?
     return(
         
 
@@ -93,6 +187,7 @@ if(token != null)
             <SafeAreaView style={styles.centerContainer}>
             <View>
   <Center>
+    <Button onPress={SetImageFeed}><ButtonText>test</ButtonText></Button>
   <Heading style = {styles.coolText} paddingTop= '$1/6'>
                 LBS
             </Heading>
