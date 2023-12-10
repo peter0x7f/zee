@@ -50,7 +50,8 @@ const Post = () =>
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
 
-    const [image_url, setimage_url] = useState('');
+    const [caption, setCaption] = useState('')
+   /* const [image_url, setimage_url] = useState('');
   const [bio, setBio] = useState('');
   const [achievements, setAchievements] = useState('');
   const [max_bench, setMaxBench] = useState('');
@@ -65,7 +66,7 @@ const Post = () =>
   max_squat,
   max_deadlift,
   total,
-  bw,
+  bw,*/
     useEffect(() => {
       const getToken = async () => {
         let token = await SecureStore.getItemAsync('Token');
@@ -145,23 +146,14 @@ const Post = () =>
 
     const uploadImage = async () => {
       if (imageUri !== '') {
-        const imageForm2 = [
-          imageUri,
-          bio,
-          achievements,
-          max_bench,
-          max_squat,
-          max_deadlift,
-          total,
-          bw,
-        ]
-        setimage_url(imageUri)
-        console.log("imageUri: "+imageUri)
+      
+        //setimage_url(imageUri)
+        //console.log("imageUri: "+imageUri)
         //console.log("image_url: "+image_url)
 
-        setBw('350')
-        setBio('im')
-        const formData = new FormData();
+        //setBw('350')
+        //setBio('im')
+        /*const formData = new FormData();
         formData.append('image_url', {
           uri: imageUri,
           type: 'image/jpeg', // or the appropriate mime type
@@ -174,16 +166,24 @@ const Post = () =>
         formData.append('max_squat', '200');
         formData.append('max_deadlift', '250');
         formData.append('total', '600');
-        formData.append('bw', '75');
+        formData.append('bw', '75');*/
+        
 
-    
+        const postData = new FormData();
+        postData.append('image_url', {
+          uri: imageUri,
+          type: 'image/jpeg', // or the appropriate mime type
+          name: 'photo.jpg',
+        });
+        postData.append('caption', caption);
+        postData.append('no_of_likes', 30);
        
         
         try {
         
           const response = await axios.post(
-            'http://' + global.LOCAL_IP + '/settings/',
-             formData,
+            'http://' + global.LOCAL_IP + '/upload/',
+             postData,
             {
               headers: {
                 'Content-Type': 'multipart/form-data',
@@ -194,7 +194,7 @@ const Post = () =>
           );
     
           
-          console.log('Image uploaded successfully:', response.data, formData);
+          console.log('Image uploaded successfully:', response.data, postData);
         } catch (error) {
           console.error('Error uploading image:', error);
         }
@@ -267,6 +267,21 @@ const Post = () =>
                        <FileImage color='black'/>
                     </Button>
                     </View> 
+                    <View style = {{padding:4}}></View>
+                    <Input 
+                      width = '$3/5'
+                      variant="outline"
+                      size="md"
+                      isDisabled={false}
+                      isInvalid={false}
+                      isReadOnly={false}
+                      >
+                <InputField  
+                onChangeText={text => setCaption(text)}
+                placeholder='Caption'
+                color = '$amber100'>
+                </InputField>
+                    </Input>
                     <View style = {{padding:4}}></View>
                     {imageUri != '' ? (<Button 
                       bg="$backgroundDark0"
