@@ -34,6 +34,7 @@ import SignupP from "../SignupP";
 import { AuthProvider, useAuth } from "../Contexts/AuthContext";
 import SignOut from "../(auth)/SignOut";
 import LoginP from "../LoginP";
+import UserHeader from "../UserHeader";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -159,6 +160,7 @@ if(token != null)
             },
           }  
     ); 
+    console.log(response.data[0])
           let uri,cap,likes;
           uri = JSON.stringify(response.data[0].image_url)
           uri = uri.substring(1,uri.length-1)
@@ -293,14 +295,7 @@ if(token != null)
        
         <GluestackUIProvider config={config}>
             <SafeAreaView style={styles.centerContainer}>
-            <View>
-  <Center>
-    
-  <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                LBS
-            </Heading>
-      </Center>
-  </View>
+           
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:0}}></View>

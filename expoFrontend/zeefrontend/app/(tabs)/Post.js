@@ -46,7 +46,7 @@ const Post = () =>
   const [access, setAccess] = useState('')
   const [refresh, setRefresh] = useState('')
   const [token, setToken] = useState('')
-    const [imageUri, setImageUri] = useState('');
+    const [imageUri, setImageUri] = useState(null);
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
 
@@ -147,26 +147,7 @@ const Post = () =>
     const uploadImage = async () => {
       if (imageUri !== '') {
       
-        //setimage_url(imageUri)
-        //console.log("imageUri: "+imageUri)
-        //console.log("image_url: "+image_url)
-
-        //setBw('350')
-        //setBio('im')
-        /*const formData = new FormData();
-        formData.append('image_url', {
-          uri: imageUri,
-          type: 'image/jpeg', // or the appropriate mime type
-          name: 'photo.jpg',
-        });
-        
-        // Add other user settings to the FormData object
-        formData.append('bio', 'Some bio value');
-        formData.append('max_bench', '150'); // replace with actual values
-        formData.append('max_squat', '200');
-        formData.append('max_deadlift', '250');
-        formData.append('total', '600');
-        formData.append('bw', '75');*/
+      
         
 
         const postData = new FormData();
@@ -195,6 +176,8 @@ const Post = () =>
     
           
           console.log('Image uploaded successfully:', response.data, postData);
+          setImageUri(null)
+          setCaption('')
         } catch (error) {
           console.error('Error uploading image:', error);
         }
@@ -219,26 +202,35 @@ const Post = () =>
     {
     return(
         <GluestackUIProvider config = {config}>
-            <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
+            <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}>
                 <SafeAreaView style={styles.centerContainer}>
-                <View>
-  <Center>
-  <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                LBS
-            </Heading>
-      </Center>
-  </View>
-  <View style = {{padding:3}}></View>
-     <Divider width = {screenWidth*0.6}></Divider>
+               
      <View style = {{padding:12, flex:0}}></View>
      
                     
                     <View style={styles.postContainer}>
-                    {imageUri ? (
+                    {imageUri != null ? (
               <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
             ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                     </View>
-                    <View style = {{padding:12}}></View>
+                    <View style = {{padding:6}}></View>
+                    <Input 
+                      width = '$3/5'
+                      variant="outline"
+                      size="md"
+                      isDisabled={false}
+                      isInvalid={false}
+                      isReadOnly={false}
+                      >
+                <InputField  
+                onChangeText={text => setCaption(text)}
+                value={caption}
+
+                placeholder='Caption'
+                color = '$amber100'>
+                </InputField>
+                    </Input>
+                    <View style = {{padding:4}}></View>
                     <View style = {{flexDirection:"row"  }}>         
                     <Button
                     bg="$backgroundDark0"
@@ -267,36 +259,23 @@ const Post = () =>
                        <FileImage color='black'/>
                     </Button>
                     </View> 
+                    
+                    
                     <View style = {{padding:4}}></View>
-                    <Input 
-                      width = '$3/5'
-                      variant="outline"
-                      size="md"
-                      isDisabled={false}
-                      isInvalid={false}
-                      isReadOnly={false}
-                      >
-                <InputField  
-                onChangeText={text => setCaption(text)}
-                placeholder='Caption'
-                color = '$amber100'>
-                </InputField>
-                    </Input>
-                    <View style = {{padding:4}}></View>
-                    {imageUri != '' ? (<Button 
+                     <Button 
                       bg="$backgroundDark0"
                       size="md"
                       variant="rounded"
                       action="primary"
                       
-                      isDisabled={false}
+                      isDisabled={imageUri == null ? true :false}
                       isFocusVisible={false}
                     onPress = {uploadImage}
                     >
                         <ButtonText color='black'>
                         Post Image
                         </ButtonText>
-                    </Button>) : null}
+                    </Button>
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         </GluestackUIProvider>
