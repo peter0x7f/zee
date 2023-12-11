@@ -80,213 +80,64 @@ const Feed = () =>
         getRefresh();
       }, []);
    
-if(token != null)
+if(token != null && access!= null)
 {
 
+
  
-    const [img_1, setImg_1] = useState(null)
-    const [img_2, setImg_2] = useState(null)
-    const [img_3, setImg_3] = useState(null)
-    const [img_4, setImg_4] = useState(null)
-    const [img_5, setImg_5] = useState(null)
-    const [img_6, setImg_6] = useState(null)
-    const [img_7, setImg_7] = useState(null)
-    const [img_8, setImg_8] = useState(null)
-    const [img_9, setImg_9] = useState(null)
-    const [img_10, setImg_10] = useState(null)
-    
-    const [cap_1, setCap_1] = useState(null)
-    const [cap_2, setCap_2] = useState(null)
-    const [cap_3, setCap_3] = useState(null)
-    const [cap_4, setCap_4] = useState(null)
-    const [cap_5, setCap_5] = useState(null)
-    const [cap_6, setCap_6] = useState(null)
-    const [cap_7, setCap_7] = useState(null)
-    const [cap_8, setCap_8] = useState(null)
-    const [cap_9, setCap_9] = useState(null)
-    const [cap_10, setCap_10] = useState(null)
-
-   /*useEffect(() => {
-      // This block will run when img_1 is updated
-      console.log("Image updated: " + img_1);
-    }, [img_1]);*/
-
-    const SetImage = async () =>{
-        if (!token) {
-            console.log('Token not available');
-            return;
-          }
-        try{
-           
+    const SetImageFeed = async () => {
+      try {
         const response = await axios.get(
-            'http://' + global.LOCAL_IP + '/explore_feed/', 
-            {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  Authorization: `Bearer `+access,
-                  
-                },
-              }  
-        ); 
-        console.log("response: "+response)
-        console.log("TEST: "+(JSON.stringify(response.data[2])))
-        let cap = JSON.stringify(response.data[1].caption)
-        cap = cap.substring(1,cap.length-1)
-        setImg_3(cap)
-        let str = JSON.stringify(response.data[0].image_url)
-        str = str.substring(1, str.length - 1)
-        console.log("JSON: "+str)
-        setImg_1(str)
-        setImg_1('http://' + global.LOCAL_IP +str)
-        str = JSON.stringify(response.data[1].image_url)
-        str = str.substring(1,str.length-1)
-        setImg_2('http://' + global.LOCAL_IP +str)
-        console.log(img_2)
-        }
-        catch(error){
-            console.log("SetImage Error: "+error);
-        }
-        
-        console.log("Image file test: "+img_1)
-    }
-    const SetImageFeed = async () =>{
-      const response = await axios.get(
-        'http://' + global.LOCAL_IP + '/explore_feed/', 
-        {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer `+access,
-              
-            },
-          }  
-    ); 
-    console.log(response.data[0])
-          let uri,cap,likes;
-          uri = JSON.stringify(response.data[0].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_1('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[0].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_1(cap)
-
-          uri = JSON.stringify(response.data[1].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_2('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[1].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_2(cap)
-
-          uri = JSON.stringify(response.data[2].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_3('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[2].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_3(cap)
-
-          uri = JSON.stringify(response.data[3].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_4('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[3].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_4(cap)
-
-
-
-    }
-    const loadFeed = async () =>{
-      await SetImageFeed();
-    }
+        'http://' + global.LOCAL_IP + '/explore_feed/', {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${access}`,
+          },
+        });
     
-    const feedData  = [ 
-      {
-      id: '1',
-      caption:cap_1,
-      image_url:img_1,
-      likes:0,
-      },
-      {
-        id: '2',
-        caption:cap_2,
-        image_url:img_2,
-        likes:0,
-      },
-      {
-        id: '3',
-        caption:cap_3,
-        image_url:img_3,
-        likes:0,
-      },
-      {
-        id: '4',
-        caption:cap_4,
-        image_url:img_4,
-        likes:0,
-      },
-      {
-        id: '5',
-        caption:cap_5,
-        image_url:img_5,
-        likes:0,
-      },
-      {
-        id: '6',
-        caption:cap_6,
-        image_url:img_6,
-        likes:0,
-      },
-      {
-        id: '7',
-        caption:cap_7,
-        image_url:img_7,
-        likes:0,
-      },
-      {
-        id: '8',
-        caption:cap_8,
-        image_url:img_8,
-        likes:0,
-      },
-      {
-        id: '9',
-        caption:cap_9,
-        image_url:img_9,
-        likes:0,
-      },
-      {
-        id: '10',
-        caption:cap_10,
-        image_url:img_10,
-        likes:0,
-      },
-        
-    ]
+        const newData = response.data.map((item) => {
+          const uri = item.image_url && item.image_url.trim(); // Validate URI here
+    
+          return {
+            id: item.id.toString(),
+            caption: item.caption || '',
+            image_url: uri ? 'http://' + global.LOCAL_IP +uri : null,
+            likes: 0,
+          };
+        });
+    
+        setFeedData(newData);
+      } catch (error) {
+        console.error('Error fetching feed:', error);
+      }
+    };
+   
+    const loadFeed = async () => {
+      
+      await SetImageFeed();
+      
+      
+    
+    };
+    
+   
+    const [feedData, setFeedData] = useState([]);
+    const validFeedData = feedData.filter((item) => item.image_url);
 
-    const sampleData = [
-        {
-            id: '1',
-            title: 'Overhead Press PR!',
-            imageUrl: img_1,
-        },
-        {
-            id: '2',
-            title: img_3,
-            imageUrl: img_2
-        },
-        {
-            id: '3',
-            title: 'Squat Max',
-            imageUrl: 'https://www.bodybuilding.com/images/2018/may/skyrocket-your-squat-pr-with-conjugate-training-1-700xh.jpg'
-        },
-        {
-            id: '4',
-            title: 'Goofy little weight',
-            imageUrl: 'https://d3h9ln6psucegz.cloudfront.net/wp-content/uploads/2022/07/Lift-Weights.jpg'
-        },
+    const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-
-    ];
-    loadFeed();
-    //get url/profile/[username].image_url?
+  useEffect(() => {
+   
+    if (!isPageLoaded) {
+      loadFeed();
+      console.log('Page is loaded for the first time');
+      
+    
+      setIsPageLoaded(true);
+    } 
+  }, [isPageLoaded]);
+ 
+  
     return(
         
 
@@ -294,13 +145,13 @@ if(token != null)
 
        
         <GluestackUIProvider config={config}>
-            <SafeAreaView style={styles.centerContainer}>
+            <SafeAreaView style={styles.centerContainer} onLayout={loadFeed}>
            
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:0}}></View>
      <View style={{flex:1}}>
-     <FlatList data={feedData} renderItem={({item}) => ( <View style = {styles.postContainer}>
+     <FlatList data={validFeedData} renderItem={({item}) => ( <View style = {styles.postContainer}>
         <Image source ={{uri: item.image_url}} style = {{height: 300, width: 300 }}></Image>
         <View style={{padding:10}}/>
         <View style={styles.descriptionContainer}>
@@ -309,6 +160,7 @@ if(token != null)
         
      </View> )}
      refreshing= {false}onRefresh={SetImageFeed}
+     
      />
      </View>
      

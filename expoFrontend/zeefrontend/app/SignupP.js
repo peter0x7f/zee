@@ -30,6 +30,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import styles from "./stylefile";
+import Feed from "./(tabs)/Feed";
 
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
@@ -41,7 +42,7 @@ const SignupP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
   const[password2, setPassword2] = useState('');
-
+  const[token, setToken] = useState('');
   const handleSignup = async () => {
     let Reg = false;
     const userDataS = {
@@ -60,7 +61,7 @@ const SignupP = () => {
       password,
     }
     //Axios requests
-      axios.post('http://'+global.LOCAL_IP+'/register/', userDataS)
+     await axios.post('http://'+global.LOCAL_IP+'/register/', userDataS)
         .then(response => {console.log('SUCCESS');
         Reg = true;
       })
@@ -73,7 +74,9 @@ const SignupP = () => {
         .then(response => {console.log('SUCCESS (I THINK)', response.data);
 
           setToken(response.data);
+          
          console.log('TOKEN: ',Token);
+         router.replace()
         })
         
         .catch(error => {console.log('ERROR') });
@@ -81,6 +84,7 @@ const SignupP = () => {
         console.log(userDataRL);
         let tokenString = JSON.stringify(Token);
         await SecureStore.setItemAsync('Token', tokenString);
+        router.replace('/Feed')
    }
     };
    
