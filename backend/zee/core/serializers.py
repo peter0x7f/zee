@@ -86,22 +86,7 @@ class UploadSerializer(serializers.ModelSerializer):
                 representation['image_url'] = instance.image_url.url
             return representation
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username')
 
-# class ProfileSerializer(serializers.ModelSerializer):
-#     username = serializers.CharField(source='user.username')
-#     image_url = serializers.CharField(required=True)
-#     class Meta:
-#         model = Posts
-#         fields = ('image_url','post_url','caption','no_of_likes','id', 'user','username','created_at','comments')
-#     def to_representation(self, instance):
-#         representation = super().to_representation(instance)
-#         if 'image_url' in representation and representation['image_url']:
-#             representation['image_url'] = instance.image_url.url
-#         return representation
 
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
