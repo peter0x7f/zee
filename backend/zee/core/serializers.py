@@ -83,7 +83,7 @@ class UploadSerializer(serializers.ModelSerializer):
         def to_representation(self, instance):
             representation = super().to_representation(instance)
             if 'post_url' in representation and representation['post_url']:
-                representation['post_url'] = instance.image_url.url
+                representation['post_url'] = instance.post_url
             return representation
 
 
