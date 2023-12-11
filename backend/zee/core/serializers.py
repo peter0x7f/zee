@@ -102,5 +102,5 @@ class ProfilePostsSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if 'image_url' in representation and representation['image_url']:
-            representation['image_url'] = instance.image_url
+            representation['image_url'] = instance.image_url.image_url
         return representation
