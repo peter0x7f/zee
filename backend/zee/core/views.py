@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile, Posts, User
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
-from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer,ProfileSerializer
+from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer, ProfilePostsSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -49,7 +49,6 @@ class RegisterView(generics.CreateAPIView):
 
 
 @permission_classes([IsAuthenticated])
-#@authentication_classes([BasicAuthentication])
 @authentication_classes([JWTAuthentication])
 class UserSettings(generics.CreateAPIView): 
     #queryset = Profile.objects.all()
@@ -90,7 +89,6 @@ class UserSettings(generics.CreateAPIView):
             profile.total=serializer.validated_data.get('total', profile.total)
         profile.save()
     def perform_create(self, serializer):
-       
 # Check if a profile already exists for the user
         existing_profile = Profile.objects.filter(user=self.request.user).first()
         if existing_profile:
@@ -111,10 +109,11 @@ def get_user_posts(request, pk):
         posts = reversed(Posts.objects.filter(user=user))
         
         # Serialize the posts data
-        serializer = ProfileSerializer(posts, many=True)
+        serializer = ProfilePostsSerializer(posts, many=True)
         
         # Return the serialized data as a JSON response
         return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -123,10 +122,8 @@ def get_feed_posts(request):
         # Retrieve all posts for the specified user
         # user = Profile.objects.get(username=request.user)#retrieve followers
         posts = reversed(Posts.objects.all())
-        
         # Serialize the posts data
-        serializer = ProfileSerializer(posts, many=True)
-        
+        serializer = ProfilePostsSerializer(posts, many=True)
         # Return the serialized data as a JSON response
         return Response(serializer.data)
 
