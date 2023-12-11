@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+/*import {React, useState} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
@@ -132,3 +132,4 @@ if(token != null)
 };
 export default Explore;
 
+*/

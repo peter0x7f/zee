@@ -80,7 +80,7 @@ const Feed = () =>
         getRefresh();
       }, []);
    
-if(token != null)
+if(token != null && access!= null)
 {
 
  
@@ -149,144 +149,60 @@ if(token != null)
         
         console.log("Image file test: "+img_1)
     }
-    const SetImageFeed = async () =>{
-      const response = await axios.get(
-        'http://' + global.LOCAL_IP + '/explore_feed/', 
-        {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-              Authorization: `Bearer `+access,
-              
-            },
-          }  
-    ); 
-    console.log(response.data[0])
-          let uri,cap,likes;
-          uri = JSON.stringify(response.data[0].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_1('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[0].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_1(cap)
-
-          uri = JSON.stringify(response.data[1].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_2('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[1].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_2(cap)
-
-          uri = JSON.stringify(response.data[2].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_3('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[2].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_3(cap)
-
-          uri = JSON.stringify(response.data[3].image_url)
-          uri = uri.substring(1,uri.length-1)
-          setImg_4('http://' + global.LOCAL_IP +uri)
-          cap = JSON.stringify(response.data[3].caption)
-          cap = cap.substring(1,cap.length-1)
-          setCap_4(cap)
-
-
-
-    }
-    const loadFeed = async () =>{
-      await SetImageFeed();
-    }
+ 
+    const SetImageFeed = async () => {
+      try {
+        const response = await axios.get(
+        'http://' + global.LOCAL_IP + '/explore_feed/', {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${access}`,
+          },
+        });
     
-    const feedData  = [ 
-      {
-      id: '1',
-      caption:cap_1,
-      image_url:img_1,
-      likes:0,
-      },
-      {
-        id: '2',
-        caption:cap_2,
-        image_url:img_2,
-        likes:0,
-      },
-      {
-        id: '3',
-        caption:cap_3,
-        image_url:img_3,
-        likes:0,
-      },
-      {
-        id: '4',
-        caption:cap_4,
-        image_url:img_4,
-        likes:0,
-      },
-      {
-        id: '5',
-        caption:cap_5,
-        image_url:img_5,
-        likes:0,
-      },
-      {
-        id: '6',
-        caption:cap_6,
-        image_url:img_6,
-        likes:0,
-      },
-      {
-        id: '7',
-        caption:cap_7,
-        image_url:img_7,
-        likes:0,
-      },
-      {
-        id: '8',
-        caption:cap_8,
-        image_url:img_8,
-        likes:0,
-      },
-      {
-        id: '9',
-        caption:cap_9,
-        image_url:img_9,
-        likes:0,
-      },
-      {
-        id: '10',
-        caption:cap_10,
-        image_url:img_10,
-        likes:0,
-      },
-        
-    ]
+        const newData = response.data.map((item) => {
+          const uri = item.image_url && item.image_url.trim(); // Validate URI here
+    
+          return {
+            id: item.id.toString(),
+            caption: item.caption || '',
+            image_url: uri ? 'http://' + global.LOCAL_IP +uri : null,
+            likes: 0,
+          };
+        });
+    
+        setFeedData(newData);
+      } catch (error) {
+        console.error('Error fetching feed:', error);
+      }
+    };
+   
+    const loadFeed = async () => {
+      
+      await SetImageFeed();
+      
+      
+    
+    };
+    
+   
+    const [feedData, setFeedData] = useState([]);
+    const validFeedData = feedData.filter((item) => item.image_url);
 
-    const sampleData = [
-        {
-            id: '1',
-            title: 'Overhead Press PR!',
-            imageUrl: img_1,
-        },
-        {
-            id: '2',
-            title: img_3,
-            imageUrl: img_2
-        },
-        {
-            id: '3',
-            title: 'Squat Max',
-            imageUrl: 'https://www.bodybuilding.com/images/2018/may/skyrocket-your-squat-pr-with-conjugate-training-1-700xh.jpg'
-        },
-        {
-            id: '4',
-            title: 'Goofy little weight',
-            imageUrl: 'https://d3h9ln6psucegz.cloudfront.net/wp-content/uploads/2022/07/Lift-Weights.jpg'
-        },
+    const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-
-    ];
-    loadFeed();
-    //get url/profile/[username].image_url?
+  useEffect(() => {
+    // This block of code will run once when the component mounts
+    if (!isPageLoaded) {
+      loadFeed();
+      console.log('Page is loaded for the first time');
+      
+      // Set the state to indicate that the page has been loaded
+      setIsPageLoaded(true);
+    } 
+  }, [isPageLoaded]);
+  //loadFeed()
+  
     return(
         
 
@@ -294,13 +210,13 @@ if(token != null)
 
        
         <GluestackUIProvider config={config}>
-            <SafeAreaView style={styles.centerContainer}>
+            <SafeAreaView style={styles.centerContainer} onLayout={loadFeed}>
            
   <View style = {{padding:3}}></View>
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:0}}></View>
      <View style={{flex:1}}>
-     <FlatList data={feedData} renderItem={({item}) => ( <View style = {styles.postContainer}>
+     <FlatList data={validFeedData} renderItem={({item}) => ( <View style = {styles.postContainer}>
         <Image source ={{uri: item.image_url}} style = {{height: 300, width: 300 }}></Image>
         <View style={{padding:10}}/>
         <View style={styles.descriptionContainer}>
@@ -309,6 +225,7 @@ if(token != null)
         
      </View> )}
      refreshing= {false}onRefresh={SetImageFeed}
+     
      />
      </View>
      
