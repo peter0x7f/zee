@@ -96,10 +96,10 @@ if(token != null && access!= null)
         });
     
         const newData = response.data.map((item) => {
-          const uri = item.image_url && item.image_url.trim(); // Validate URI here
+          const uri = item.post_url && item.post_url.trim(); // Validate URI here
     
           return {
-            id: item.id.toString(),
+            
             caption: item.caption || '',
             image_url: uri ? 'http://' + global.LOCAL_IP +uri : null,
             likes: 0,
@@ -137,7 +137,7 @@ if(token != null && access!= null)
     } 
   }, [isPageLoaded]);
  
-  
+
     return(
         
 

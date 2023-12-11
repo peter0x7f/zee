@@ -151,7 +151,7 @@ const Post = () =>
         
 
         const postData = new FormData();
-        postData.append('image_url', {
+        postData.append('post_url', {
           uri: imageUri,
           type: 'image/jpeg', // or the appropriate mime type
           name: 'photo.jpg',
