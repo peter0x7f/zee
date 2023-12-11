@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
@@ -8,6 +8,7 @@ import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
+import { Cigarette, ImageOff, FileImage, Camera } from 'lucide-react-native';
 import * as SecureStore from 'expo-secure-store';
 import{
   Dimensions,
@@ -40,31 +41,86 @@ const screenWidth = Dimensions.get('window').width;
 
 const Profile = () =>
 {
+  
     let FOLLOWERS = 5; //samples
     let FOLLOWING = 10; //samples
     const handleSignOut = async () => {
         await SignOut(); 
       }
-
+      const [imageUri, setImageUri] = useState(null);
+      const [username,SetUsername] = useState('')
       const [token, setToken] = useState('')
-    const getToken = async () => {
-      let token = await SecureStore.getItemAsync('Token');
-      setToken(token);
-      console.log(token);
-    }
+      const [access, setAccess]= useState('')
+      const [refresh, setRefresh]= useState('')
+      useEffect(() => {
+        const getUsername = async () =>{
+          let uname = await SecureStore.getItemAsync('username');
+          SetUsername(uname);
+          console.log(uname);
+        }
+        const getToken = async () => {
+          let token = await SecureStore.getItemAsync('Token');
+          setToken(token);
+          console.log(token);
+        };
+    
+        const getAccess = async () => {
+          try {
+            const accessValue = await SecureStore.getItemAsync('Token');
+            setAccess(accessValue.substring(1, accessValue.length - 1));
+          } catch {
+            console.log('No Token');
+          }
+        };
+    
+        const getRefresh = async () => {
+          try {
+            const refreshValue = await SecureStore.getItemAsync('Refresh');
+            setRefresh(refreshValue.substring(1, accessValue.length - 1));
+          } catch {
+            console.log('No Token');
+          }
+        };
+        getUsername();
+        getToken();
+        getAccess();
+        getRefresh();
+      }, []);
 
-    getToken();
+      const getPfp = async () => {
+        const response = await axios.get(
+          'http://' + global.LOCAL_IP + '/profile/'+username,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer `+access,
+              
+            },
+          }
+        );
+        console.log(response.data)
+      }
+      
+      console.log(token);
+    
+
+  
     
     if(token != null)
     {
     return(
         <GluestackUIProvider config={config}>
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
-                <SafeAreaView style ={styles.centerContainer}>
+                <SafeAreaView style ={styles.centerContainer} onLayout={getPfp}>
                 <View>
   <Center>
+  <View style={styles.postContainer}>
+                    {imageUri != null ? (
+              <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
+            ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
+                    </View>
   <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                LBS
+                {username}
             </Heading>
       </Center>
   </View>
@@ -94,7 +150,7 @@ const Profile = () =>
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress = {()=>{}}
+  onPress = {getPfp}
   
 >
   <ButtonText color="black">Settings</ButtonText>

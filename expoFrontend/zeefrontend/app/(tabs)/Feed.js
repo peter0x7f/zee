@@ -83,72 +83,7 @@ const Feed = () =>
 if(token != null && access!= null)
 {
 
- 
-    const [img_1, setImg_1] = useState(null)
-    const [img_2, setImg_2] = useState(null)
-    const [img_3, setImg_3] = useState(null)
-    const [img_4, setImg_4] = useState(null)
-    const [img_5, setImg_5] = useState(null)
-    const [img_6, setImg_6] = useState(null)
-    const [img_7, setImg_7] = useState(null)
-    const [img_8, setImg_8] = useState(null)
-    const [img_9, setImg_9] = useState(null)
-    const [img_10, setImg_10] = useState(null)
-    
-    const [cap_1, setCap_1] = useState(null)
-    const [cap_2, setCap_2] = useState(null)
-    const [cap_3, setCap_3] = useState(null)
-    const [cap_4, setCap_4] = useState(null)
-    const [cap_5, setCap_5] = useState(null)
-    const [cap_6, setCap_6] = useState(null)
-    const [cap_7, setCap_7] = useState(null)
-    const [cap_8, setCap_8] = useState(null)
-    const [cap_9, setCap_9] = useState(null)
-    const [cap_10, setCap_10] = useState(null)
 
-   /*useEffect(() => {
-      // This block will run when img_1 is updated
-      console.log("Image updated: " + img_1);
-    }, [img_1]);*/
-
-    const SetImage = async () =>{
-        if (!token) {
-            console.log('Token not available');
-            return;
-          }
-        try{
-           
-        const response = await axios.get(
-            'http://' + global.LOCAL_IP + '/explore_feed/', 
-            {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  Authorization: `Bearer `+access,
-                  
-                },
-              }  
-        ); 
-        console.log("response: "+response)
-        console.log("TEST: "+(JSON.stringify(response.data[2])))
-        let cap = JSON.stringify(response.data[1].caption)
-        cap = cap.substring(1,cap.length-1)
-        setImg_3(cap)
-        let str = JSON.stringify(response.data[0].image_url)
-        str = str.substring(1, str.length - 1)
-        console.log("JSON: "+str)
-        setImg_1(str)
-        setImg_1('http://' + global.LOCAL_IP +str)
-        str = JSON.stringify(response.data[1].image_url)
-        str = str.substring(1,str.length-1)
-        setImg_2('http://' + global.LOCAL_IP +str)
-        console.log(img_2)
-        }
-        catch(error){
-            console.log("SetImage Error: "+error);
-        }
-        
-        console.log("Image file test: "+img_1)
-    }
  
     const SetImageFeed = async () => {
       try {
@@ -192,16 +127,16 @@ if(token != null && access!= null)
     const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
-    // This block of code will run once when the component mounts
+   
     if (!isPageLoaded) {
       loadFeed();
       console.log('Page is loaded for the first time');
       
-      // Set the state to indicate that the page has been loaded
+    
       setIsPageLoaded(true);
     } 
   }, [isPageLoaded]);
-  //loadFeed()
+ 
   
     return(
         
