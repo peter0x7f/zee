@@ -72,37 +72,48 @@ class SettingsSerializer(serializers.ModelSerializer):
         if 'image_url' in representation and representation['image_url']:
             representation['image_url'] = instance.image_url.url
         return representation
-    # def create(self):
-    #     profile = Profile.objects.create(
-    #         user=user,
-    #         image_url='image_url',
-    #         bio='bio',
-    #         achievements='achievements',
-    #         max_bench='max_bench',
-    #         max_squat='max_squat',
-    #         max_deadlift='max_deadlift',
-    #         total='total',
-    #         bw='bw',
-    #     )
-    #     profile.save()
-    #     return profile
+  
 
 class UploadSerializer(serializers.ModelSerializer):
         image_url = serializers.ImageField(required=True)
        # image_url = Base64ImageField(required=True)
         class Meta:
             model = Posts
-            fields = ('image_url','caption','no_of_likes')
+            fields = ('post_url','caption','no_of_likes')
         def to_representation(self, instance):
             representation = super().to_representation(instance)
             if 'image_url' in representation and representation['image_url']:
                 representation['image_url'] = instance.image_url.url
             return representation
 
+# class UserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ('id', 'username')
+
+# class ProfileSerializer(serializers.ModelSerializer):
+#     username = serializers.CharField(source='user.username')
+#     image_url = serializers.CharField(required=True)
+#     class Meta:
+#         model = Posts
+#         fields = ('image_url','post_url','caption','no_of_likes','id', 'user','username','created_at','comments')
+#     def to_representation(self, instance):
+#         representation = super().to_representation(instance)
+#         if 'image_url' in representation and representation['image_url']:
+#             representation['image_url'] = instance.image_url.url
+#         return representation
+
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    class Meta:
+        model = Profile
+        fields = ('username','image_url')
+
+class ProfilePostsSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(source='user.profile')
     class Meta:
         model = Posts
-        fields = "__all__"
+        fields = ('post_url', 'caption', 'created_at', 'no_of_likes', 'comments','profile')
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if 'image_url' in representation and representation['image_url']:

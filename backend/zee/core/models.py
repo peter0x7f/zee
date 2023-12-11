@@ -16,7 +16,7 @@ class Achievements(models.Model):
     
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(blank=True)
     image_url = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     #make profile pic default in profile images
@@ -33,16 +33,17 @@ class Profile(models.Model):
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_id = models.CharField(max_length=500)
     comment = models.TextField()
     created_on = models.DateTimeField(default=datetime.now)
     def the_user(self):
         return self.user
+    
 class Posts(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image_url = models.ImageField(upload_to='media', blank=False)
+    post_url = models.ImageField(upload_to='media', blank=False)
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
