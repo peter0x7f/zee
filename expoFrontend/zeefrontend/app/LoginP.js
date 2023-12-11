@@ -36,6 +36,8 @@ import SignupP from "./SignupP";
 import { useAuth } from "./Contexts/AuthContext";
 import { AuthProvider } from "./Contexts/AuthContext";
 import Feed from "./(tabs)/Feed";
+import Layout from "./_layout";
+
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
 
@@ -85,7 +87,8 @@ let REFRESH = null;
         let refreshString = JSON.stringify(REFRESH);
         await SecureStore.setItemAsync('Token', tokenString);
         await SecureStore.setItemAsync('Refresh', refreshString);
-      
+        await SecureStore.setItemAsync('username', username)
+       
       router.replace('/Feed')
       }
       else

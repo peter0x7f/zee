@@ -20,7 +20,7 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     image_url = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     #make profile pic default in profile images
-    achievements = models.ManyToManyField(Achievements,blank=True)
+    # achievements = models.ManyToManyField(Achievements,blank=True)
     max_bench = models.TextField(blank=True)
     max_deadlift = models.TextField(blank=True)
     max_squat = models.TextField(blank=True)
@@ -48,5 +48,5 @@ class Posts(models.Model):
     no_of_likes = models.IntegerField(default=0)
     comments = models.ManyToManyField(Comment, blank=True)
     # add comment feature
-    def __str__(self):
+    def the_user(self):
         return self.user

@@ -7,6 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
+from drf_extra_fields.fields import Base64ImageField
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -60,11 +61,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')
-   
+    #image_url = Base64ImageField()
 
     class Meta:
         model = Profile
-        fields = ('image_url', 'bio', 'achievements', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        fields = ('image_url', 'bio', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -88,6 +89,7 @@ class SettingsSerializer(serializers.ModelSerializer):
 
 class UploadSerializer(serializers.ModelSerializer):
         image_url = serializers.ImageField(required=True)
+       # image_url = Base64ImageField(required=True)
         class Meta:
             model = Posts
             fields = ('image_url','caption','no_of_likes')

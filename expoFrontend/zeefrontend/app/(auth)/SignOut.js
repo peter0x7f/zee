@@ -9,6 +9,8 @@ import { config} from "@gluestack-ui/config";
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
 import * as SecureStore from 'expo-secure-store';
+
+
 import{
   Dimensions,
   SafeAreaView,
@@ -37,6 +39,7 @@ import { useAuth } from "../Contexts/AuthContext";
 import { AuthProvider } from "../Contexts/AuthContext";
 import { Stack } from 'expo-router/stack';
 import LoginP from "../LoginP";
+import Layout from "../_layout";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -47,15 +50,17 @@ const SignOut = async () =>
 
     await SecureStore.deleteItemAsync('Token');
     await SecureStore.deleteItemAsync('Refresh');
-
+    await SecureStore.deleteItemAsync('username')
     let Token = await SecureStore.getItemAsync('Token');
     let Refresh = await SecureStore.getItemAsync('Refresh');
-    if(Token == null && Refresh == null){
+    let username =  await SecureStore.getItemAsync('username');
+    if(Token == null && Refresh == null && username == null){
         console.log("Signout Success")
+        
       router.replace('/LoginP')
 
     }
-    else if(Token != null || Refresh != null)
+    else if(Token != null || Refresh != null || username != null)
     {
         console.log("Signout Failed! Token =", JSON.stringify(Token), " Refresh =",  JSON.stringify(Refresh))
     }

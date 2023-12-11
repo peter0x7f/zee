@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
@@ -42,11 +42,60 @@ const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>
 {
-  const refresh = SecureStore.getItemAsync('Refresh')
-  const access = SecureStore.getItemAsync('Token')
-    const [imageUri, setImageUri] = useState('');
+ 
+  const [access, setAccess] = useState('')
+  const [refresh, setRefresh] = useState('')
+  const [token, setToken] = useState('')
+    const [imageUri, setImageUri] = useState(null);
     const [imageW, setImageW] = useState(0);
     const [imageH, setImageH] = useState(0);
+
+    const [caption, setCaption] = useState('')
+   /* const [image_url, setimage_url] = useState('');
+  const [bio, setBio] = useState('');
+  const [achievements, setAchievements] = useState('');
+  const [max_bench, setMaxBench] = useState('');
+  const [max_squat, setMaxSquat] = useState('');
+  const [max_deadlift, setMaxDeadlift] = useState('');
+  const [total, setTotal] = useState('');
+  const [bw, setBw] = useState('');
+  image_url,
+  bio,
+  achievements,
+  max_bench,
+  max_squat,
+  max_deadlift,
+  total,
+  bw,*/
+    useEffect(() => {
+      const getToken = async () => {
+        let token = await SecureStore.getItemAsync('Token');
+        setToken(token);
+        console.log(token);
+      };
+  
+      const getAccess = async () => {
+        try {
+          const accessValue = await SecureStore.getItemAsync('Token');
+          setAccess(accessValue.substring(1, accessValue.length - 1));
+        } catch {
+          console.log('No Token');
+        }
+      };
+  
+      const getRefresh = async () => {
+        try {
+          const refreshValue = await SecureStore.getItemAsync('Refresh');
+          setRefresh(refreshValue.substring(1, accessValue.length - 1));
+        } catch {
+          console.log('No Token');
+        }
+      };
+  
+      getToken();
+      getAccess();
+      getRefresh();
+    }, []);
   const pickImage = async () => {
     try{
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -96,37 +145,47 @@ const Post = () =>
     }
 
     const uploadImage = async () => {
-        if(imageUri != ''){
-            const imageForm = new FormData();
-            imageForm.append('image', {
-              image_url: imageUri,
-              type: 'image/jpeg', // Adjust the content type as needed
-              name: 'image.jpg', // You can customize the file name
-            });
-            console.log(imageUri)
-            console.log(imageForm)
-            try {
-              
-              const payload = axios.post('http://'+global.LOCAL_IP+'/settings/', imageForm, {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  'Authorization': `Bearer ${access}`,
-                  // Add any additional headers if necessary
-                },
+      if (imageUri !== '') {
+      
+      
+        
+
+        const postData = new FormData();
+        postData.append('image_url', {
+          uri: imageUri,
+          type: 'image/jpeg', // or the appropriate mime type
+          name: 'photo.jpg',
+        });
+        postData.append('caption', caption);
+        postData.append('no_of_likes', 30);
+       
+        
+        try {
+        
+          const response = await axios.post(
+            'http://' + global.LOCAL_IP + '/upload/',
+             postData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer `+access,
                 
-            });
-                const response = await payload
-          
-                // Handle the server response here
-                console.log('Image uploaded successfully:', response.data);
-              } catch (error) {
-                console.error('Error uploading image:', error);
-              }
-            } 
-            else {
-              console.error('No image data to upload.');
+              },
             }
+          );
+    
+          
+          console.log('Image uploaded successfully:', response.data, postData);
+          setImageUri(null)
+          setCaption('')
+        } catch (error) {
+          console.error('Error uploading image:', error);
         }
+      } else {
+        console.error('No image data to upload.');
+      }
+       console.log('Bearer '+access)
+    };
 
     
 
@@ -135,39 +194,43 @@ const Post = () =>
         await SignOut(); 
       }
 
-      const [token, setToken] = useState('')
-    const getToken = async () => {
-      let token = await SecureStore.getItemAsync('Token');
-      setToken(token);
-      console.log(token);
-    }
+      
+   
 
-    getToken();
     
     if(token != null)
     {
     return(
         <GluestackUIProvider config = {config}>
-            <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss}}>
+            <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}>
                 <SafeAreaView style={styles.centerContainer}>
-                <View>
-  <Center>
-  <Heading style = {styles.coolText} paddingTop= '$1/6'>
-                LBS
-            </Heading>
-      </Center>
-  </View>
-  <View style = {{padding:3}}></View>
-     <Divider width = {screenWidth*0.6}></Divider>
+               
      <View style = {{padding:12, flex:0}}></View>
      
                     
                     <View style={styles.postContainer}>
-                    {imageUri ? (
+                    {imageUri != null ? (
               <Image source={{ uri: imageUri }} style={{ width: 400, height: 400 }} />
             ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                     </View>
-                    <View style = {{padding:12}}></View>
+                    <View style = {{padding:6}}></View>
+                    <Input 
+                      width = '$3/5'
+                      variant="outline"
+                      size="md"
+                      isDisabled={false}
+                      isInvalid={false}
+                      isReadOnly={false}
+                      >
+                <InputField  
+                onChangeText={text => setCaption(text)}
+                value={caption}
+
+                placeholder='Caption'
+                color = '$amber100'>
+                </InputField>
+                    </Input>
+                    <View style = {{padding:4}}></View>
                     <View style = {{flexDirection:"row"  }}>         
                     <Button
                     bg="$backgroundDark0"
@@ -196,21 +259,23 @@ const Post = () =>
                        <FileImage color='black'/>
                     </Button>
                     </View> 
+                    
+                    
                     <View style = {{padding:4}}></View>
-                    {imageUri != '' ? (<Button 
+                     <Button 
                       bg="$backgroundDark0"
                       size="md"
                       variant="rounded"
                       action="primary"
                       
-                      isDisabled={false}
+                      isDisabled={imageUri == null ? true :false}
                       isFocusVisible={false}
                     onPress = {uploadImage}
                     >
                         <ButtonText color='black'>
                         Post Image
                         </ButtonText>
-                    </Button>) : null}
+                    </Button>
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         </GluestackUIProvider>

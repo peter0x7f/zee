@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useState, useEffect} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link } from 'expo-router';
@@ -8,6 +8,7 @@ import { config} from "@gluestack-ui/config";
 //import { Image } from "@gluestack-ui/themed"
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
 import { Divider } from "@gluestack-ui/themed";
+import * as SecureStore from 'expo-secure-store';
 import{
   Dimensions,
   SafeAreaView,
@@ -38,8 +39,30 @@ const screenWidth = Dimensions.get('window').width;
 
 import { Stack } from 'expo-router/stack';
 
+
 export default function Layout() {
+  const [username, setUsername] = useState(SecureStore.getItemAsync('username'));
+
+   useEffect(() => {
+    
+    const fetchUsername = async () => {
+      try {
+        const storedUsername = await SecureStore.getItemAsync('username');
+        setUsername(storedUsername || ''); // Set the username or an empty string if not found
+       
+       
+      } catch (error) {
+        console.error('Error fetching username:', error);
+       
+      }
+     
+    };
+ 
+
+    fetchUsername();
+  }, []);
   return( <Stack
+  username = {username}
   screenOptions={{
     
     headerStyle: {
@@ -52,7 +75,7 @@ export default function Layout() {
   }
   }
    >
-    <Stack.Screen name= "(tabs)"  options={{headerTitle: 'LBS'}}  />
+    <Stack.Screen name= "(tabs)"  options={{headerTitle:  'LBS'  }}  />
    </Stack>
    );
   
