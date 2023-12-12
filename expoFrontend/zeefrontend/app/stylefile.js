@@ -133,5 +133,14 @@ const styles = StyleSheet.create({
     highlight: {
       fontWeight: '700',
     },
+    PFPcontainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    roundImage: {
+      width: 200, // Adjust the width as needed
+      height: 200, // Adjust the height as needed
+      borderRadius: 100, // This makes the image container round
+    },
   });
   export default styles;
