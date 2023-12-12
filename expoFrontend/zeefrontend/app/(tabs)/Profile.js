@@ -203,9 +203,21 @@ const Profile = () =>
           }
            console.log('Bearer '+access)
         };
-
+const TesFunc = async () => {
+  const response = await axios.get(
+    'http://' + global.LOCAL_IP + '/settings/',
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer `+access,
+        
+      },
+    }
+  );
+  console.log("Test Func: "+response.data)
+}
   
-    
+    getPfP()
     if(token != null)
     {
     return(
@@ -275,7 +287,18 @@ const Profile = () =>
   
 </Button> 
 </Link>
-
+<View style = {{padding:6}}></View>
+<Link href="/ChangePfp" asChild>
+<Button    bg="$backgroundDark0"
+  size="md"
+  variant="solid"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  ><ButtonText color="black">Change Profile Photo</ButtonText>
+  </Button>
+  </Link>
 
 
                 </SafeAreaView>
@@ -293,61 +316,4 @@ const Profile = () =>
 }
 export default Profile;
 
-/*<View style = {{padding:6}}></View>
-<Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {()=>{}}
-  
->
-  <ButtonText color="black">Change Profile Photo</ButtonText>
-  
-</Button> 
-<View style = {{padding:4}}></View>
-                    <View style = {{flexDirection:"row"  }}>         
-                    <Button
-                    bg="$backgroundDark0"
-                    size="md"
-                    variant="rounded"
-                    action="primary"
-                    
-                    isDisabled={false}
-                    isFocusVisible={false}
-                    onPress = {captureImage}
-                    >
-                       
-                        <Camera color='black'/>
-                    </Button>
-                    <View style = {{padding:3}}></View>
-                    <Button
-                      bg="$backgroundDark0"
-                      size="md"
-                      variant="rounded"
-                      action="primary"
-                      
-                      isDisabled={false}
-                      isFocusVisible={false}
-                    onPress = {pickImage}
-                    >
-                       <FileImage color='black'/>
-                    </Button>
-                    </View> 
-                    <Button 
-                      bg="$backgroundDark0"
-                      size="md"
-                      variant="rounded"
-                      action="primary"
-                      
-                      isDisabled={imageUri == null ? true :false}
-                      isFocusVisible={false}
-                    onPress = {uploadImage}
-                    >
-                        <ButtonText color='black'>
-                        <Check style={{color:'black'}}></Check>
-                        </ButtonText>
-                    </Button>*/
+/**/
