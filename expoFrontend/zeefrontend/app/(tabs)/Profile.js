@@ -51,6 +51,7 @@ const Profile = () =>
     const handleSignOut = async () => {
         await SignOut(); 
       }
+      const [bio, setBio] = useState('');
       const [imageUri, setImageUri] = useState(null);
       const[pfp, setPfp]= useState(null);
     const [imageW, setImageW] = useState(0);
@@ -88,6 +89,15 @@ const Profile = () =>
             console.log('No Token');
           }
         };
+        const getBio = async () => {
+          try{
+            const findBio = await SecureStore.getItemAsync('bio');
+            setBio(findBio);
+          }catch{
+            console.log('no Bio');
+          }
+        };
+        //getBio();
         getUsername();
         getToken();
         getAccess();
@@ -229,35 +239,36 @@ const TesFunc = async () => {
                 <SafeAreaView style ={styles.centerContainer} onLayout={getPfP}>
                 <View>
   <Center>
-    <View style={{padding:8}}></View>
+    <View style={{padding:4}}></View>
   <View style={styles.PFPcontainer}>
                     {pfp != null ? (
               <Image source={{ uri: pfp }} style={styles.roundImage} />
             ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                     </View>
-  <Heading style = {styles.coolText2} paddingTop= '$1/6'>
+  <Heading style = {styles.coolText4} paddingTop={2}>
                 {username}
             </Heading>
       </Center>
   </View>
-  <View style = {{padding:3}}></View>
-     <Divider width = {screenWidth*0.6}></Divider>
-     <View style = {{padding:12}}></View>
-     <Button 
-         bg="$backgroundDark0"
-  size="md"
-  variant="solid"
-  action="primary"
-  
-  isDisabled={false}
-  isFocusVisible={false}
-  onPress = {handleSignOut}
-  
->
-  <ButtonText color="black">Sign Out</ButtonText>
-  
-</Button>
-<View style = {{padding:6}}></View>
+  <View style = {{padding:0}}></View>
+  <View>
+    <Text style={styles.Statstext}>
+      {bio}
+    </Text>
+  </View>
+     <Divider width = {screenWidth*0.9}></Divider>
+     <View style = {{padding:6}}></View>
+     <Center>
+          
+          <Text style={styles.Statstext}>Body Weight: 190</Text>
+          <Text style={styles.Statstext}>Max Bench: 255</Text>
+          <Text style={styles.Statstext}>Max Deadlift: 335</Text>
+          <Text style={styles.Statstext}>Max Squat: 315</Text>
+          
+          <Divider width={screenWidth*0.9}></Divider>
+          </Center>
+          <View style = {{padding:6}}></View>
+<Link href={'/Settings'} asChild>
 <Button 
          bg="$backgroundDark0"
   size="md"
@@ -266,12 +277,13 @@ const TesFunc = async () => {
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress = {getPfP}
+
   
 >
   <ButtonText color="black">Settings</ButtonText>
   
 </Button> 
+</Link>
 
 <View style = {{padding:6}}></View>
 <Link href="/UserPosts" asChild>
@@ -291,17 +303,22 @@ const TesFunc = async () => {
 </Button> 
 </Link>
 <View style = {{padding:6}}></View>
-<Link href="/ChangePfp" asChild>
-<Button    bg="$backgroundDark0"
+<Button 
+         bg="$backgroundDark0"
   size="md"
   variant="solid"
   action="primary"
   
   isDisabled={false}
   isFocusVisible={false}
-  ><ButtonText color="black">Change Profile Photo</ButtonText>
-  </Button>
-  </Link>
+  onPress = {handleSignOut}
+  
+>
+  <ButtonText color="black">Sign Out</ButtonText>
+  
+</Button>
+<View style = {{padding:6}}></View>
+
 
 
                 </SafeAreaView>

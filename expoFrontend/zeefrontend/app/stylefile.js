@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     roundImage: {
-      width: 200, // Adjust the width as needed
-      height: 200, // Adjust the height as needed
-      borderRadius: 100, // This makes the image container round
+      width: 100, // Adjust the width as needed
+      height: 100, // Adjust the height as needed
+      borderRadius: 50, // This makes the image container round
     },
     modalContainer: {
       flex: 1,
@@ -235,6 +235,26 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 10,
+    },
+    Statscontainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#FFFFFF', // White background
+    },
+    Statstext: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white', // Dark gray text color
+      marginVertical: 10,
+    },
+    coolText4: {
+      fontSize: 30,       // Adjust the font size as needed
+      fontWeight: 'bold', // Make the text bold (optional)
+      color: '#FBEFCD',     // Set the text color to white
+      textShadowColor: 'black',
+      textShadowOffset: { width: 2, height: 2 },
+      textShadowRadius: 2,
     },
   });
   export default styles;

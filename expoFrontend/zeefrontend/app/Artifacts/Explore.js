@@ -181,3 +181,17 @@ options={
   <ButtonText color="black">Following {FOLLOWING}</ButtonText>
   
 </Button> */
+
+
+//Profile
+/*<Link href="/ChangePfp" asChild>
+<Button    bg="$backgroundDark0"
+  size="md"
+  variant="solid"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  ><ButtonText color="black">Change Profile Photo</ButtonText>
+  </Button>
+  </Link>*/
