@@ -98,7 +98,15 @@ const Profile = () =>
             },
           }
         );
-        console.log(response.data)
+       let img = response.data[0].profile.image_url;
+     
+       console.log("IMAGE TEST: "+img)
+        setImageUri('http://' + global.LOCAL_IP +img)
+        console.log("TESTPOINT: "+imageUri)
+        console.log(response.data[0].profile.image_url)
+
+
+        
       }
       
       console.log(token);
@@ -166,10 +174,10 @@ const Profile = () =>
   
   isDisabled={false}
   isFocusVisible={false}
-  onPress = {()=>{FOLLOWERS+=1}}
+  onPress = {()=>{}}
   
 >
-  <ButtonText color="black">Followers {FOLLOWERS}</ButtonText>
+  <ButtonText color="black">View Posts</ButtonText>
   
 </Button> 
 
@@ -185,7 +193,7 @@ const Profile = () =>
   onPress = {()=>{}}
   
 >
-  <ButtonText color="black">Following {FOLLOWING}</ButtonText>
+  <ButtonText color="black">Change Profile Photo</ButtonText>
   
 </Button> 
 

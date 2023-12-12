@@ -107,21 +107,7 @@ options={
     }
 }
 />
-<Tabs.Screen
-name='Explore'
-options={
-    {
-        tabBarIcon: () => {
-            setPath('Explore');
-             return(
-            <GluestackUIProvider config={config}>
-                <FileSearch2 color='#020945'/>
-            </GluestackUIProvider>
-    
-        )},
-    }
-}
-/>
+
 <Tabs.Screen
 name='Post'
 options={

@@ -132,3 +132,52 @@ if(token != null)
 };
 export default Explore;*/
 
+
+//from layout.js tabs
+/*<Tabs.Screen
+name='Explore'
+options={
+    {
+        tabBarIcon: () => {
+            setPath('Explore');
+             return(
+            <GluestackUIProvider config={config}>
+                <FileSearch2 color='#020945'/>
+            </GluestackUIProvider>
+    
+        )},
+    }
+}
+/>*/
+
+//Followers buttons
+/*<Button 
+         bg="$backgroundDark0"
+  size="md"
+  variant="solid"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress = {()=>{FOLLOWERS+=1}}
+  
+>
+  <ButtonText color="black">Followers {FOLLOWERS}</ButtonText>
+  
+</Button> 
+
+<View style = {{padding:6}}></View>
+<Button 
+         bg="$backgroundDark0"
+  size="md"
+  variant="solid"
+  action="primary"
+  
+  isDisabled={false}
+  isFocusVisible={false}
+  onPress = {()=>{}}
+  
+>
+  <ButtonText color="black">Following {FOLLOWING}</ButtonText>
+  
+</Button> */

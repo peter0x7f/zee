@@ -99,7 +99,7 @@ if(token != null && access!= null)
           const uri = item.post_url && item.post_url.trim(); // Validate URI here
     
           return {
-            
+            username: item.username || '',
             caption: item.caption || '',
             image_url: uri ? 'http://' + global.LOCAL_IP +uri : null,
             likes: 0,
