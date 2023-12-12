@@ -18,7 +18,8 @@ import{
   useColorScheme,
   View,
   FlatList,
-  Image
+  Image,
+  Keyboard
 } from 'react-native';
 
 import {

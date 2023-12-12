@@ -22,7 +22,10 @@ import{
   useColorScheme,
   View,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Modal,
+  PanResponder,
+  Animated
 } from 'react-native';
 
 import {
@@ -232,7 +235,7 @@ const TesFunc = async () => {
               <Image source={{ uri: pfp }} style={styles.roundImage} />
             ) : <View style={{width: 380, height: 380}}><ImageOff size={380} strokeWidth={1.3} color="#020945"/></View>}
                     </View>
-  <Heading style = {styles.coolText} paddingTop= '$1/6'>
+  <Heading style = {styles.coolText2} paddingTop= '$1/6'>
                 {username}
             </Heading>
       </Center>

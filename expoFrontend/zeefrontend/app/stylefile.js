@@ -34,6 +34,55 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
+    
+    image: {
+      width: 10, // You can adjust the width as needed
+      height: 200, // You can adjust the height as needed
+      borderRadius: 10, // Make sure to match the border radius of the container
+    },
+    elevation: 2,
+    display: 'flex', // Use flex properties
+    flexDirection: 'column', // Stack items vertically
+    alignItems: 'center', // Center items horizontally
+  },
+  ModalContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    transform: [{ translateX: -200 }], // Adjust half of the width
+    backgroundColor: '#FBEFCD',
+    width: 400,
+    height: 400,
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 3,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    elevation: 2,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  postContainer3: {
+    backgroundColor: '#FBEFCD',
+    width: 400,
+    height: 425,
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 3,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    
     image: {
       width: 10, // You can adjust the width as needed
       height: 200, // You can adjust the height as needed
@@ -141,6 +190,51 @@ const styles = StyleSheet.create({
       width: 200, // Adjust the width as needed
       height: 200, // Adjust the height as needed
       borderRadius: 100, // This makes the image container round
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 20,
+      borderRadius: 10,
+      width: '80%',
+    },
+  
+    commentsList: {
+      height: 100,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      marginBottom: 10,
+    },
+    inputField: {
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+    },
+    closeButton: {
+      backgroundColor: 'lightgray',
+      padding: 10,
+      borderRadius: 5,
+      alignItems: 'center',
+    },
+    coolText2: {
+      fontSize: 50,       // Adjust the font size as needed
+      fontWeight: 'bold', // Make the text bold (optional)
+      color: '#FBEFCD',     // Set the text color to white
+      textShadowColor: 'black',
+      textShadowOffset: { width: 2, height: 2 },
+      textShadowRadius: 2,
+    },
+    coolText3: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
     },
   });
   export default styles;

@@ -37,7 +37,7 @@ import SignOut from "../(auth)/SignOut";
 import Feed from "./Feed";
 import { Stack } from 'expo-router/stack';
 import * as ImagePicker from 'expo-image-picker'
-import { Cigarette, ImageOff, FileImage, Camera } from 'lucide-react-native';
+import { Cigarette, ImageOff, FileImage, Camera,  MessagesSquare } from 'lucide-react-native';
 const screenWidth = Dimensions.get('window').width;
 
 const Post = () =>

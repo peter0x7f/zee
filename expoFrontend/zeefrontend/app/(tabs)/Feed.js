@@ -1,10 +1,11 @@
-import {React, useState, useEffect} from "react";
+import {React, useState, useEffect, useRef} from "react";
 import axios from 'axios'
 import { Asset } from 'expo-asset';
 import { Link, Redirect, router, useRouter } from 'expo-router';
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
-import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center } from "@gluestack-ui/themed"
+import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center,  } from "@gluestack-ui/themed"
+import { Cigarette, ImageOff, FileImage, Camera,  MessagesSquare, ThumbsUp } from 'lucide-react-native';
 import { Divider } from "@gluestack-ui/themed";
 import * as SecureStore from 'expo-secure-store';
 import{
@@ -18,7 +19,12 @@ import{
   useColorScheme,
   View,
   FlatList,
-  Image
+  Image,
+  Modal,
+  PanResponder,
+  Animated,
+  TouchableOpacity,
+  Keyboard
 } from 'react-native';
 
 import {
@@ -137,6 +143,8 @@ if(token != null && access!= null)
     } 
   }, [isPageLoaded]);
  
+  const [modalVisible, setModalVisible] = useState(false);
+
 
     return(
         
@@ -151,17 +159,79 @@ if(token != null && access!= null)
      <Divider width = {screenWidth*0.9}></Divider>
      <View style = {{padding:0}}></View>
      <View style={{flex:1}}>
-     <FlatList data={validFeedData} renderItem={({item}) => ( <View style = {styles.postContainer}>
+     <FlatList data={validFeedData} renderItem={({item}) => ( <View style = {styles.postContainer3}>
         <Image source ={{uri: item.image_url}} style = {{height: 300, width: 300 }}></Image>
         <View style={{padding:10}}/>
+       
         <View style={styles.descriptionContainer}>
         <Text style = {styles.postText}>{item.caption}</Text>
-        </View>
         
+        </View>
+        <View style={{padding:4}}>
+          <View style={{flexDirection:'row'}}>
+          <Button
+bg="$backgroundDark0"
+size="md"
+variant="solid"
+action="primary"
+bgColor="#020945"
+> 
+<ButtonText>
+  <ThumbsUp color={'white'}/>
+</ButtonText>
+</Button>
+<View style={{padding:2}}/>
+      <Button 
+        bg="$backgroundDark0"
+        size="md"
+        variant="solid"
+        action="primary"
+        bgColor="#020945"
+      onPress={() => setModalVisible(true)}>
+        <ButtonText>
+        <MessagesSquare  color={'white'}></MessagesSquare>
+        </ButtonText>
+        </Button>
+        <Modal
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => setModalVisible(false)}
+>
+  <View style={styles.ModalContainer}>
+    <View style={styles.modalContent}>
+      <Text style={styles.coolText3}>Comments</Text>
+
+      {/* Empty list of comments */}
+      <View style={styles.commentsList}></View>
+
+      {/* Input field for new comment */}
+      <TextInput
+        placeholder="Add a comment..."
+        style={styles.inputField}
+        multiline={true}
+      />
+
+      {/* Button to close the modal */}
+      <TouchableOpacity
+        style={styles.closeButton}
+        onPress={() => setModalVisible(false)}
+      >
+        <Text style={{ fontSize: 20, color: 'white' }}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+
+
+</View>
+    </View>
+   
      </View> )}
      refreshing= {false}onRefresh={SetImageFeed}
      
      />
+     <View style={{padding:16}}></View>
      </View>
      
      <Divider width = {screenWidth*0.9}></Divider>
