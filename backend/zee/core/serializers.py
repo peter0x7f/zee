@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile, Posts
+from .models import Profile, Posts, Comment
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -94,13 +94,16 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('username','image_url')
 
-class ProfilePostsSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(source='user.profile')
     class Meta:
+        model = Comment
+        fields = ('user','post_id', 'comment', 'profile','created_on')
+
+class ProfilePostsSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(source='user.profile')
+    comments = CommentSerializer(many=True)
+    class Meta:
         model = Posts
-        fields = ('post_url', 'caption', 'created_at', 'no_of_likes', 'comments','profile')
-    #def to_representation(self, instance):
-        #representation = super().to_representation(instance)
-        #if 'image_url' in representation and representation['image_url']:
-          #  representation['image_url'] = instance.image_url
-        #return representation
+        fields = ('post_url', 'caption', 'created_at', 'no_of_likes', 'comments','profile', 'id')
+ 

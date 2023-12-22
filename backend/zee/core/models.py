@@ -27,7 +27,6 @@ class Profile(models.Model):
     total = models.TextField(blank=True)
     bw = models.TextField(blank=True)
     objects = models.Manager()
-
     def the_user(self):
         return self.user
 
@@ -36,9 +35,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_id = models.CharField(max_length=500)
     comment = models.TextField()
+    # no_likes = models.IntegerField(default=0)
     created_on = models.DateTimeField(default=datetime.now)
-    def the_user(self):
-        return self.user
+    def __str__(self):
+        return self.post_id
     
 class Posts(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)

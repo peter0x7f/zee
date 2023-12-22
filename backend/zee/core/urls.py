@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CustomObtainTokenPairView, RegisterView, UserSettings, get_user_posts, Upload, get_feed_posts
+from .views import CustomObtainTokenPairView, RegisterView, UserSettings, get_user_posts, Upload, get_feed_posts, Comment_Post
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -10,5 +10,6 @@ urlpatterns = [
     path('settings/', UserSettings.as_view(), name='user_settings'),
     path('upload/', Upload.as_view(), name="upload_photo"),
     path('profile/<str:pk>', get_user_posts, name="get_profile"),
-    path('explore_feed/', get_feed_posts,name="get_feed")
+    path('explore_feed/', get_feed_posts,name="get_feed"),
+    path('comment/<str:post_id>/', Comment_Post,name="comment")
 ]
