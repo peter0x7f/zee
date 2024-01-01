@@ -62,12 +62,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
     def create_profile(self, validated_data,user):
-        user = User.objects.create(
+        profile = Profile.objects.create(
             user=validated_data['user'],
         )
-        user.save()
+        profile.save()
 
-        return user
+        return profile
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')
