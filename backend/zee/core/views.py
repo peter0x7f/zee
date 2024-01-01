@@ -68,10 +68,6 @@ class UserSettings(generics.CreateAPIView):
     queryset = Profile.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = SettingsSerializer
-    def get_object(self):
-        # Get the profile for the current user
-        print(self.request.user)
-        return get_object_or_404(Profile, user=self.request.user)
     def perform_update(self, serializer):
         print(self.request.user)
         profile = self.get_object()
@@ -109,6 +105,11 @@ class UserSettings(generics.CreateAPIView):
         else:
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
+    def get_object(self):
+        # Get the profile for the current user
+        print(self.request.user)
+        
+        return get_object_or_404(Profile, user=self.request.user)
 
 
 
