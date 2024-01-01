@@ -2,10 +2,56 @@ from django.db import models
 import uuid
 from datetime import datetime
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+from django.contrib.auth.models import BaseUserManager
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, password, **extra_fields)
+# core/models.py
+from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
+from django.db import models
+from django.utils import timezone
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+
+    # New field to indicate login status
+    is_logged_in = models.BooleanField(default=False)
+
+    # Specify the manager for the User model
+    objects = CustomUserManager()
+
+    class Meta:
+        # Set unique related_names for groups and user_permissions
+        unique_together = ("email",)
+        default_related_name = "custom_user"
+        permissions = [
+            ("can_add_custom_permission", "Can add custom permission"),
+            # Add other custom permissions...
+        ]
+
+    # Specify unique related_names for groups and user_permissions
+    groups = "custom_user_groups"
+    user_permissions = "custom_user_permissions"
 
 User = get_user_model()
-
 
 class Achievements(models.Model):
     title = models.CharField(max_length=30)

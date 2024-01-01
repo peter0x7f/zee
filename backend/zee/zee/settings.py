@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "*"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,6 +70,9 @@ REST_FRAMEWORK = {
 
     ),
 }
+
+
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=180),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=50),

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile, Posts, Comment
+from .models import Profile, Posts, Comment, CustomUser
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from drf_extra_fields.fields import Base64ImageField
+
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -17,6 +18,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Customize the token payload here
         token['user_id'] = user.id
         token['username'] = user.username
+        token['is_logged_in'] = user.customuser.is_logged_in if hasattr(user, 'customuser') else False
         return token
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -50,7 +52,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            last_name=validated_data['last_name'],
         )
 
         

@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .models import Profile, Posts, User
+from .models import Profile, Posts, User, Comment
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
-from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer, ProfilePostsSerializer
+from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer, ProfilePostsSerializer, CommentSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -13,28 +13,40 @@ from rest_framework import generics
 from django.shortcuts import get_object_or_404
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.images import ImageFile
+from django.http import Http404
 from rest_framework.decorators import authentication_classes, permission_classes, api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from datetime import datetime, timezone
+from django.core.serializers.json import DjangoJSONEncoder
+from rest_framework.serializers import DateTimeField
 
-#change to react based api auth
 class CustomObtainTokenPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-    
+
     def post(self, request, *args, **kwargs):
         # Retrieve user credentials from the serializer
         username = request.data.get('username')
         password = request.data.get('password')
         # Authenticate the user
         user = authenticate(username=username, password=password)
-        
+
         if user is not None:
             # If the user is authenticated, generate the token
             response = super().post(request, *args, **kwargs)
+            
             # Add additional user information to the response
             response.data['user_id'] = user.id
             response.data['username'] = user.username
-            return response
+            response.data['is_logged_in'] = user.customuser.is_logged_in if hasattr(user, 'customuser') else False
+            
+            # Update last_login using the current time in UTC
+            user_instance = User.objects.get(id=user.id)
+            user_instance.is_logged_in = True
+            user_instance.save()
+            
+            # Use a custom JSON encoder to serialize datetime
+            return Response(response.data, status=response.status_code)
         else:
             return Response({"detail": "Invalid credentials"}, status=401)
         
@@ -102,22 +114,26 @@ class UserSettings(generics.CreateAPIView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([BasicAuthentication])
 def get_user_posts(request, pk):
-        # Retrieve all posts for the specified user
-        user = User.objects.get(username=pk)
-        posts = reversed(Posts.objects.filter(user=user))
-        
-        # Serialize the posts data
-        serializer = ProfilePostsSerializer(posts, many=True)
-        
-        # Return the serialized data as a JSON response
-        return Response(serializer.data)
+    # Retrieve all posts for the specified user
+    user = User.objects.get(username=pk)
+    posts = reversed(Posts.objects.filter(user=user))
+    posts_data = []
+
+    for post in posts:
+        comments = Comment.objects.filter(post_id=post.id)
+        # Serialize the posts data with comments
+        serializer = ProfilePostsSerializer(post, context={'comments': CommentSerializer(comments, many=True).data})
+        posts_data.append(serializer.data)
+
+    # Return the serialized data as a JSON response
+    return Response(posts_data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([BasicAuthentication])
 def get_feed_posts(request):
         # Retrieve all posts for the specified user
         # user = Profile.objects.get(username=request.user)#retrieve followers
@@ -137,3 +153,40 @@ class Upload(generics.CreateAPIView):
         def perform_create(self, serializer):
             serializer.save(user=self.request.user)
 
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([BasicAuthentication])
+def Comment_Post(request, post_id):
+    if request.method == 'GET':
+        # Retrieve comments associated with the specified post
+        try:
+            post = Posts.objects.get(id=post_id)
+            comments = Comment.objects.filter(post_id=post_id)
+            serializer = CommentSerializer(comments, many=True)
+            return Response(serializer.data)
+        except Posts.DoesNotExist:
+            raise Http404("Posts matching query does not exist.")
+
+    elif request.method == 'POST':
+        # Create a new comment for the specified post
+        try:
+            post = Posts.objects.get(id=post_id)
+        except Posts.DoesNotExist:
+            raise Http404("Posts matching query does not exist.")
+
+        # Get the authenticated user
+        user = request.user
+
+        # Extract comment data from the request
+        comment_text = request.data.get('comment')
+
+        # Create a new Comment object
+        new_comment = Comment(user=user, post_id=post_id, comment=comment_text)
+
+        # Save the new comment
+        new_comment.save()
+
+        # Serialize the new comment for the response
+        serializer = CommentSerializer(new_comment)
+
+        return Response(serializer.data)
