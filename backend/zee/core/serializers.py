@@ -60,6 +60,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+    def create_profile(self, validated_data,user):
+        user = User.objects.create(
+            user=validated_data['user'],
+        )
+        user.save()
+
+        return user
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')

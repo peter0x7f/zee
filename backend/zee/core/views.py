@@ -59,7 +59,6 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
 
-
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 class UserSettings(generics.CreateAPIView): 
@@ -76,7 +75,7 @@ class UserSettings(generics.CreateAPIView):
         if serializer.validated_data.get('bio', profile.bio) != None:
             profile.bio = serializer.validated_data.get('bio', profile.bio)
         if serializer.validated_data.get('image_url', profile.image_url) != None:
-            profile.image_url.delete()
+            # profile.image_url.delete()
             image_data = serializer.validated_data.get('image_url', profile.image_url)
             if isinstance(image_data, InMemoryUploadedFile):
                 image_file = ImageFile(image_data)
@@ -103,13 +102,14 @@ class UserSettings(generics.CreateAPIView):
             # If a profile exists, update it
             self.perform_update(serializer)
         else:
+            # profile = self.get_object()
+            # image_data = serializer.validated_data.get('image_url', profile.image_url)
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
-    def get_object(self):
-        # Get the profile for the current user
-        print(self.request.user)
-        
-        return get_object_or_404(Profile, user=self.request.user)
+    # def get_object(self):
+    #     # Get the profile for the current user
+    #     print(self.request.user)
+    #     return get_object_or_404(Profile, user=self.request.user)
 
 
 
