@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Link, router } from 'expo-router';
 import { GluestackUIProvider,  Box } from "@gluestack-ui/themed";
 import { config} from "@gluestack-ui/config";
-
+import * as SecureStore from 'expo-secure-store';
 import { InputField, Input, Button, ButtonText, ButtonIcon, Heading, Center, Divider } from "@gluestack-ui/themed"
 
 import{
@@ -42,7 +42,8 @@ const SignupP = () => {
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState(''); 
   const[password2, setPassword2] = useState('');
-  const[token, setToken] = useState('');
+ let token = null;
+ let refresh = null;
   const handleSignup = async () => {
     let Reg = false;
     const userDataS = {
@@ -72,19 +73,31 @@ const SignupP = () => {
    {
     await axios.post('http://'+global.LOCAL_IP+'/login/', userDataRL)
         .then(response => {console.log('SUCCESS (I THINK)', response.data);
-
-          setToken(response.data);
+        console.log("RESPONSE: "+response.data)
+          token =response.data.access
+          refresh = response.data.refresh
           
-         console.log('TOKEN: ',Token);
-         router.replace()
+         console.log('TOKEN: ',token);
+         
         })
         
         .catch(error => {console.log('ERROR') });
         
         console.log(userDataRL);
-        let tokenString = JSON.stringify(Token);
+        if(token != null)
+      {
+        let tokenString = JSON.stringify(token);
+        let refreshString = JSON.stringify(refresh);
         await SecureStore.setItemAsync('Token', tokenString);
-        router.replace('/Feed')
+        await SecureStore.setItemAsync('Refresh', refreshString);
+        await SecureStore.setItemAsync('username', username)
+       
+      router.replace('/Feed')
+      }
+      else
+      {
+        console.log("Login Redirect Failed!")
+      }
    }
     };
    
