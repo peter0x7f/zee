@@ -114,7 +114,7 @@ class UserSettings(generics.CreateAPIView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 def get_user_posts(request, pk):
     # Retrieve all posts for the specified user
     user = User.objects.get(username=pk)
@@ -133,7 +133,7 @@ def get_user_posts(request, pk):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 def get_feed_posts(request):
         # Retrieve all posts for the specified user
         # user = Profile.objects.get(username=request.user)#retrieve followers
@@ -155,7 +155,7 @@ class Upload(generics.CreateAPIView):
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 def Comment_Post(request, post_id):
     if request.method == 'GET':
         # Retrieve comments associated with the specified post

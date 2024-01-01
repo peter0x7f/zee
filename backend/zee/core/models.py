@@ -28,13 +28,8 @@ from django.db import models
 from django.utils import timezone
 
 class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-
-
     # New field to indicate login status
     is_logged_in = models.BooleanField(default=False)
-
     # Specify the manager for the User model
     objects = CustomUserManager()
 
