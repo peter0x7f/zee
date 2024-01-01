@@ -61,9 +61,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
     
-    def create_profile(self, validated_data,user):
+       def create_profile(self, validated_data, user):
         profile = Profile.objects.create(
-            user=validated_data['user'],
+            user=user,
         )
         profile.save()
 
