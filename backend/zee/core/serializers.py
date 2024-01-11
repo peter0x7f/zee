@@ -61,13 +61,26 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
     
-    def create_profile(self, user):
-        profile = Profile.objects.create(
-            user=user,
-        )
-        profile.save()
+    def make_user(self, validated_data):
+        user_profile = self.get_object()
+        if validated_data.get('username', user_profile.username) != None:
+            username = validated_data.get('username', user_profile.username)
+            user_field = User.objects.get(username=username).first()
+            print(user_field)
+            Profile.objects.create(user=user_field)
+            return "created"
+        else:
+            return "failed"
 
-        return profile
+    
+    # def create_profile(self, user):
+    #     print(user)
+    #     profile = Profile.objects.create(
+    #         user=user,
+    #     )
+    #     profile.save()
+
+    #     return profile
 
 class SettingsSerializer(serializers.ModelSerializer):
     # user = serializers.ReadOnlyField(source='user.username')
