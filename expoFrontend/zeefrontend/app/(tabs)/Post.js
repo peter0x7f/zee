@@ -51,22 +51,7 @@ const Post = () =>
     const [imageH, setImageH] = useState(0);
 
     const [caption, setCaption] = useState('')
-   /* const [image_url, setimage_url] = useState('');
-  const [bio, setBio] = useState('');
-  const [achievements, setAchievements] = useState('');
-  const [max_bench, setMaxBench] = useState('');
-  const [max_squat, setMaxSquat] = useState('');
-  const [max_deadlift, setMaxDeadlift] = useState('');
-  const [total, setTotal] = useState('');
-  const [bw, setBw] = useState('');
-  image_url,
-  bio,
-  achievements,
-  max_bench,
-  max_squat,
-  max_deadlift,
-  total,
-  bw,*/
+
     useEffect(() => {
       const getToken = async () => {
         let token = await SecureStore.getItemAsync('Token');
@@ -194,10 +179,6 @@ const Post = () =>
         await SignOut(); 
       }
 
-      
-   
-
-    
     if(token != null)
     {
     return(
@@ -287,3 +268,20 @@ const Post = () =>
     }
 }
 export default Post;
+
+   /* const [image_url, setimage_url] = useState('');
+  const [bio, setBio] = useState('');
+  const [achievements, setAchievements] = useState('');
+  const [max_bench, setMaxBench] = useState('');
+  const [max_squat, setMaxSquat] = useState('');
+  const [max_deadlift, setMaxDeadlift] = useState('');
+  const [total, setTotal] = useState('');
+  const [bw, setBw] = useState('');
+  image_url,
+  bio,
+  achievements,
+  max_bench,
+  max_squat,
+  max_deadlift,
+  total,
+  bw,*/
