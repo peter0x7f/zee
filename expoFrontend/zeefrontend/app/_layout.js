@@ -41,7 +41,30 @@ import { Stack } from 'expo-router/stack';
 
 
 export default function Layout() {
-  const [username, setUsername] = useState(SecureStore.getItemAsync('username'));
+
+  return( <Stack
+  //username = {username}
+  screenOptions={{
+    
+    headerStyle: {
+        backgroundColor: '#020945',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+  }
+  }
+   >
+    <Stack.Screen name= "(tabs)"  options={{headerTitle:  'LBS'  }}  />
+    <Stack.Screen name= "UserPosts"  options={{headerTitle:  'My Posts'  }}  />
+   </Stack>
+   );
+  
+  
+}
+
+/*  const [username, setUsername] = useState(SecureStore.getItemAsync('username'));
 
    useEffect(() => {
     
@@ -60,24 +83,4 @@ export default function Layout() {
  
 
     fetchUsername();
-  }, []);
-  return( <Stack
-  username = {username}
-  screenOptions={{
-    
-    headerStyle: {
-        backgroundColor: '#020945',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-  }
-  }
-   >
-    <Stack.Screen name= "(tabs)"  options={{headerTitle:  'LBS'  }}  />
-   </Stack>
-   );
-  
-  
-}
+  }, []);*/

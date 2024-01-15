@@ -34,12 +34,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import react from "react";
 import styles from "../stylefile";
-import SignupP from "../SignupP";
-import { useAuth } from "../Contexts/AuthContext";
-import { AuthProvider } from "../Contexts/AuthContext";
-import { Stack } from 'expo-router/stack';
-import LoginP from "../LoginP";
-import Layout from "../_layout";
+
 
 const screenWidth = Dimensions.get('window').width;
 

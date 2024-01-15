@@ -33,8 +33,7 @@ import {
 import react from "react";
 import styles from "./stylefile";
 import SignupP from "./SignupP";
-import { useAuth } from "./Contexts/AuthContext";
-import { AuthProvider } from "./Contexts/AuthContext";
+
 import Feed from "./(tabs)/Feed";
 import Layout from "./_layout";
 
