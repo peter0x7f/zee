@@ -30,7 +30,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import styles from "./stylefile";
-import Feed from "./(tabs)/Feed";
+
 
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;

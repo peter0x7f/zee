@@ -24,7 +24,7 @@ import{
   PanResponder,
   Animated,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
 } from 'react-native';
 
 import {
@@ -36,11 +36,11 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import react from "react";
 import styles from "../stylefile";
-import SignupP from "../SignupP";
-import { AuthProvider, useAuth } from "../Contexts/AuthContext";
+
+
 import SignOut from "../(auth)/SignOut";
-import LoginP from "../LoginP";
-import UserHeader from "../UserHeader";
+
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -144,7 +144,7 @@ if(token != null && access!= null)
   }, [isPageLoaded]);
  
   const [modalVisible, setModalVisible] = useState(false);
-
+  
 
     return(
         
@@ -153,6 +153,7 @@ if(token != null && access!= null)
 
        
         <GluestackUIProvider config={config}>
+          
             <SafeAreaView style={styles.centerContainer} onLayout={loadFeed}>
            
   <View style = {{padding:3}}></View>
@@ -160,7 +161,7 @@ if(token != null && access!= null)
      <View style = {{padding:0}}></View>
      <View style={{flex:1}}>
      <FlatList data={validFeedData} renderItem={({item}) => ( <View style = {styles.postContainer3}>
-        <Image source ={{uri: item.image_url}} style = {{height: 300, width: 300 }}></Image>
+        <Image source ={{uri: item.image_url? item.image_url : null}} style = {{height: 300, width: 300 }}></Image>
         <View style={{padding:10}}/>
        
         <View style={styles.descriptionContainer}>
@@ -224,6 +225,9 @@ bgColor="#020945"
 </Modal>
 
 
+
+
+
 </View>
     </View>
    
@@ -241,6 +245,7 @@ bgColor="#020945"
     
     <View style = {{padding:3}}></View>
             </SafeAreaView>
+           
         </GluestackUIProvider>
         
     );

@@ -32,7 +32,7 @@ import react from "react";
 import styles from "../stylefile";
 import SignupP from "../SignupP";
 import { Select, SelectTrigger, SelectInput, SelectIcon, Icon, ChevronDownIcon, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem, Divider } from '@gluestack-ui/themed';
-import { useAuth, AuthProvider } from "../Contexts/AuthContext";
+
 import * as SecureStore from 'expo-secure-store';
 const screenWidth = Dimensions.get('window').width;
 const WorkoutPage = () => {
