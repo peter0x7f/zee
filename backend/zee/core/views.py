@@ -60,10 +60,11 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     def make_user(self, serializer):
         user_profile = self.get_object()
+        user = serializer.save()
         username = serializer.validated_data.get('username', user_profile.username)
         user_field = User.objects.get(username=username).first()
         print(user_field)
-        Profile.objects.create(user=user_field)
+        Profile.objects.create(user=user)
         return "created"
 
 
@@ -114,6 +115,7 @@ class UserSettings(generics.CreateAPIView):
             # image_data = serializer.validated_data.get('image_url', profile.image_url)
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
+            Profile.objects.create(user=self.request.user)
     # def get_object(self):
     #     # Get the profile for the current user
     #     print(self.request.user)

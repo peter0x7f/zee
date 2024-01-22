@@ -34,6 +34,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
+
         model = User
         fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
         extra_kwargs = {
@@ -61,16 +62,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
     
-    def make_user(self, validated_data):
-        user_profile = self.get_object()
-        if validated_data.get('username', user_profile.username) != None:
-            username = validated_data.get('username', user_profile.username)
-            user_field = User.objects.get(username=username).first()
-            print(user_field)
-            Profile.objects.create(user=user_field)
-            return "created"
-        else:
-            return "failed"
+    def create(self, validated_data):
+        # Create user instance
+        user = User.objects.create_user(**validated_data)
+        # Create profile for the new user
+        Profile.objects.create(user=user)
+
+        return user
 
     
     # def create_profile(self, user):
@@ -88,13 +86,22 @@ class SettingsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('image_url', 'bio', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        fields = ('user', 'image_url', 'bio', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if 'image_url' in representation and representation['image_url']:
             representation['image_url'] = instance.image_url.url
         return representation
+    
+    def create(self, validated_data):
+        # Create user instance
+        user = User.objects.create_user(**validated_data)
+        # Create profile for the new user
+        Profile.objects.create(user=user)
+
+        return user
+
   
 
 class UploadSerializer(serializers.ModelSerializer):
