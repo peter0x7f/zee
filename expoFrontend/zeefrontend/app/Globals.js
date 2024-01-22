@@ -7,5 +7,5 @@ import * as SecureStore from 'expo-secure-store';
 //                                      ^       ^
 //                                  address    Port # (always 8000)
 
-global.LOCAL_IP = '192.168.1.14' +':8000'
+global.LOCAL_IP = '10.20.129.191' +':8000'
 

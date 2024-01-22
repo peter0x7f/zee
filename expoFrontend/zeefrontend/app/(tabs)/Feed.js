@@ -44,18 +44,17 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const screenWidth = Dimensions.get('window').width;
 
-
+/*
+* Feed Page for application. Every post made by a valid user is loaded in a FlatList. 
+* Modal Setup for comments section.
+*/
 const Feed = () =>
 {
-
-
-    const handleSignOut = async () => {
-        await SignOut(); 
-      }
-
+    //AUTH TOKEN VARS
       const [token, setToken] = useState('')
       const [access, setAccess]= useState('')
       const [refresh, setRefresh]= useState('')
+      //Hook to pull tokens from local storage ensure existence
       useEffect(() => {
         const getToken = async () => {
           let token = await SecureStore.getItemAsync('Token');
@@ -85,7 +84,7 @@ const Feed = () =>
         getAccess();
         getRefresh();
       }, []);
-   
+ //Check if tokens exist
 if(token != null && access!= null)
 {
 
@@ -249,8 +248,8 @@ bgColor="#020945"
         </GluestackUIProvider>
         
     );
-     }//Auth Context
-     else
+     }//end if token exists
+     else //else token doesn't exist
      router.replace('/LoginP')
 
 }; //Feed
