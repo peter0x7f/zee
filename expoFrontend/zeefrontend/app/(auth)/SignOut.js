@@ -37,21 +37,25 @@ import styles from "../stylefile";
 
 
 const screenWidth = Dimensions.get('window').width;
-
+/*
+Simple func signs user out and checks for errors.
+*/ 
 const SignOut = async () =>
 {
 
 
-
+  //DELETE AUTH TOKENS
     await SecureStore.deleteItemAsync('Token');
     await SecureStore.deleteItemAsync('Refresh');
-    await SecureStore.deleteItemAsync('username')
+    await SecureStore.deleteItemAsync('username');
+  //CHECK IF THEY EXIST POST DELETION
     let Token = await SecureStore.getItemAsync('Token');
     let Refresh = await SecureStore.getItemAsync('Refresh');
     let username =  await SecureStore.getItemAsync('username');
+  //IF SUCCESSFULY DELETED
     if(Token == null && Refresh == null && username == null){
         console.log("Signout Success")
-        
+        //S
       router.replace('/LoginP')
 
     }

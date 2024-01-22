@@ -39,7 +39,7 @@ import Layout from "./_layout";
 
 import { Stack } from 'expo-router/stack';
 const screenWidth = Dimensions.get('window').width;
-
+const imageSource = require('../assets/LBS-logoclear.gif');
 
 
 
@@ -195,19 +195,15 @@ color = '$amber100'>
   <ButtonText color="white">Sign Up</ButtonText>
   
 </Button>
-      <View style = {{padding:5}}></View>
-  
-     <View style = {{padding:5}}></View>
+    <View>
+     <Image 
+     source={imageSource}
+     style={{ width: 300, height: 300 }}
+     ></Image>
+     </View>
             </Center>
             
-            <Center>
-            
-            
-
-  
-
-    
-            </Center>
+           
            
 
            </SafeAreaView>
