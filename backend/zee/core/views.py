@@ -60,14 +60,12 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     def make_user(self, serializer):
         user_profile = self.get_object()
-        if serializer.validated_data.get('username', user_profile.username):
-            username = serializer.validated_data.get('username', user_profile.username)
-            user_field = User.objects.get(username=username).first()
-            print(user_field)
-            Profile.objects.create(user=user_field)
-            return "created"
-        else:
-            print("failed")
+        username = serializer.validated_data.get('username', user_profile.username)
+        user_field = User.objects.get(username=username).first()
+        print(user_field)
+        Profile.objects.create(user=user_field)
+        return "created"
+
 
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
