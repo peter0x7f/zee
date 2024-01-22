@@ -87,11 +87,7 @@ const Settings = () => {
       <SafeAreaView style={styles.centerContainer}>
         <View >    
           <Center>
-          <Text style={styles.coolText2}>My Stats:</Text>
-          <Text style={styles.Statstext}>Body Weight: 190</Text>
-          <Text style={styles.Statstext}>Max Bench: 255</Text>
-          <Text style={styles.Statstext}>Max Deadlift: 335</Text>
-          <Text style={styles.Statstext}>Max Squat: 315</Text>
+        
           
           <Divider width={screenWidth*0.9}></Divider>
           <View style={{padding:8}}></View>

@@ -105,6 +105,7 @@ const Profile = () =>
       }, []);
 
       const getPfP = async () => {
+        try{
         const response = await axios.get(
           'http://' + global.LOCAL_IP + '/profile/'+username,
           {
@@ -116,12 +117,14 @@ const Profile = () =>
           }
         );
        let img = response.data[0].profile.image_url;
-     
+          console.log("RESPONSE: "+response.data)
        console.log("IMAGE TEST: "+img)
         setPfp('http://' + global.LOCAL_IP +img)
         console.log("TESTPOINT: "+pfp)
         console.log(response.data[0].profile.image_url)
-
+        }catch(error){
+          console.log("Get PFP ERROR: "+error)
+        }
 
         
       }
@@ -164,10 +167,10 @@ const Profile = () =>
      <View style = {{padding:6}}></View>
      <Center>
           
-          <Text style={styles.Statstext}>Body Weight: 190</Text>
-          <Text style={styles.Statstext}>Max Bench: 255</Text>
-          <Text style={styles.Statstext}>Max Deadlift: 335</Text>
-          <Text style={styles.Statstext}>Max Squat: 315</Text>
+          <Text style={styles.Statstext}>Body Weight: </Text>
+          <Text style={styles.Statstext}>Max Bench: </Text>
+          <Text style={styles.Statstext}>Max Deadlift: </Text>
+          <Text style={styles.Statstext}>Max Squat: </Text>
           
           <Divider width={screenWidth*0.9}></Divider>
           </Center>
