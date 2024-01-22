@@ -51,8 +51,11 @@ import { Camera } from 'lucide-react-native';
 import { UserCircle2 } from 'lucide-react-native';
 import { Dumbbell } from 'lucide-react-native';
 import { Newspaper, FileSearch2 } from 'lucide-react-native';
-
+/*
+ *   TAB BAR LAYOUT COMPONENT
+*/
 export default () => {
+//Path var to set tab file
   const [path, setPath] = useState('Feed')
     return(
 
