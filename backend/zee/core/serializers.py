@@ -93,14 +93,7 @@ class SettingsSerializer(serializers.ModelSerializer):
         if 'image_url' in representation and representation['image_url']:
             representation['image_url'] = instance.image_url.url
         return representation
-    
-    def create(self, validated_data):
-        # Create user instance
-        user = User.objects.create_user(**validated_data)
-        # Create profile for the new user
-        Profile.objects.create(user=user)
 
-        return user
 
   
 
