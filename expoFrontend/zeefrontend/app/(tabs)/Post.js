@@ -269,19 +269,3 @@ const Post = () =>
 }
 export default Post;
 
-   /* const [image_url, setimage_url] = useState('');
-  const [bio, setBio] = useState('');
-  const [achievements, setAchievements] = useState('');
-  const [max_bench, setMaxBench] = useState('');
-  const [max_squat, setMaxSquat] = useState('');
-  const [max_deadlift, setMaxDeadlift] = useState('');
-  const [total, setTotal] = useState('');
-  const [bw, setBw] = useState('');
-  image_url,
-  bio,
-  achievements,
-  max_bench,
-  max_squat,
-  max_deadlift,
-  total,
-  bw,*/

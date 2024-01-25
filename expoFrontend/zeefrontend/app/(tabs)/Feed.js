@@ -88,8 +88,10 @@ const Feed = () =>
 if(token != null && access!= null)
 {
 
-
- 
+/*
+Func to pull images from backend and load them into flatlist
+*/ 
+const [feedData, setFeedData] = useState([]); 
     const SetImageFeed = async () => {
       try {
         const response = await axios.get(
@@ -116,23 +118,16 @@ if(token != null && access!= null)
         console.error('Error fetching feed:', error);
       }
     };
-   
+   //Async func to call SetImageFeed() asynchronously
     const loadFeed = async () => {
-      
       await SetImageFeed();
-      
-      
-    
     };
-    
-   
-    const [feedData, setFeedData] = useState([]);
+    //Filter feed for valid image URLS
     const validFeedData = feedData.filter((item) => item.image_url);
 
     const [isPageLoaded, setIsPageLoaded] = useState(false);
-
   useEffect(() => {
-   
+   //load feed on first load
     if (!isPageLoaded) {
       loadFeed();
       console.log('Page is loaded for the first time');
@@ -141,7 +136,8 @@ if(token != null && access!= null)
       setIsPageLoaded(true);
     } 
   }, [isPageLoaded]);
- 
+  
+ //Comment section modal bool
   const [modalVisible, setModalVisible] = useState(false);
   
 
