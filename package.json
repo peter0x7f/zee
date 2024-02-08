@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@eva-design/eva": "^2.2.0",
+    "@ui-kitten/components": "^5.3.1",
+    "react-native-svg": "^14.1.0"
+  }
+}

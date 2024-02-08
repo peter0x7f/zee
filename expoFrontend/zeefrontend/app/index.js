@@ -1,18 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
-import {Link} from 'expo-router'
+//Joseph Somogie
+import { StyleSheet, Text, View } from 'react-native'
+import { Link } from 'expo-router'
+import { useMemo } from 'react'
+import LoginP from './LoginP'
+import Test from './comments'
 
-import LoginP from "./LoginP";
+
 
 export default function Page() {
+  
   return (
- 
-    <LoginP></LoginP>
-  
-   
-
-   
-  
- 
+  <LoginP />
   );
 }
-
+//Joseph Somogie
