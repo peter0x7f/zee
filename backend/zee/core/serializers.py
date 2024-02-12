@@ -62,13 +62,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
     
-    def create(self, validated_data):
-        # Create user instance
-        user = User.objects.create_user(**validated_data)
-        # Create profile for the new user
-        Profile.objects.create(user=user)
+    # def create(self, validated_data):
+    #     # Create user instance
+    #     user = User.objects.create_user(**validated_data)
+    #     # Create profile for the new user
+    #     Profile.objects.create(user=user)
 
-        return user
+    #     return user
 
     
     # def create_profile(self, user):
