@@ -36,7 +36,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'password', 'password2', 'email', 'first_name', 'last_name')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -61,6 +61,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['id'] = instance.id
+        return representation
     
     # def create(self, validated_data):
     #     # Create user instance
