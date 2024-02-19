@@ -74,7 +74,7 @@ const SignupP = () => {
       const userId = registerResponse.data.id;
       console.log('SUCCESS');
       // Assuming Reg is a variable declared outside this block
-      await axios.post('/createprofile/', { user_id: userId});
+      await axios.post('http://' + global.LOCAL_IP + '/createprofile/', { user_id: userId});
       console.log('Profile created successfully!');
       Reg = true;
     } 
