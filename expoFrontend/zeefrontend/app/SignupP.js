@@ -69,8 +69,8 @@ const SignupP = () => {
       password,
     }
     //Axios requests
-    await axios
-      .post('http://' + global.LOCAL_IP + '/register/', userDataS)
+    const registerResponse = await axios .post('http://' + global.LOCAL_IP + '/register/', userDataS)
+    const userId = registerResponse.data.id;
       .then((response) => {
         console.log('SUCCESS')
         Reg = true
@@ -78,7 +78,12 @@ const SignupP = () => {
       .catch((error) => {
         console.log('ERROR')
       })
-    console.log(userDataS)
+      await axios.post('/createprofile/', { user_id: userId});
+
+      console.log('Profile created successfully!');
+  } catch (error) {
+      console.error('Error registering user or creating profile:', error);
+  }
 
     if (Reg) {
       await axios
