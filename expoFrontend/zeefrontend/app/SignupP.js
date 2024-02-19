@@ -70,7 +70,7 @@ const SignupP = () => {
     }
     //Axios requests
     try {
-      const registerResponse = await axios .post('http://' + global.LOCAL_IP + '/register/', userDataS)
+      const registerResponse = await axios.post('http://' + global.LOCAL_IP + '/register/', userDataS);
       const userId = registerResponse.data.id;
       console.log('SUCCESS');
       // Assuming Reg is a variable declared outside this block
