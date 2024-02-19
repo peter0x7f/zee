@@ -78,7 +78,7 @@ const Profile = () => {
     const getUsername = async () => {
       let uname = await SecureStore.getItemAsync('username')
       SetUsername(uname)
-      console.log(uname)
+      console.log("Username: "+uname)
     }
     const getToken = async () => {
       let token = await SecureStore.getItemAsync('Token')
@@ -242,96 +242,4 @@ const Profile = () => {
 }
 export default Profile
 //Joseph Somogie 2023
-/*
-  const saveImage = async (uri, width, height) => {
-            try{
-                setImageUri(uri);
-            setImageW(width);
-            setImageH(height);
-                
-            }catch(error){
-                throw error;
-            }
-        }
-        
-        const pickImage = async () => {
-        try{
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [1, 1],
-            quality: 1,
-      })
-      if(!result.canceled){
-        const { uri, width, height } = result.assets[0];
-        saveImage(uri, width, height);
-    }
-    }catch (error) {
-        alert("Error uploading image: " + error.mssage);
-    }
-    
-    };
-    
-        const captureImage = async () => {
-            try{
-                await ImagePicker.requestCameraPermissionsAsync();
-                let result = await ImagePicker.launchCameraAsync({
-                    cameraType: ImagePicker.CameraType.back,
-                    allowsEditing: true,
-                    aspect: [1,1],
-                    quality: 1,
-                })
-                if(!result.canceled){
-                    const { uri, width, height } = result.assets[0];
-                    saveImage(uri, width, height);
-                }
-    
-            } catch (error) {
-                alert("Error uploading image: " + error.mssage);
-            }
-        };
-    
-      
-        const uploadImage = async () => {
-          if (imageUri !== '') {
-          
-          
-            
-    
-            const postData = new FormData();
-            postData.append('image_url', {
-              uri: imageUri,
-              type: 'image/jpeg', // or the appropriate mime type
-              name: 'photo.jpg',
-            });
-           
-           
-            
-            try {
-            
-              const response = await axios.post(
-                'http://' + global.LOCAL_IP + '/settings/',
-                 postData,
-                {
-                  headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer `+access,
-                    
-                  },
-                }
-              );
-        
-              
-              console.log('Image uploaded successfully:', response.data, postData);
-              setImageUri(null)
-              getPfP();
-              
-            } catch (error) {
-              console.error('Error uploading image:', error);
-            }
-          } else {
-            console.error('No image data to upload.');
-          }
-           console.log('Bearer '+access)
-        };
-        */
+

@@ -159,10 +159,10 @@ Func to pull images from backend and load them into flatlist
 
  
 /****************Gorham Bottom Sheet setup for Comment Section******************/
-  const snapPoints = useMemo(() => [ '100%', ], [])
+  const snapPoints = useMemo(() => [ '75%','100%', ], [])
   const bottomSheetRef = useRef(null)
   const handleClosePress = () => bottomSheetRef.current?.close()
-  const handleOpenPress = () => bottomSheetRef.current?.expand()
+  const handleOpenPress = () => bottomSheetRef.current?.snapToIndex(0)
 
   const RenderBackdrop = useCallback((props) => (
     <BottomSheetBackdrop
@@ -249,22 +249,7 @@ Func to pull images from backend and load them into flatlist
         enablePanDownToClose={true}
         backdropComponent={RenderBackdrop}
       >
-        {/*Flatlist with comment data*/}
-        <BottomSheetFlatList
-            
-              data={validFeedData}
-              renderItem={({ item }) => (
-                
-                  <View >
-                  <Text style={styles.postText}>{item.caption}</Text>
-                  </View>
-                  
-                
-              )}
-              refreshing={false}
-              onRefresh={SetImageFeed}
-            />
-<BottomSheetTextInput style={{ 
+          <BottomSheetTextInput style={{ 
     marginTop: 8,
     marginBottom: 10,
     borderRadius: 10,
@@ -275,6 +260,25 @@ Func to pull images from backend and load them into flatlist
   }}
 
 />
+
+        {/*Flatlist with comment data*/}
+        <BottomSheetFlatList
+            
+              data={validFeedData}
+              renderItem={({ item }) => (
+                
+                  <View >
+                    <View style={styles.CommentContainer}>
+                  <Text style={styles.postText}>{item.caption}</Text>
+                  </View>
+                  </View>
+                  
+                
+              )}
+              refreshing={false}
+              onRefresh={SetImageFeed}
+            />
+
       </BottomSheet>
                     
       </GluestackUIProvider>
@@ -289,37 +293,3 @@ export default Feed
 
 //Joseph Somogie 2023
 
-//OLD COMMENT SECTION
-/*
-  <Modal
-                      
-                        animationType='slide'
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => setModalVisible(false)}
-                      >
-                        
-                          <View style={styles.modalContent}>
-                            <Text style={styles.coolText3}>Comments</Text>
-                            <View style={styles.commentsList}></View>
-
-                           
-                            <TextInput
-                              placeholder='Add a comment...'
-                              style={styles.inputField}
-                              multiline={true}
-                            />
-
-                          
-                            <TouchableOpacity
-                              style={styles.closeButton}
-                              onPress={() => setModalVisible(false)}
-                            >
-                              <Text style={{ fontSize: 20, color: 'white' }}>
-                                Close
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        
-                      </Modal>
-                      */
