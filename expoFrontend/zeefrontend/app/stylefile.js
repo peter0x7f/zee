@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
       width: 1,
       height: 1,
     },
+    
 
     image: {
       width: 10, // You can adjust the width as needed
@@ -91,6 +92,11 @@ const styles = StyleSheet.create({
     display: 'flex', // Use flex properties
     flexDirection: 'column', // Stack items vertically
     alignItems: 'center', // Center items horizontally
+  },
+  CommentContainer: {
+    backgroundColor: 'gray',
+    height: 100,
+    padding: 10,
   },
   descriptionContainer: {
     backgroundColor: '#3b4045', // Color for the description container
