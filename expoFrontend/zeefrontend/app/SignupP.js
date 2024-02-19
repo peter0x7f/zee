@@ -81,7 +81,6 @@ const SignupP = () => {
     catch (error) {
         console.error('Error registering user or creating profile:', error);
     }
-  }
 
     if (Reg) {
       await axios
