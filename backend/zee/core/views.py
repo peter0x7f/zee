@@ -74,7 +74,7 @@ class UserSettings(generics.CreateAPIView):
     #queryset = Profile.objects.all()
     #if error with session save user_id in local storage to oull username or use token to pull info
     queryset = Profile.objects.all()
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = SettingsSerializer
     def perform_update(self, serializer):
         print(self.request.user)
@@ -159,7 +159,7 @@ def get_feed_posts(request):
 @authentication_classes([JWTAuthentication])
 class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
-        permission_classes = (AllowAny,)
+        permission_classes = (IsAuthenticated,)
         serializer_class = UploadSerializer
         def perform_create(self, serializer):
             serializer.save(user=self.request.user)
@@ -167,11 +167,13 @@ class Upload(generics.CreateAPIView):
 @permission_classes([IsAuthenticated])
 @authentication_classes([BasicAuthentication])
 class ProfileCreation(generics.CreateAPIView):
-        queryset = Profile.objects.all()
-        permission_classes = (AllowAny,)
-        serializer_class = ProfileSerializer
-        def perform_create(self, serializer):
-            serializer.save(user=self.request.user)
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticated,)  # Restrict creation to authenticated users
+
+    def perform_create(self, serializer):
+        # Get the user associated with the request
+        Profile.objects.create(user=self.request.user)
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])

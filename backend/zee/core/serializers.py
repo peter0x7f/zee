@@ -112,10 +112,10 @@ class UploadSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
+    # username = serializers.CharField(source='user.username')
     class Meta:
         model = Profile
-        fields = ('user', 'username','image_url')
+        fields = ('user','image_url')
 
 class CommentSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(source='user.profile')
