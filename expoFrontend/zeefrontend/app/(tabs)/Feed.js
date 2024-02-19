@@ -1,6 +1,6 @@
 //Joseph Somogie 2023
 
-import { React, useState, useEffect, useRef } from 'react'
+import { React, useState, useEffect} from 'react'
 import axios from 'axios'
 import { Asset } from 'expo-asset'
 import { Link, Redirect, router, useRouter } from 'expo-router'
@@ -55,10 +55,16 @@ import react from 'react'
 import styles from '../stylefile'
 
 import SignOut from '../(auth)/SignOut'
-
+import Test from '../comments'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const screenWidth = Dimensions.get('window').width
+
+//imports for bottom sheet comments
+import { useCallback, useMemo, useRef } from 'react'
+import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList, BottomSheetTextInput } from '@gorhom/bottom-sheet'
+
+
 
 /*
  * Feed Page for application. Every post made by a valid user is loaded in a FlatList.
@@ -151,9 +157,21 @@ Func to pull images from backend and load them into flatlist
       }
     }, [isPageLoaded])
 
-    //Comment section modal bool
-    const [modalVisible, setModalVisible] = useState(false)
+ 
+/****************Gorham Bottom Sheet setup for Comment Section******************/
+  const snapPoints = useMemo(() => [ '100%', ], [])
+  const bottomSheetRef = useRef(null)
+  const handleClosePress = () => bottomSheetRef.current?.close()
+  const handleOpenPress = () => bottomSheetRef.current?.expand()
 
+  const RenderBackdrop = useCallback((props) => (
+    <BottomSheetBackdrop
+      appearsOnIndex={0}
+      disappearsOnIndex={-1}
+      {...props}
+    ></BottomSheetBackdrop>
+  ))
+/*******************************************************************************/
     return (
       <GluestackUIProvider config={config} >
         <SafeAreaView style={styles.centerContainer} onLayout={loadFeed} >
@@ -194,43 +212,14 @@ Func to pull images from backend and load them into flatlist
                         variant='solid'
                         action='primary'
                         bgColor='#3b4045'
-                        onPress={() => setModalVisible(true)}
+                        onPress={handleOpenPress}
                       >
                         <ButtonText>
                           <MessagesSquare color={'white'}></MessagesSquare> 
                         </ButtonText>
+                        <Test/>
                       </Button>
-                      <Modal
-                      
-                        animationType='slide'
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => setModalVisible(false)}
-                      >
-                        
-                          <View style={styles.modalContent}>
-                            <Text style={styles.coolText3}>Comments</Text>
-                            <View style={styles.commentsList}></View>
-
-                            {/*Flatlist here */}
-                            <TextInput
-                              placeholder='Add a comment...'
-                              style={styles.inputField}
-                              multiline={true}
-                            />
-
-                            {/* Button to close the modal */}
-                            <TouchableOpacity
-                              style={styles.closeButton}
-                              onPress={() => setModalVisible(false)}
-                            >
-                              <Text style={{ fontSize: 20, color: 'white' }}>
-                                Close
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        
-                      </Modal>
+              
                     </View>
                   <View style={styles.descriptionContainer}>
                   <Text style={styles.postText}>{item.caption}</Text>
@@ -248,7 +237,46 @@ Func to pull images from backend and load them into flatlist
           <View style={{ padding: 3 }}></View>
 
           <View style={{ padding: 3 }}></View>
+          
         </SafeAreaView>
+        {/*Comment Section*/}
+        <BottomSheet 
+        backgroundStyle={{backgroundColor:'#3b4045'}}
+        handleIndicatorStyle={{backgroundColor:'black'}}
+        ref={bottomSheetRef}
+        index={-1}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        backdropComponent={RenderBackdrop}
+      >
+        {/*Flatlist with comment data*/}
+        <BottomSheetFlatList
+            
+              data={validFeedData}
+              renderItem={({ item }) => (
+                
+                  <View >
+                  <Text style={styles.postText}>{item.caption}</Text>
+                  </View>
+                  
+                
+              )}
+              refreshing={false}
+              onRefresh={SetImageFeed}
+            />
+<BottomSheetTextInput style={{ 
+    marginTop: 8,
+    marginBottom: 10,
+    borderRadius: 10,
+    fontSize: 16,
+    lineHeight: 20,
+    padding: 8,
+    backgroundColor: 'black',
+  }}
+
+/>
+      </BottomSheet>
+                    
       </GluestackUIProvider>
     )
   } //end if token exists 
@@ -258,4 +286,40 @@ Func to pull images from backend and load them into flatlist
 
 export default Feed
 
+
 //Joseph Somogie 2023
+
+//OLD COMMENT SECTION
+/*
+  <Modal
+                      
+                        animationType='slide'
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => setModalVisible(false)}
+                      >
+                        
+                          <View style={styles.modalContent}>
+                            <Text style={styles.coolText3}>Comments</Text>
+                            <View style={styles.commentsList}></View>
+
+                           
+                            <TextInput
+                              placeholder='Add a comment...'
+                              style={styles.inputField}
+                              multiline={true}
+                            />
+
+                          
+                            <TouchableOpacity
+                              style={styles.closeButton}
+                              onPress={() => setModalVisible(false)}
+                            >
+                              <Text style={{ fontSize: 20, color: 'white' }}>
+                                Close
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        
+                      </Modal>
+                      */

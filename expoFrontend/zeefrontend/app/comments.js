@@ -5,7 +5,7 @@ import { Button } from 'react-native'
 import styles from './stylefile'
 import { SafeAreaView } from 'react-native-safe-area-context'
 export default function Test() {
-  const snapPoints = useMemo(() => ['25%', '50%', '75%', '100%'], [])
+  const snapPoints = useMemo(() => ['25%', '50%', '75%',], [])
   const bottomSheetRef = useRef(null)
   const handleClosePress = () => bottomSheetRef.current?.close()
   const handleOpenPress = () => bottomSheetRef.current?.snapToIndex(1)
