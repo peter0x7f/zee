@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile, Posts, User, Comment
 from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, SettingsSerializer, CustomTokenObtainPairSerializer
-from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer, ProfilePostsSerializer, CommentSerializer
+from .serializers import RegisterSerializer, SettingsSerializer,UploadSerializer, ProfilePostsSerializer, CommentSerializer, ProfileSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
@@ -161,6 +161,15 @@ class Upload(generics.CreateAPIView):
         queryset = Posts.objects.all()
         permission_classes = (AllowAny,)
         serializer_class = UploadSerializer
+        def perform_create(self, serializer):
+            serializer.save(user=self.request.user)
+
+@permission_classes([IsAuthenticated])
+@authentication_classes([BasicAuthentication])
+class ProfileCreation(generics.CreateAPIView):
+        queryset = Profile.objects.all()
+        permission_classes = (AllowAny,)
+        serializer_class = ProfileSerializer
         def perform_create(self, serializer):
             serializer.save(user=self.request.user)
 
