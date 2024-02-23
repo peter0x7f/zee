@@ -52,10 +52,13 @@ const SignupP = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
+
+  const [access, setAccess] = useState(null);
   let token = null
   let refresh = null
   const handleSignup = async () => {
     let Reg = false
+    let userId;
     const userDataS = {
       username,
       password,
@@ -71,11 +74,10 @@ const SignupP = () => {
     //Axios requests
     try {
       const registerResponse = await axios.post('http://' + global.LOCAL_IP + '/register/', userDataS);
-      const userId = registerResponse.data.id;
-      console.log('SUCCESS');
-      // Assuming Reg is a variable declared outside this block
-      await axios.post('http://' + global.LOCAL_IP + '/createprofile/', { user_id: userId});
-      console.log('Profile created successfully!');
+     userId = registerResponse.data.id;
+      console.log('SUCCESS User ID: '+ userId);
+     
+     
       Reg = true;
     } 
     catch (error) {
@@ -90,7 +92,7 @@ const SignupP = () => {
           console.log('RESPONSE: ' + response.data)
           token = response.data.access
           refresh = response.data.refresh
-
+          token = token.substring(1, token.length - 1);
           console.log('TOKEN: ', token)
         })
 
@@ -105,6 +107,15 @@ const SignupP = () => {
         await SecureStore.setItemAsync('Token', tokenString)
         await SecureStore.setItemAsync('Refresh', refreshString)
         await SecureStore.setItemAsync('username', username)
+        console.log(userId);
+        await axios.post('http://' + global.LOCAL_IP + '/createprofile/', {user:userId},
+        {headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${access}`,
+        },}
+        );
+
+        console.log('Profile created successfully!');
 
         router.replace('/Feed')
       } else {

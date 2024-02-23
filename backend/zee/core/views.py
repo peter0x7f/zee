@@ -165,11 +165,11 @@ class Upload(generics.CreateAPIView):
             serializer.save(user=self.request.user)
 
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 class ProfileCreation(generics.CreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticated,)  # Restrict creation to authenticated users
+    permission_classes = (AllowAny,)  # Restrict creation to authenticated users
 
     def perform_create(self, serializer):
         # Get the user associated with the request

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   CommentContainer: {
     backgroundColor: 'gray',
     height: 100,
-    padding: 10,
+    padding: 5,
   },
   descriptionContainer: {
     backgroundColor: '#3b4045', // Color for the description container
