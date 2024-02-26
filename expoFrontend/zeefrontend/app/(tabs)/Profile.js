@@ -130,6 +130,7 @@ const Profile = () => {
           },
         },
       )
+      
       let img = response.data[0].profile.image_url
       console.log('RESPONSE: ' + response.data)
       console.log('IMAGE TEST: ' + img)

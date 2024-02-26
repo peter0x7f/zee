@@ -53,7 +53,6 @@ const SignupP = () => {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
-  const [access, setAccess] = useState(null);
   let token = null
   let refresh = null
   const handleSignup = async () => {
@@ -107,11 +106,12 @@ const SignupP = () => {
         await SecureStore.setItemAsync('Token', tokenString)
         await SecureStore.setItemAsync('Refresh', refreshString)
         await SecureStore.setItemAsync('username', username)
-        console.log(userId);
-        await axios.post('http://' + global.LOCAL_IP + '/createprofile/', {user:userId},
+        console.log("User ID: "+userId);
+        console.log("Access: "+token);
+        await axios.post('http://' + global.LOCAL_IP + '/createprofile/', {"user_id":userId},
         {headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${access}`,
+          Authorization: `Bearer ${token}`,
         },}
         );
 
