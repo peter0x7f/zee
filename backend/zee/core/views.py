@@ -115,7 +115,6 @@ class UserSettings(generics.CreateAPIView):
             # image_data = serializer.validated_data.get('image_url', profile.image_url)
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
-            Profile.objects.create(user=self.request.user)
     # def get_object(self):
     #     # Get the profile for the current user
     #     print(self.request.user)
@@ -165,7 +164,7 @@ class Upload(generics.CreateAPIView):
             serializer.save(user=self.request.user)
 
 @permission_classes([IsAuthenticated])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 class ProfileCreation(generics.CreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
