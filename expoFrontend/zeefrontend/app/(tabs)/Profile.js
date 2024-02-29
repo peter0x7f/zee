@@ -25,6 +25,7 @@ import {
   FileImage,
   Camera,
   Check,
+  UserCircle2
 } from 'lucide-react-native'
 import * as SecureStore from 'expo-secure-store'
 import {
@@ -129,6 +130,7 @@ const Profile = () => {
           },
         },
       )
+      
       let img = response.data[0].profile.image_url
       console.log('RESPONSE: ' + response.data)
       console.log('IMAGE TEST: ' + img)
@@ -165,7 +167,7 @@ const Profile = () => {
                     <Image source={{ uri: pfp }} style={styles.roundImage} />
                   ) : (
                     <View style={{ width: 100, height: 100 }}>
-                      <ImageOff size={100} strokeWidth={1.3} color='#020945' />
+                      <UserCircle2 size={100} strokeWidth={1.3} color='white' />
                     </View>
                   )}
                 </View>

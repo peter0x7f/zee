@@ -205,7 +205,10 @@ Func to pull images from backend and load them into flatlist
                           <ThumbsUp color={'white'} />
                         </ButtonText>
                       </Button>
-                      <View style={{ padding: 2 }} />
+                      <Text style={{color:'white', paddingTop: 12, paddingRight:10,fontSize:20}}>{item.likes}</Text>
+
+                      <Divider orientation='vertical'></Divider>
+                      
                       <Button
                         bg='transparent'
                         size='sm'
@@ -219,12 +222,12 @@ Func to pull images from backend and load them into flatlist
                         </ButtonText>
                         <Test/>
                       </Button>
-              
+                      <Text style={{color:'white', paddingTop: 12, paddingRight:10,fontSize:20}}>{item.likes}</Text>
                     </View>
                   <View style={styles.descriptionContainer}>
                   <Text style={styles.postText}>{item.caption}</Text>
                   </View>
-                  
+    
                 </View>
               )}
               refreshing={false}
@@ -249,17 +252,23 @@ Func to pull images from backend and load them into flatlist
         enablePanDownToClose={true}
         backdropComponent={RenderBackdrop}
       >
-          <BottomSheetTextInput style={{ 
+
+        <Center>
+       <Text>Add a comment...</Text>
+       </Center>
+                     <BottomSheetTextInput style={{ 
     marginTop: 8,
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 16,
-    lineHeight: 20,
-    padding: 8,
-    backgroundColor: 'black',
+    lineHeight: 50,
+    padding: 0,
+    backgroundColor: 'silver',
+    
   }}
 
 />
+
 
         {/*Flatlist with comment data*/}
         <BottomSheetFlatList
@@ -267,10 +276,12 @@ Func to pull images from backend and load them into flatlist
               data={validFeedData}
               renderItem={({ item }) => (
                 
-                  <View >
+                  <View style={{padding:5}}>
                     <View style={styles.CommentContainer}>
                   <Text style={styles.postText}>{item.caption}</Text>
+                  <Text style={{color:'white'}}>Crazy? I was crazy once. They locked me in a room. a rubber room. a rubber room with rats. the rats made me crazy.</Text>
                   </View>
+                  
                   </View>
                   
                 
@@ -278,7 +289,7 @@ Func to pull images from backend and load them into flatlist
               refreshing={false}
               onRefresh={SetImageFeed}
             />
-
+ 
       </BottomSheet>
                     
       </GluestackUIProvider>
