@@ -55,6 +55,7 @@ const SignupP = () => {
 
   let token = null
   let refresh = null
+  
   const handleSignup = async () => {
     let Reg = false
     let userId;
@@ -91,7 +92,8 @@ const SignupP = () => {
           console.log('RESPONSE: ' + response.data)
           token = response.data.access
           refresh = response.data.refresh
-          token = token.substring(1, token.length - 1);
+          
+          
           console.log('TOKEN: ', token)
         })
 
@@ -103,15 +105,18 @@ const SignupP = () => {
       if (token != null) {
         let tokenString = JSON.stringify(token)
         let refreshString = JSON.stringify(refresh)
+        let idString = JSON.stringify(userId)
         await SecureStore.setItemAsync('Token', tokenString)
         await SecureStore.setItemAsync('Refresh', refreshString)
         await SecureStore.setItemAsync('username', username)
+        await SecureStore.setItemAsync('user_id', idString)
+        token = tokenString.substring(1, tokenString.length - 1)
         console.log("User ID: "+userId);
         console.log("Access: "+token);
-        await axios.post('http://' + global.LOCAL_IP + '/createprofile/', {"user_id":userId},
+        await axios.post('http://' + global.LOCAL_IP + '/createprofile/', {"user":userId},
         {headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer `+token,
         },}
         );
 

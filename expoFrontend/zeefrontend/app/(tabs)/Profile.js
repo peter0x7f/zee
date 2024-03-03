@@ -111,7 +111,7 @@ const Profile = () => {
       } catch {
         console.log('no Bio')
       }
-    }
+    } 
     //getBio();
     getUsername()
     getToken()
@@ -180,16 +180,8 @@ const Profile = () => {
             <View>
               <Text style={styles.Statstext}>{bio}</Text>
             </View>
-            <Divider width={screenWidth * 0.9}></Divider>
-            <View style={{ padding: 6 }}></View>
-            <Center>
-              <Text style={styles.Statstext}>Body Weight: </Text>
-              <Text style={styles.Statstext}>Max Bench: </Text>
-              <Text style={styles.Statstext}>Max Deadlift: </Text>
-              <Text style={styles.Statstext}>Max Squat: </Text>
-
-              <Divider width={screenWidth * 0.9}></Divider>
-            </Center>
+          
+            
             <View style={{ padding: 6 }}></View>
             <Button onPress={getPfP}>
               <ButtonText>Test</ButtonText>

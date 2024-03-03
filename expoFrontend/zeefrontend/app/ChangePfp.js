@@ -58,6 +58,7 @@ const ChangePfp = () => {
   const [access, setAccess] = useState('')
   const [refresh, setRefresh] = useState('')
   const [token, setToken] = useState('')
+  const [userId, setUserId] = useState(null)
   const [imageUri, setImageUri] = useState(null)
   const [imageW, setImageW] = useState(0)
   const [imageH, setImageH] = useState(0)
@@ -117,7 +118,7 @@ const ChangePfp = () => {
 
       try {
         const response = await axios.post(
-          'http://' + global.LOCAL_IP + '/settings/',
+          'http://' + global.LOCAL_IP + 'users/'+{userId}+'/settings/', //change to /users/[userid]/settings/
           postData,
           {
             headers: {
@@ -161,6 +162,14 @@ const ChangePfp = () => {
         setRefresh(refreshValue.substring(1, accessValue.length - 1))
       } catch {
         console.log('No Token')
+      }
+    }
+    const getUserId = async () => {
+      try{
+  const userIdValue = await SecureStore.getItemAsync('user_id')
+  setUserId(userIdValue);
+      }catch{
+        console.log('No  User Id Found')
       }
     }
 
