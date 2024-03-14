@@ -119,7 +119,7 @@ const UserPosts = () => {
   console.log(response.data[0].profile.image_url)*/
   }
   const [feedData, setFeedData] = useState([])
-  const validFeedData = feedData.filter((item) => item.image_url)
+  const validFeedData = feedData ? feedData.filter((item) => item.image_url) : null
   const [isPageLoaded, setIsPageLoaded] = useState(false)
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const UserPosts = () => {
         <SafeAreaView onLayout={getUserPosts}>
           <Center>
             <FlatList
-              data={validFeedData}
+              data={validFeedData ? validFeedData : null}
               renderItem={({ item }) => (
                 <View style={styles.postContainer}>
                   <Image

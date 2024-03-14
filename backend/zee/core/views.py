@@ -69,7 +69,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 @permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+@authentication_classes([BasicAuthentication])
 class UserSettings(generics.CreateAPIView): 
     #queryset = Profile.objects.all()
     #if error with session save user_id in local storage to oull username or use token to pull info
