@@ -12,5 +12,7 @@ urlpatterns = [
     path('profile/<str:pk>', get_user_posts, name="get_profile"),
     path('explore_feed/', get_feed_posts,name="get_feed"),
     path('comment/<str:post_id>/', Comment_Post,name="comment"),
-    path('createprofile/', ProfileCreation.as_view(), name="makeprofile")
+    path('createprofile/', ProfileCreation.as_view(), name="makeprofile"),
+    path('getsettings/', UserSettingsView.as_view(), name='get-settings'),
+
 ]

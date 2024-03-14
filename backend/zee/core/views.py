@@ -120,6 +120,16 @@ class UserSettings(generics.CreateAPIView):
         print(self.request.user)
         return get_object_or_404(Profile, user=self.request.user)
 
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+class UserSettingsView(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = SettingsSerializer
+
+    def get_object(self):
+        # Get the profile for the current user
+        return get_object_or_404(Profile, user=self.request.user)
 
 
 @api_view(['GET'])
