@@ -145,7 +145,7 @@ Func to pull images from backend and load them into flatlist
       await SetImageFeed()
     }
     //Filter feed for valid image URLS
-    const validFeedData = feedData.filter((item) => item.image_url)
+    const validFeedData = feedData ? feedData.filter((item) => item.image_url) : null
 
     const [isPageLoaded, setIsPageLoaded] = useState(false)
     useEffect(() => {
@@ -182,7 +182,7 @@ Func to pull images from backend and load them into flatlist
           <View style={{ flex: 1 }} >
             <FlatList
             
-              data={validFeedData}
+              data={validFeedData? validFeedData : null}
               renderItem={({ item }) => (
                 <View style={styles.postContainer3} >
                   <Text>{item.username}</Text>
