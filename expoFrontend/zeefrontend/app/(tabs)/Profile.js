@@ -130,13 +130,14 @@ const Profile = () => {
           },
         },
       )
+      console.log("Response Data: "+response.data)
       
       let img = response.data[0].profile.image_url
-      console.log('RESPONSE: ' + response.data)
-      console.log('IMAGE TEST: ' + img)
+      //console.log('RESPONSE: ' + response.data)
+      //console.log('IMAGE TEST: ' + img)
       setPfp('http://' + global.LOCAL_IP + img)
-      console.log('TESTPOINT: ' + pfp)
-      console.log(response.data[0].profile.image_url)
+      //console.log('TESTPOINT: ' + pfp)
+      //console.log(response.data[0].profile.image_url)
     } catch (error) {
       console.log('Get PFP ERROR: ' + error)
     }

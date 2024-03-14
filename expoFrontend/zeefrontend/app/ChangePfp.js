@@ -120,13 +120,13 @@ const ChangePfp = () => {
        userIdString = userId.toString();
         console.log("User ID String: "+userIdString)
         const response = await axios.post(
-          'http://' + global.LOCAL_IP+'/users/'+userIdString+'/settings/', //change to /users/[userid]/settings/
+          'http://' + global.LOCAL_IP+'/settings/', //change to /users/[userid]/settings/
           postData,
           {
-            /*headers: {
+            headers: {
               'Content-Type': 'multipart/form-data',
               Authorization: `Bearer ` + access,
-            },*/
+            },
           },
           console.log("Test ID: "  + userId)
         )
