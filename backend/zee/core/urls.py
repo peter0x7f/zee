@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CustomObtainTokenPairView, RegisterView, UserSettings, get_user_posts, Upload, get_feed_posts, Comment_Post, ProfileCreation
+from .views import CustomObtainTokenPairView, RegisterView, UserSettings, get_user_posts, Upload, get_feed_posts, Comment_Post, ProfileCreation, UserSettingsView
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
