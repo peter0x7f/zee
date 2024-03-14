@@ -62,7 +62,7 @@ const ChangePfp = () => {
   const [imageUri, setImageUri] = useState(null)
   const [imageW, setImageW] = useState(0)
   const [imageH, setImageH] = useState(0)
-
+  
   const pickImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -118,7 +118,7 @@ const ChangePfp = () => {
 
       try {
         const response = await axios.post(
-          'http://' + global.LOCAL_IP + 'users/'+{userId}+'/settings/', //change to /users/[userid]/settings/
+          'http://' + global.LOCAL_IP+'/users/'+{userId}+'/settings/', //change to /users/[userid]/settings/
           postData,
           {
             headers: {
@@ -126,6 +126,7 @@ const ChangePfp = () => {
               Authorization: `Bearer ` + access,
             },
           },
+          console.log("Test ID: "  + userId)
         )
 
         console.log('Image uploaded successfully:', response.data, postData)
@@ -166,8 +167,10 @@ const ChangePfp = () => {
     }
     const getUserId = async () => {
       try{
-  const userIdValue = await SecureStore.getItemAsync('user_id')
+   const userIdValue = await SecureStore.getItemAsync('user_id')
   setUserId(userIdValue);
+  console.log("user ID: "+userIdValue);
+  console.log(userId)
       }catch{
         console.log('No  User Id Found')
       }
@@ -176,6 +179,7 @@ const ChangePfp = () => {
     getToken()
     getAccess()
     getRefresh()
+    getUserId()
   }, [])
 
   return (
