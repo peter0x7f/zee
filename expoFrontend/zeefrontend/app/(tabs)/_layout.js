@@ -7,7 +7,7 @@ import { View } from '@gluestack-ui/themed'
 import { Icon } from '@gluestack-ui/themed'
 import styles from '../stylefile'
 
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import axios from 'axios'
 import { Asset } from 'expo-asset'
 import { Link, Redirect, router, useRouter } from 'expo-router'
@@ -63,6 +63,83 @@ import { Newspaper, FileSearch2 } from 'lucide-react-native'
  *   TAB BAR LAYOUT COMPONENT
  */
 export default () => {
+
+  const [username, SetUsername] = useState('')
+  const [token, setToken] = useState('')
+  const [access, setAccess] = useState('')
+  const [refresh, setRefresh] = useState('')
+  const[pfp, setPfp] = useState(null)
+  useEffect(() => {
+    const getUsername = async () => {
+      let uname = await SecureStore.getItemAsync('username')
+      SetUsername(uname)
+      console.log("Username: "+uname)
+    }
+    const getToken = async () => {
+      let token = await SecureStore.getItemAsync('Token')
+      setToken(token)
+      console.log(token)
+    }
+
+    const getAccess = async () => {
+      try {
+        const accessValue = await SecureStore.getItemAsync('Token')
+        setAccess(accessValue.substring(1, accessValue.length - 1))
+      } catch {
+        console.log('No Token')
+      }
+    }
+
+    const getRefresh = async () => {
+      try {
+        const refreshValue = await SecureStore.getItemAsync('Refresh')
+        setRefresh(refreshValue.substring(1, accessValue.length - 1))
+      } catch {
+        console.log('No Token')
+      }
+    }
+    const getBio = async () => {
+      try {
+        const findBio = await SecureStore.getItemAsync('bio')
+        setBio(findBio)
+      } catch {
+        console.log('no Bio')
+      }
+    } 
+    
+    //getBio();
+    getUsername()
+    getToken()
+    getAccess()
+    getRefresh()
+    getPfP()
+  }, [])
+
+  const getPfP = async () => {
+    try {
+      const response = await axios.get(
+        'http://' + global.LOCAL_IP + '/profile/' + username,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ` + access,
+          },
+        },
+      )
+      
+      let img = response.data[0].profile.image_url
+      console.log('RESPONSE: ' + response.data)
+      console.log('IMAGE TEST: ' + img)
+      setPfp('http://' + global.LOCAL_IP + img)
+      console.log('TESTPOINT: ' + pfp)
+      console.log(response.data[0].profile.image_url)
+    } catch (error) {
+      console.log('Get PFP ERROR: ' + error)
+    }
+  }
+  
+
+    
   //Path var to set tab file
   const [path, setPath] = useState('Feed')
   return (
@@ -123,11 +200,15 @@ export default () => {
       <Tabs.Screen
         name='Profile'
         options={{
+
           tabBarIcon: () => {
             setPath('Profile')
+            getPfP()
             return (
               <GluestackUIProvider config={config}>
-                <UserCircle2 color='white' />
+               {pfp ? (<Image 
+               source={{ uri: pfp }} style={{width:30, height:30, borderRadius:15}} /> )
+                : (<UserCircle2 color='white' />) }
               </GluestackUIProvider>
             )
           },

@@ -57,7 +57,7 @@ const LoginP = () => {
   const [mesVis, setMesVis] = useState()
   let TOKEN = null
   let REFRESH = null
-
+  let USER_ID = null
   const handleLogin = async () => {
     const userDataL = {
       username,
@@ -71,7 +71,8 @@ const LoginP = () => {
 
         TOKEN = response.data.access
         REFRESH = response.data.refresh
-
+        USER_ID = response.data.user_id 
+        console.log("USER_ID: ", USER_ID)
         console.log('TOKEN: ', TOKEN)
         setMes('')
         setMesVis(false)
@@ -88,10 +89,11 @@ const LoginP = () => {
     if (TOKEN != null) {
       let tokenString = JSON.stringify(TOKEN)
       let refreshString = JSON.stringify(REFRESH)
+      let user_idString = JSON.stringify(USER_ID)
       await SecureStore.setItemAsync('Token', tokenString)
       await SecureStore.setItemAsync('Refresh', refreshString)
       await SecureStore.setItemAsync('username', username)
-
+      await SecureStore.setItemAsync('user_id', user_idString)
       router.replace('/Feed')
     } else {
       console.log('Login Redirect Failed!')
