@@ -91,7 +91,7 @@ class SettingsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('user', 'image_url', 'bio', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
+        fields = ('image_url', 'bio', 'max_bench','max_squat','max_deadlift', 'total', 'bw')
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)

@@ -111,14 +111,14 @@ class UserSettings(generics.CreateAPIView):
             # If a profile exists, update it
             self.perform_update(serializer)
         else:
-            # profile = self.get_object()
-            # image_data = serializer.validated_data.get('image_url', profile.image_url)
+            profile = self.get_object()
+            image_data = serializer.validated_data.get('image_url', profile.image_url)
             # If no profile exists, create a new one
             serializer.save(user=self.request.user)
-    # def get_object(self):
-    #     # Get the profile for the current user
-    #     print(self.request.user)
-    #     return get_object_or_404(Profile, user=self.request.user)
+    def get_object(self):
+        # Get the profile for the current user
+        print(self.request.user)
+        return get_object_or_404(Profile, user=self.request.user)
 
 
 
