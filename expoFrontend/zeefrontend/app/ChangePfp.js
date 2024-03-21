@@ -117,10 +117,10 @@ const ChangePfp = () => {
       })
 
       try {
-       userIdString = userId.toString();
-        console.log("User ID String: "+userIdString)
+       //userIdString = userId.toString();
+        //console.log("User ID String: "+userIdString)
         const response = await axios.post(
-          'http://' + global.LOCAL_IP+'/settings/', //change to /users/[userid]/settings/
+          'http://' + global.LOCAL_IP+'/settings/', 
           postData,
           {
             headers: {
@@ -128,10 +128,11 @@ const ChangePfp = () => {
               Authorization: `Bearer ` + access,
             },
           },
-          console.log("Test ID: "  + userId)
+          //console.log("Test ID: "  + userId)
         )
 
         console.log('Image uploaded successfully:', response.data, postData)
+        setImageUri(null);
         //setImageUri(null)
         // getPfP();
       } catch (error) {
