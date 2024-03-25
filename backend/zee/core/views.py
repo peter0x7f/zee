@@ -191,7 +191,7 @@ def Comment_Post(request, post_id):
     if request.method == 'GET':
         # Retrieve comments associated with the specified post
         try:
-            comments = Comment.objects.filter(post__id=post_id)
+            comments = Comment.objects.filter(post_id=post_id)
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
         except Posts.DoesNotExist:
