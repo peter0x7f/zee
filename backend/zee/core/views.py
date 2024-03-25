@@ -189,16 +189,16 @@ class ProfileCreation(generics.CreateAPIView):
 @authentication_classes([JWTAuthentication])
 def Comment_Post(request, post_id):
     if request.method == 'POST':
-        # Create a new comment for the specified post
-        try:
-            post = Posts.objects.get(id=post_id)
-        except Posts.DoesNotExist:
-            raise Http404("Post not found.")
+        # Create a new comment for the specified post using form data
+        post = get_object_or_404(Posts, id=post_id)
 
-        user = request.user
-        comment_text = request.data.get('comment')
+        # Assuming the form's input name for the comment text is 'comment'
+        comment_text = request.POST.get('comment')
 
-        new_comment = Comment(user=user, post=post, comment=comment_text)
+        if not comment_text:
+            return Response({'error': 'Comment text is required.'}, status=400)
+
+        new_comment = Comment(user=request.user, post=post, comment=comment_text)
         new_comment.save()
 
         serializer = CommentSerializer(new_comment, many=False)
