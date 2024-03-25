@@ -184,20 +184,22 @@ class ProfileCreation(generics.CreateAPIView):
         # Get the user associated with the request
         Profile.objects.create(user=self.request.user)
 
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 def Comment_Post(request, post_id):
-    # Create a new comment for the specified post
-    try:
-        post = Posts.objects.get(id=post_id)
-    except Posts.DoesNotExist:
-        raise Http404("Post not found.")
+    if request.method == 'POST':
+        # Create a new comment for the specified post
+        try:
+            post = Posts.objects.get(id=post_id)
+        except Posts.DoesNotExist:
+            raise Http404("Post not found.")
 
-    user = request.user
-    comment_text = request.data.get('comment')
+        user = request.user
+        comment_text = request.data.get('comment')
 
-    new_comment = Comment(user=user, post=post, comment=comment_text)
-    new_comment.save()
+        new_comment = Comment(user=user, post=post, comment=comment_text)
+        new_comment.save()
 
-    serializer = CommentSerializer(new_comment, many=False)
-    return Response(serializer.data)
+        serializer = CommentSerializer(new_comment, many=False)
+        return Response(serializer.data)
