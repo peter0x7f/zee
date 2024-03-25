@@ -191,33 +191,24 @@ def Comment_Post(request, post_id):
     if request.method == 'GET':
         # Retrieve comments associated with the specified post
         try:
-            post = Posts.objects.get(id=post_id)
-            comments = Comment.objects.filter(post_id=post_id)
+            comments = Comment.objects.filter(post__id=post_id)
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
         except Posts.DoesNotExist:
-            raise Http404("Posts matching query does not exist.")
+            raise Http404("Post not found.")
 
     elif request.method == 'POST':
         # Create a new comment for the specified post
         try:
             post = Posts.objects.get(id=post_id)
         except Posts.DoesNotExist:
-            raise Http404("Posts matching query does not exist.")
+            raise Http404("Post not found.")
 
-        # Get the authenticated user
         user = request.user
-
-        # Extract comment data from the request
         comment_text = request.data.get('comment')
 
-        # Create a new Comment object
-        new_comment = Comment(user=user, post_id=post_id, comment=comment_text)
-
-        # Save the new comment
+        new_comment = Comment(user=user, post=post, comment=comment_text)
         new_comment.save()
 
-        # Serialize the new comment for the response
-        serializer = CommentSerializer(new_comment)
-
+        serializer = CommentSerializer(new_comment, many=False)
         return Response(serializer.data)
