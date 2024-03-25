@@ -183,23 +183,13 @@ class ProfileCreation(generics.CreateAPIView):
     def perform_create(self, serializer):
         # Get the user associated with the request
         Profile.objects.create(user=self.request.user)
-
-@api_view(['POST'])
+        
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 def Comment_Post(request, post_id):
-    if request.method == 'POST':
-        # Create a new comment for the specified post using form data
-        post = get_object_or_404(Posts, id=post_id)
-
-        # Assuming the form's input name for the comment text is 'comment'
-        comment_text = request.POST.get('comment')
-
-        if not comment_text:
-            return Response({'error': 'Comment text is required.'}, status=400)
-
-        new_comment = Comment(user=request.user, post=post, comment=comment_text)
-        new_comment.save()
-
-        serializer = CommentSerializer(new_comment, many=False)
+    post = get_object_or_404(Posts, id=post_id)
+    serializer = CommentSerializer(data=request.data, context={'request': request, 'post_id': post_id})
+    if serializer.is_valid():
+        serializer.save()
         return Response(serializer.data)
+    return Response(serializer.errors, status=400)

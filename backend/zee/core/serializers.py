@@ -123,10 +123,19 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('user','image_url')
 
 class CommentSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(source='user.profile')
     class Meta:
         model = Comment
-        fields = ('user','post_id', 'comment', 'profile','created_on')
+        fields = ['id', 'user', 'post', 'comment', 'created_on']
+        read_only_fields = ['user', 'post']
+
+    def create(self, validated_data):
+        # Get the user from the request
+        user = self.context['request'].user
+        # Get the post using the 'post_id' passed in the context
+        post_id = self.context['post_id']
+        post = Posts.objects.get(id=post_id)
+        # Create and return the new comment instance
+        return Comment.objects.create(user=user, post=post, **validated_data)
 
 class ProfilePostsSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(source='user.profile')
