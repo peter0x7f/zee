@@ -118,7 +118,7 @@ export default () => {
   const getPfP = async () => {
     try {
       const response = await axios.get(
-        'http://' + global.LOCAL_IP + '/profile/' + username,
+        'http://' + global.LOCAL_IP + '/getsettings/',
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -126,13 +126,9 @@ export default () => {
           },
         },
       )
-      
-      let img = response.data[0].profile.image_url
-      console.log('RESPONSE: ' + response.data)
-      console.log('IMAGE TEST: ' + img)
+      console.log("Response Data: "+response.data.image_url);
+      let img = response.data.image_url
       setPfp('http://' + global.LOCAL_IP + img)
-      console.log('TESTPOINT: ' + pfp)
-      console.log(response.data[0].profile.image_url)
     } catch (error) {
       console.log('Get PFP ERROR: ' + error)
     }
