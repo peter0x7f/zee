@@ -184,6 +184,7 @@ class ProfileCreation(generics.CreateAPIView):
         # Get the user associated with the request
         Profile.objects.create(user=self.request.user)
         
+@csrf_exempt
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
 def Comment_Post(request, post_id):
