@@ -122,6 +122,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('user','image_url')
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
